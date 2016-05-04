@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="Ytjs3y" name="HybridApi" projectType="library" version="1.0.0"
+              bundleIdentifier="nl.hybridvisuals.HybridApi" includeBinaryInAppConfig="1"
+              jucerVersion="4.2.1" companyName="Hybrid Visuals" companyWebsite="www.hybridvisuals.nl"
+              companyEmail="joris@hybridvisuals.nl">
+  <MAINGROUP id="Tpfysd" name="HybridApi">
+    <GROUP id="{DEF88503-0234-EF40-24CA-11CD44ADB7BE}" name="Source">
+      <GROUP id="{E9D8AF3E-3DEC-DA52-CFB2-F321EBBAAA88}" name="JuceBased">
+        <GROUP id="{646C7023-CF29-7739-6F71-AD8AF464BC96}" name="ArenaHelpers">
+          <GROUP id="{F6AB9423-2DD0-7074-8B30-BB43E055081A}" name="File">
+            <FILE id="M8h7Hv" name="FileHelper.cpp" compile="1" resource="0" file="Source/JuceBased/ArenaHelpers/File/FileHelper.cpp"/>
+            <FILE id="RKPYeL" name="FileHelper.h" compile="0" resource="0" file="Source/JuceBased/ArenaHelpers/File/FileHelper.h"/>
+          </GROUP>
+          <GROUP id="{C63C2066-5887-7842-D33C-25E6AA542141}" name="Xml">
+            <FILE id="tPr807" name="ChaserXmlParser.cpp" compile="1" resource="0"
+                  file="Source/JuceBased/ArenaHelpers/Xml/ChaserXmlParser.cpp"/>
+            <FILE id="r2rOEB" name="ChaserXmlParser.h" compile="0" resource="0"
+                  file="Source/JuceBased/ArenaHelpers/Xml/ChaserXmlParser.h"/>
+            <FILE id="gpDjSu" name="ResXmlParser.cpp" compile="1" resource="0"
+                  file="Source/JuceBased/ArenaHelpers/Xml/ResXmlParser.cpp"/>
+            <FILE id="BSM9YP" name="ResXmlParser.h" compile="0" resource="0" file="Source/JuceBased/ArenaHelpers/Xml/ResXmlParser.h"/>
+          </GROUP>
+        </GROUP>
+      </GROUP>
+      <FILE id="twcyaQ" name="HybridApi.h" compile="0" resource="0" file="Source/HybridApi.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="HybridApi"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="HybridApi"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <VS2013 targetFolder="Builds/VisualStudio2013">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="HybridApi"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="3" targetName="HybridApi"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2013>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>
