@@ -24,7 +24,7 @@ public:
 	static File getAssFileFromUser();
 	static File getAssFileAutomagically( bool showDialog );
 
-	static File getPreferencesFile();
+	static File getChaserPreferencesFile();
 	static File getLastUsedChaserFile( File prefFile );
 
 	

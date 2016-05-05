@@ -28,6 +28,8 @@ public:
 	static void parseSequences ( File chaserFile, std::map<int,std::map<int, Array<int>>>& );
 	
 	static bool canThisAppVersionLoadThisChaser ( String version, File chaserFile );
+    
+    static StringArray getChaserNames( File chaserFile );
 private:
 	static XmlElement* getRoot( File chaserFile );
 	static bool isVersionNewer ( String savedVersion, String thisVersion );

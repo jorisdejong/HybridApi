@@ -25,11 +25,13 @@ FileHelper::~FileHelper()
 
 File FileHelper::getAssFileFromUser()
 {
-	//first check Arena 5's location, if it doesn't exist, then check Arena 4's location
+    //give the user a nice place to start looking
+	//first try Arena 5's screensetup location
 	File presetsLocation = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 5/presets/screensetup/";
+    ////if it doesn't exist, then check Arena 4's screensetup location
 	if ( !presetsLocation.exists() )
 		presetsLocation = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 4/presets/screensetup/";
-    //if it still doesn't exits, start at the documents folder
+    //if neither of those exist, start at the documents folder
     if ( !presetsLocation.exists() )
         presetsLocation = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName();
 	
@@ -43,7 +45,7 @@ File FileHelper::getAssFileFromUser()
 
 File FileHelper::getAssFileAutomagically( bool showDialog )
 {
-	//check for the Arena 5 preset
+	//check for the Arena 5 preset, this is stored in a file called advanced.xml in the res 5 preference directory
 	File advancedFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 5/preferences/screensetup/advanced.xml";
 	
 	if ( advancedFile.exists() )
@@ -72,17 +74,18 @@ File FileHelper::getAssFileAutomagically( bool showDialog )
         }
 		
 	}
-	//check for the Arena 4 preset
+    //if we can't find the advanced.xml file, we're probably dealing with arena 4
+	//so check for the Arena 4 preset
 	else
 	{
 		advancedFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 4/preferences/config.xml";
 		if ( advancedFile.exists() )
 		{
 			
-			if ( AlertWindow::showOkCancelBox(AlertWindow::AlertIconType::QuestionIcon,
+			if ( showDialog? AlertWindow::showOkCancelBox(AlertWindow::AlertIconType::QuestionIcon,
 											  "Res 4 setup file found!",
 											  "Would you like to load the current Arena setup file?",
-											  "OK", "Cancel") )
+                                                          "OK", "Cancel") : true )
 			{
 				//in Arena 4, the entire current ass preset is stored inside the config xml
 				return advancedFile;
@@ -101,7 +104,7 @@ void FileHelper::reloadAssFile()
 //		throwLoadError();
 }
 
-File FileHelper::getPreferencesFile()
+File FileHelper::getChaserPreferencesFile()
 {
 	//the preferences file is stored in the userDocs
 	File docDir = File::getSpecialLocation( File::userDocumentsDirectory );
@@ -114,17 +117,20 @@ File FileHelper::getLastUsedChaserFile( File prefFile)
 {
 	 if ( prefFile.exists() )
 	 {
-		XmlDocument lastUsedFile ( prefFile );
-		XmlElement* lastUsedFileData = lastUsedFile.getDocumentElement();
-		if (lastUsedFileData->getChildByName("lastusedfile") != nullptr )
-		{
-			//TODO don't use subtext, but juce formatting
-			File savedFile = File (lastUsedFileData->getChildByName("lastusedfile")->getAllSubText());
-			if ( savedFile.exists() )
-				return savedFile;
-		}
-		
+         
+		 XmlDocument lastUsedFile ( prefFile );
+		 XmlElement* lastUsedFileData = lastUsedFile.getDocumentElement();
+		 if (lastUsedFileData->getChildByName("lastusedfile") != nullptr )
+		 {
+             //TODO don't use subtext, but juce formatting
+			 File savedFile = File (lastUsedFileData->getChildByName("lastusedfile")->getAllSubText());
+			 if ( savedFile.exists() )
+				 return savedFile;
+         }
+         //clean up the xmlelement
+         delete lastUsedFileData;
 	 }
+     //if all else fails, return an empty file
 	 return File();
 }
 

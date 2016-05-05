@@ -68,9 +68,10 @@ XmlElement* ResXmlParser::getMainPresetElement( File assFile )
     if ( mainXmlElement->hasTagName ( "ScreenSetup") )
         return mainXmlElement;
     
-    //else we got a named preset file, so we first need to extract the screensetup element
+    //else we got a named and seperately saved preset file, so we first need to extract the screensetup element
     else if ( mainXmlElement->getChildByName("ScreenSetup") != nullptr )
     {
+        //create a new element, so we don't delete the child with the parent
         XmlElement* returnElement = new XmlElement( *mainXmlElement->getChildByName("ScreenSetup"));
         //delete the parent
         delete mainXmlElement;
@@ -84,6 +85,11 @@ XmlElement* ResXmlParser::getMainPresetElement( File assFile )
 StringArray ResXmlParser::getScreenNames ( File assFile )
 {
     StringArray names;
+    
+    //if the file isn't valid, just return an empty array
+    //the component will catch this
+    if ( !assFile.exists() || assFile == File() )
+        return names;
     
     XmlElement* mainPreset = getMainPresetElement( assFile );
     
