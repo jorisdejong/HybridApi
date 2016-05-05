@@ -102,8 +102,25 @@ std::map<int, String> ResXmlParser::getScreenNames ( File assFile )
             if ( child->hasTagName("Screen") )
             {
                 String screenName = child->getStringAttribute("name");
-                int screenUniqueId = child->getIntAttribute("uniqueId");
-                names[screenUniqueId] = screenName;
+                
+                //only add screens that are called scaling
+                if ( screenName.containsIgnoreCase( "scaling") )
+                {
+                    //remove the word scaling from the name
+                    screenName = screenName.fromFirstOccurrenceOf( "scaling", false, true );
+                    
+                    //remove beginning white spaces
+                    while ( screenName.startsWith(" "))
+                        screenName = screenName.trimStart();
+                    
+                    //if that doesn't leave anything, give it a default name
+                    if ( screenName == String() )
+                        screenName = "Unnamed Scaling";
+                    
+                    
+                    int screenUniqueId = child->getIntAttribute("uniqueId");
+                    names[screenUniqueId] = screenName;
+                }
             }
         }
     }
