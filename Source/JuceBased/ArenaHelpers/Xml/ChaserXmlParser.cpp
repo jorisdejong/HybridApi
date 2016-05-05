@@ -9,6 +9,7 @@
 */
 
 #include "ChaserXmlParser.h"
+#include "../File/FileHelper.h"
 
 ChaserXmlParser::ChaserXmlParser()
 {
@@ -20,6 +21,38 @@ ChaserXmlParser::~ChaserXmlParser()
 	
 }
 
+std::map<int, String> ChaserXmlParser::getChaserSequences (juce::File chaserFile)
+{
+    std::map<int, String> chasers;
+    
+    if ( !FileHelper::isFileValid( chaserFile ) )
+        return chasers;
+    
+    ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
+    if ( chaserData )
+    {
+        XmlElement* sequenceData = chaserData->getChildByName("sequenceData");
+        if (sequenceData )
+        {
+            forEachXmlChildElement(*sequenceData, sequence)
+            {
+                //check if it has any filled steps, otherwise it's pointless to add it
+                forEachXmlChildElement(*sequence, step)
+                {
+                    //so if the step has any children, add it and then break out of the loop
+                    if ( step->getNumChildElements() > 0 )
+                    {
+                        chasers[sequence->getIntAttribute("nr")] = sequence->getStringAttribute("name");
+                        break;
+                    }
+                }
+                
+            }
+        }
+    }
+    
+    return chasers;
+}
 void ChaserXmlParser::parseResolution(juce::File chaserFile, Point<int>& resolution )
 {
 	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
@@ -79,8 +112,6 @@ bool ChaserXmlParser::canThisAppVersionLoadThisChaser(juce::String version, juce
 			return isVersionNewer( savedVersion, version );
 		}
 	}
-
-	
 	return false;
 }
 

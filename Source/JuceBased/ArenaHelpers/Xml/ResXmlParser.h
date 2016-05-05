@@ -12,6 +12,7 @@
 #define RESXMLPARSER_H_INCLUDED
 
 #include "JuceHeader.h"
+#include <map>
 //#include "Slice.h"
 
 //helper class to parse xml data in the various resolume files
@@ -27,7 +28,7 @@ public:
 	//TODO make this take a File, not a XmlElement
 	static String getAdvancedPresetNameFromRes5Xml( XmlElement& xmlTreeToParse );
     
-    static StringArray getScreenNames ( File assFile );
+    static std::map<int, String> getScreenNames ( File assFile );
 	
 	
 	

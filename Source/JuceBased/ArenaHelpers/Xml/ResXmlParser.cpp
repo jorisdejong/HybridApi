@@ -9,6 +9,7 @@
 */
 
 #include "ResXmlParser.h"
+#include "../File/FileHelper.h"
 
 ResXmlParser::ResXmlParser() 
 {
@@ -54,7 +55,7 @@ bool ResXmlParser::parseAssXml(File f, OwnedArray<Slice>& slices, Point<int>& re
 
 XmlElement* ResXmlParser::getMainPresetElement( File assFile )
 {
-    if ( !assFile.exists() )
+    if ( !FileHelper::isFileValid( assFile ) )
         return nullptr;
     
     DBG("Trying to parse: " + assFile.getFullPathName() );
@@ -82,13 +83,13 @@ XmlElement* ResXmlParser::getMainPresetElement( File assFile )
 }
 
 
-StringArray ResXmlParser::getScreenNames ( File assFile )
+std::map<int, String> ResXmlParser::getScreenNames ( File assFile )
 {
-    StringArray names;
+    std::map<int, String> names;
     
     //if the file isn't valid, just return an empty array
     //the component will catch this
-    if ( !assFile.exists() || assFile == File() )
+    if ( !FileHelper::isFileValid( assFile ) )
         return names;
     
     XmlElement* mainPreset = getMainPresetElement( assFile );
@@ -101,8 +102,8 @@ StringArray ResXmlParser::getScreenNames ( File assFile )
             if ( child->hasTagName("Screen") )
             {
                 String screenName = child->getStringAttribute("name");
-                //int screenUniqueId = child->getIntAttribute("uniqueId");
-                names.add ( screenName );
+                int screenUniqueId = child->getIntAttribute("uniqueId");
+                names[screenUniqueId] = screenName;
             }
         }
     }
