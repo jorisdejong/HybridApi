@@ -115,6 +115,7 @@ File FileHelper::getChaserPreferencesFile()
 
 File FileHelper::getLastUsedChaserFile( File prefFile)
 {
+    
 	 if ( prefFile.exists() )
 	 {
          
@@ -124,16 +125,26 @@ File FileHelper::getLastUsedChaserFile( File prefFile)
 		 {
              //TODO don't use subtext, but juce formatting
 			 File savedFile = File (lastUsedFileData->getChildByName("lastusedfile")->getAllSubText());
-			 if ( savedFile.exists() )
+             
+             //clean up the xmlelement
+             delete lastUsedFileData;
+			 
+             if ( savedFile.exists() )
 				 return savedFile;
          }
-         //clean up the xmlelement
-         delete lastUsedFileData;
+         
 	 }
      //if all else fails, return an empty file
 	 return File();
 }
 
+bool FileHelper::isFileValid(juce::File fileToCheck)
+{
+    if ( fileToCheck.exists() && fileToCheck != File() )
+        return true;
+    
+    return false;
+}
 
 void FileHelper::throwLoadError()
 {

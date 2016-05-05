@@ -30,7 +30,7 @@ public:
 	
 	static void reloadAssFile();
 	
-	
+    static bool isFileValid ( File fileToCheck );
 	
 private:
 	static void throwLoadError();
