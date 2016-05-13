@@ -28,7 +28,7 @@ public:
 	//TODO make this take a File, not a XmlElement
 	static String getAdvancedPresetNameFromRes5Xml( XmlElement& xmlTreeToParse );
     
-    static std::map<int, String> getScreenNames ( File assFile );
+    static std::map<int, std::pair<String, int>> getScreenNames ( File assFile );
 	
 	
 	

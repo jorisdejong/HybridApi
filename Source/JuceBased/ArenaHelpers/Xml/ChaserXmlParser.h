@@ -29,7 +29,7 @@ public:
 	
 	static bool canThisAppVersionLoadThisChaser ( String version, File chaserFile );
     
-    static std::map<int, String> getChaserSequences ( File chaserFile );
+    static std::map<int, std::pair<String, int>> getChaserSequences ( File chaserFile );
 
 private:
 	static XmlElement* getRoot( File chaserFile );
