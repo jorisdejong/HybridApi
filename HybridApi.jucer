@@ -7,6 +7,12 @@
   <MAINGROUP id="Tpfysd" name="HybridApi">
     <GROUP id="{DEF88503-0234-EF40-24CA-11CD44ADB7BE}" name="Source">
       <GROUP id="{E9D8AF3E-3DEC-DA52-CFB2-F321EBBAAA88}" name="JuceBased">
+        <GROUP id="{9992865B-DBD6-9F7A-D3EC-2C13ED0F3864}" name="Components">
+          <FILE id="z2MSwu" name="DeletableItemListComponent.cpp" compile="1"
+                resource="0" file="Source/JuceBased/Components/DeletableItemListComponent.cpp"/>
+          <FILE id="QmKMI5" name="DeletableItemListComponent.h" compile="0" resource="0"
+                file="Source/JuceBased/Components/DeletableItemListComponent.h"/>
+        </GROUP>
         <GROUP id="{646C7023-CF29-7739-6F71-AD8AF464BC96}" name="ArenaHelpers">
           <GROUP id="{F6AB9423-2DD0-7074-8B30-BB43E055081A}" name="File">
             <FILE id="M8h7Hv" name="FileHelper.cpp" compile="1" resource="0" file="Source/JuceBased/ArenaHelpers/File/FileHelper.cpp"/>

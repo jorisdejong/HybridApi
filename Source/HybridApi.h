@@ -15,6 +15,7 @@
 #include "JuceBased/ArenaHelpers/File/FileHelper.h"
 #include "JuceBased/ArenaHelpers/Xml/ResXmlParser.h"
 #include "JuceBased/ArenaHelpers/Xml/ChaserXmlParser.h"
+#include "JuceBased/Components/DeletableItemListComponent.h"
 
 
 #endif  // HYBRIDAPI_H_INCLUDED
