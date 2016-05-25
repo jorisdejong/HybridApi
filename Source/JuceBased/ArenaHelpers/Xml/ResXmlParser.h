@@ -13,7 +13,8 @@
 
 #include "JuceHeader.h"
 #include <map>
-//#include "Slice.h"
+
+typedef std::pair<String, int> UniquePreset;
 
 //helper class to parse xml data in the various resolume files
 
@@ -28,7 +29,7 @@ public:
 	//TODO make this take a File, not a XmlElement
 	static String getAdvancedPresetNameFromRes5Xml( XmlElement& xmlTreeToParse );
     
-    static std::map<int, std::pair<String, int>> getScreenNames ( File assFile );
+    static std::map<int, UniquePreset> getScreenNames ( File assFile );
 	
 	
 	
