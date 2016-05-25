@@ -41,7 +41,7 @@ std::map<int, std::pair<String, int>> ChaserXmlParser::getChaserSequences (juce:
                 forEachXmlChildElement(*sequence, step)
                 {
                     //so if the step has any children, add it and then break out of the loop
-                    if ( step->getNumChildElements() > 0 )
+                    //if ( step->getNumChildElements() > 0 )
                     {
                         chasers[sequence->getIntAttribute("nr")] = std::make_pair(sequence->getStringAttribute("name"), count);
                         count++;
