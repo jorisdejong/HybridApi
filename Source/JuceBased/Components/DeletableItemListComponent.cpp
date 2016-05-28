@@ -40,8 +40,8 @@ void DeletableItem::paint(juce::Graphics &g)
 
 void DeletableItem::resized()
 {
-    label->setBoundsRelative ( 0.01, 0.01, 0.74, 0.98 );
-    deleteButton->setBoundsRelative ( 0.75, 0.01, 0.24, 0.98 );
+    label->setBoundsRelative ( 0.01f, 0.01f, 0.74f, 0.98f );
+    deleteButton->setBoundsRelative ( 0.75f, 0.01f, 0.24f, 0.98f );
 }
 
 ///////// ITEMLIST
@@ -71,7 +71,7 @@ int DeletableItemListComponent::getNumRows()
     return items.size();
 }
 
-void DeletableItemListComponent::paintListBoxItem(int, juce::Graphics &g, int, int, bool)
+void DeletableItemListComponent::paintListBoxItem(int, juce::Graphics &, int, int, bool)
 {
 
 }
