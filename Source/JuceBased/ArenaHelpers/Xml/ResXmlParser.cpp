@@ -93,44 +93,46 @@ std::map<int, std::pair<String, int> > ResXmlParser::getScreenNames ( File assFi
         return names;
     
     XmlElement* mainPreset = getMainPresetElement( assFile );
-    
-    XmlElement* screens = mainPreset->getChildByName("screens");
-    if ( screens!= nullptr )
-    {
-        int count = 0;
-        forEachXmlChildElement( *screens, child )
-        {
-            //keep track of how many scaling screens we have
-            
-            if ( child->hasTagName("Screen") )
-            {
-                String screenName = child->getStringAttribute("name");
-                
-                //only add screens that are called scaling
-                if ( screenName.containsIgnoreCase( "scaling") )
-                {
-                    //remove the word scaling from the name
-                    screenName = screenName.fromFirstOccurrenceOf( "scaling", false, true );
-                    
-                    //remove beginning white spaces
-                    while ( screenName.startsWith(" "))
-                        screenName = screenName.trimStart();
-                    
-                    //if that doesn't leave any actual name, just give it a default name
-                    if ( screenName == String() )
-                        screenName = "Unnamed Scaling";
-                    
-                    int screenUniqueId = child->getIntAttribute("uniqueId");
-                    names[screenUniqueId] = std::make_pair( screenName, count );
-                    
-                    //increase the screencount by 1
-                    count++;
-                }
-            }
-        }
-    }
-    
-    delete mainPreset;
+	if (mainPreset != nullptr)
+	{
+		XmlElement* screens = mainPreset->getChildByName("screens");
+		if (screens != nullptr)
+		{
+			int count = 0;
+			forEachXmlChildElement(*screens, child)
+			{
+				//keep track of how many scaling screens we have
+
+				if (child->hasTagName("Screen"))
+				{
+					String screenName = child->getStringAttribute("name");
+
+					//only add screens that are called scaling
+					if (screenName.containsIgnoreCase("scaling"))
+					{
+						//remove the word scaling from the name
+						screenName = screenName.fromFirstOccurrenceOf("scaling", false, true);
+
+						//remove beginning white spaces
+						while (screenName.startsWith(" "))
+							screenName = screenName.trimStart();
+
+						//if that doesn't leave any actual name, just give it a default name
+						if (screenName == String())
+							screenName = "Unnamed Scaling";
+
+						int screenUniqueId = child->getIntAttribute("uniqueId");
+						names[screenUniqueId] = std::make_pair(screenName, count);
+
+						//increase the screencount by 1
+						count++;
+					}
+				}
+			}
+		}
+
+		delete mainPreset;
+	}
     return names;
 }
 
