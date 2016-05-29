@@ -115,23 +115,24 @@ File FileHelper::getChaserPreferencesFile()
 
 File FileHelper::getLastUsedChaserFile( File prefFile)
 {
-    
-	 if ( prefFile.exists() )
+	 if ( isFileValid(prefFile) )
 	 {
-         
 		 XmlDocument lastUsedFile ( prefFile );
 		 XmlElement* lastUsedFileData = lastUsedFile.getDocumentElement();
-		 if (lastUsedFileData->getChildByName("lastusedfile") != nullptr )
+		 if (lastUsedFileData != nullptr)
 		 {
-             //TODO don't use subtext, but juce formatting
-			 File savedFile = File (lastUsedFileData->getChildByName("lastusedfile")->getAllSubText());
-             
-             //clean up the xmlelement
-             delete lastUsedFileData;
-			 
-             if ( savedFile.exists() )
-				 return savedFile;
-         }
+			 if (lastUsedFileData->getChildByName("lastusedfile") != nullptr)
+			 {
+				 //TODO don't use subtext, but juce formatting
+				 File savedFile = File(lastUsedFileData->getChildByName("lastusedfile")->getAllSubText());
+
+				 //clean up the xmlelement
+				 delete lastUsedFileData;
+
+				 if (savedFile.exists())
+					 return savedFile;
+			 }
+		 }
          
 	 }
      //if all else fails, return an empty file
@@ -140,7 +141,7 @@ File FileHelper::getLastUsedChaserFile( File prefFile)
 
 bool FileHelper::isFileValid(juce::File fileToCheck)
 {
-    if ( fileToCheck.exists() && fileToCheck != File() )
+    if ( fileToCheck.existsAsFile() && fileToCheck != File() )
         return true;
     
     return false;
