@@ -83,10 +83,10 @@ XmlElement* ResXmlParser::getMainPresetElement( File assFile )
 }
 
 
-std::map<int, std::pair<String, int> > ResXmlParser::getScreenNames ( File assFile )
+std::map<int, std::pair<String, int64> > ResXmlParser::getScreenNames ( File assFile )
 {
-    std::map<int, std::pair<String, int> > names;
-    
+    std::map<int, std::pair<String, int64> > names;
+  
     //if the file isn't valid, just return an empty array
     //the component will catch this
     if ( !FileHelper::isFileValid( assFile ) )
@@ -121,8 +121,9 @@ std::map<int, std::pair<String, int> > ResXmlParser::getScreenNames ( File assFi
 						if (screenName == String())
 							screenName = "Unnamed Scaling";
 
-						int screenUniqueId = child->getIntAttribute("uniqueId");
-						names[screenUniqueId] = std::make_pair(screenName, count);
+						String screenUniqueIdString = child->getStringAttribute("uniqueId", "0");
+						int64 uId = screenUniqueIdString.getLargeIntValue();
+						names[count] = std::make_pair(screenName, uId);
 
 						//increase the screencount by 1
 						count++;

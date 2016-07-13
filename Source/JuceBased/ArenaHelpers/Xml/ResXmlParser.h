@@ -14,7 +14,7 @@
 #include "JuceHeader.h"
 #include <map>
 
-typedef std::pair<String, int> UniquePreset;
+typedef std::pair<String, int64> UniquePreset;
 
 //helper class to parse xml data in the various resolume files
 

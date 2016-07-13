@@ -21,9 +21,9 @@ ChaserXmlParser::~ChaserXmlParser()
 	
 }
 
-std::map<int, std::pair<String, int>> ChaserXmlParser::getChaserSequences (juce::File chaserFile, bool onlyActiveChasers)
+std::map<int, std::pair<String, int64>> ChaserXmlParser::getChaserSequences (juce::File chaserFile, bool onlyActiveChasers)
 {
-    std::map<int, std::pair<String, int>> chasers;
+    std::map<int, std::pair<String, int64>> chasers;
     
     if ( !FileHelper::isFileValid( chaserFile ) )
         return chasers;
