@@ -2,11 +2,15 @@
 
 <JUCERPROJECT id="Ytjs3y" name="HybridApi" projectType="library" version="1.0.0"
               bundleIdentifier="nl.hybridvisuals.HybridApi" includeBinaryInAppConfig="1"
-              jucerVersion="4.2.1" companyName="Hybrid Visuals" companyWebsite="www.hybridvisuals.nl"
+              jucerVersion="4.2.3" companyName="Hybrid Visuals" companyWebsite="www.hybridvisuals.nl"
               companyEmail="joris@hybridvisuals.nl">
   <MAINGROUP id="Tpfysd" name="HybridApi">
     <GROUP id="{DEF88503-0234-EF40-24CA-11CD44ADB7BE}" name="Source">
       <GROUP id="{E9D8AF3E-3DEC-DA52-CFB2-F321EBBAAA88}" name="JuceBased">
+        <GROUP id="{46846064-7016-FDC2-2941-CEA04570583A}" name="Utilities">
+          <FILE id="HXIUF2" name="Utilities.cpp" compile="1" resource="0" file="Source/JuceBased/Utilities/Utilities.cpp"/>
+          <FILE id="tlbSP8" name="Utilities.h" compile="0" resource="0" file="Source/JuceBased/Utilities/Utilities.h"/>
+        </GROUP>
         <GROUP id="{9992865B-DBD6-9F7A-D3EC-2C13ED0F3864}" name="Components">
           <FILE id="z2MSwu" name="DeletableItemListComponent.cpp" compile="1"
                 resource="0" file="Source/JuceBased/Components/DeletableItemListComponent.cpp"/>
