@@ -22,9 +22,12 @@
 // [END_USER_CODE_SECTION]
 
 //==============================================================================
-#define JUCE_MODULE_AVAILABLE_juce_core           1
-#define JUCE_MODULE_AVAILABLE_juce_events         1
-#define JUCE_MODULE_AVAILABLE_juce_gui_extra      1
+#define JUCE_MODULE_AVAILABLE_juce_core                 1
+#define JUCE_MODULE_AVAILABLE_juce_data_structures      1
+#define JUCE_MODULE_AVAILABLE_juce_events               1
+#define JUCE_MODULE_AVAILABLE_juce_graphics             1
+#define JUCE_MODULE_AVAILABLE_juce_gui_basics           1
+#define JUCE_MODULE_AVAILABLE_juce_gui_extra            1
 
 //==============================================================================
 #ifndef    JUCE_STANDALONE_APPLICATION
@@ -62,6 +65,36 @@
 
 #ifndef    JUCE_USE_CURL
  //#define JUCE_USE_CURL
+#endif
+
+//==============================================================================
+// juce_graphics flags:
+
+#ifndef    JUCE_USE_COREIMAGE_LOADER
+ //#define JUCE_USE_COREIMAGE_LOADER
+#endif
+
+#ifndef    JUCE_USE_DIRECTWRITE
+ //#define JUCE_USE_DIRECTWRITE
+#endif
+
+//==============================================================================
+// juce_gui_basics flags:
+
+#ifndef    JUCE_ENABLE_REPAINT_DEBUGGING
+ //#define JUCE_ENABLE_REPAINT_DEBUGGING
+#endif
+
+#ifndef    JUCE_USE_XSHM
+ //#define JUCE_USE_XSHM
+#endif
+
+#ifndef    JUCE_USE_XRENDER
+ //#define JUCE_USE_XRENDER
+#endif
+
+#ifndef    JUCE_USE_XCURSOR
+ //#define JUCE_USE_XCURSOR
 #endif
 
 //==============================================================================

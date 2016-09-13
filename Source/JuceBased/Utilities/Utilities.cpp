@@ -10,7 +10,6 @@
 
 #include "Utilities.h"
 
-
 String utils::getUniqueName( String nameToCheck, StringArray existingNames, String defaultIfEmpty )
 {
 	//if the name is empty, give it a default name
