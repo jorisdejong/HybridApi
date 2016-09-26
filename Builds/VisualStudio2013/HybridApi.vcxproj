@@ -1212,6 +1212,7 @@
     <ClInclude Include="..\..\Source\JuceBased\Utilities\Utilities.h"/>
     <ClInclude Include="..\..\Source\JuceBased\Components\DeletableItemListComponent.h"/>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.h"/>
+    <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Slice\Slice.h"/>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ChaserXmlParser.h"/>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ResXmlParser.h"/>
     <ClInclude Include="..\..\Source\HybridApi.h"/>

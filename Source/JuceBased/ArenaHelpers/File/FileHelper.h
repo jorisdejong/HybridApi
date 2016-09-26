@@ -22,6 +22,8 @@ public:
 	~FileHelper();
 	
 	static File getAssFileFromUser();
+
+	/*this will return either the Arena 5 or Arena 4 ass file*/
 	static File getAssFileAutomagically( bool showDialog );
 
 	static File getChaserPreferencesFile();

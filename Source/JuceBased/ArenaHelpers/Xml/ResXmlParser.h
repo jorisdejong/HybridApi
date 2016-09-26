@@ -12,6 +12,7 @@
 #define RESXMLPARSER_H_INCLUDED
 
 #include "JuceHeader.h"
+#include "../Slice/Slice.h"
 #include <map>
 
 typedef std::pair<String, int64> UniquePreset;
@@ -24,10 +25,10 @@ public:
 	ResXmlParser();
 	~ResXmlParser();
 	
-	//static bool parseAssXml ( File f, OwnedArray<Slice>& slices, Point<int>& resolution );
+	static bool parseAssXml ( File f, OwnedArray<Slice>& slices, Point<int>& resolution );
 	
 	//TODO make this take a File, not a XmlElement
-	static String getAdvancedPresetNameFromRes5Xml( XmlElement& xmlTreeToParse );
+	static String getAdvancedPresetNameFromRes5Xml( juce::XmlElement& xmlTreeToParse );
     
     static std::map<int, UniquePreset> getScreenNames ( File assFile );
 	
@@ -37,7 +38,7 @@ private:
     /**
     This function can take both the advanced.xml as well as a saved preset file, and extract the screensetup element
      */
-    static XmlElement* getMainPresetElement ( File assFile );
+    static juce::XmlElement* getMainPresetElement ( File assFile );
     
     /*
     

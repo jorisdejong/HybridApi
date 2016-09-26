@@ -21,7 +21,8 @@ ResXmlParser::~ResXmlParser()
 
 }
 
-/*
+
+
 bool ResXmlParser::parseAssXml(File f, OwnedArray<Slice>& slices, Point<int>& resolution)
 {
 	if ( !f.exists() )
@@ -39,6 +40,7 @@ bool ResXmlParser::parseAssXml(File f, OwnedArray<Slice>& slices, Point<int>& re
 		//then try to parse it
 		bool succesfulParse = false;
 		
+		/*
 		if (xmlRoot != nullptr && xmlRoot->hasTagName ("preset"))
 			succesfulParse = parseRes4Xml( *xmlRoot, slices, resolution );
 		else if ( xmlRoot != nullptr && xmlRoot->hasTagName("XmlState"))
@@ -48,12 +50,13 @@ bool ResXmlParser::parseAssXml(File f, OwnedArray<Slice>& slices, Point<int>& re
 		else if ( xmlRoot != nullptr && xmlRoot->hasTagName("avenue"))
 			succesfulParse = parseRes4ConfigXml( *xmlRoot, slices, resolution);
 		
+		*/
 		return succesfulParse;
 	}
 }
- */
 
-XmlElement* ResXmlParser::getMainPresetElement( File assFile )
+
+juce::XmlElement* ResXmlParser::getMainPresetElement( File assFile )
 {
     if ( !FileHelper::isFileValid( assFile ) )
         return nullptr;

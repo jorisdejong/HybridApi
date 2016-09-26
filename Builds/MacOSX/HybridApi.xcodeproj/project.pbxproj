@@ -667,6 +667,7 @@
 		CF551DB04718B501DC43856D = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_TopLevelWindow.h"; path = "../../../JUCE/modules/juce_gui_basics/windows/juce_TopLevelWindow.h"; sourceTree = "SOURCE_ROOT"; };
 		CF8F987A63A3A11A3E5ED6BC = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = pngpread.c; path = "../../../JUCE/modules/juce_graphics/image_formats/pnglib/pngpread.c"; sourceTree = "SOURCE_ROOT"; };
 		CF9272E926207A55A24AC7F3 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_BubbleMessageComponent.cpp"; path = "../../../JUCE/modules/juce_gui_extra/misc/juce_BubbleMessageComponent.cpp"; sourceTree = "SOURCE_ROOT"; };
+		CFB23E0C698D90484A517308 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Slice.h; path = ../../Source/JuceBased/ArenaHelpers/Slice/Slice.h; sourceTree = "SOURCE_ROOT"; };
 		CFB2838263FEA3C9BDD84AF9 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_Value.h"; path = "../../../JUCE/modules/juce_data_structures/values/juce_Value.h"; sourceTree = "SOURCE_ROOT"; };
 		D0B1F95257DE865CED36B87D = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_LuaCodeTokeniser.cpp"; path = "../../../JUCE/modules/juce_gui_extra/code_editor/juce_LuaCodeTokeniser.cpp"; sourceTree = "SOURCE_ROOT"; };
 		D0F4C6CDDA001C261099C542 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_android_Fonts.cpp"; path = "../../../JUCE/modules/juce_graphics/native/juce_android_Fonts.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -804,6 +805,8 @@
 		8AA3407ADAAFE944F4EDA68B = {isa = PBXGroup; children = (
 					7D1697DA0C79FC9D268D6C6F,
 					C516FB017FED34C3FAE09A04, ); name = File; sourceTree = "<group>"; };
+		F317F254A059E3977F4BAAFA = {isa = PBXGroup; children = (
+					CFB23E0C698D90484A517308, ); name = Slice; sourceTree = "<group>"; };
 		A412B64210F7161DCB8563E5 = {isa = PBXGroup; children = (
 					6B7098F279CDF62A7D9EC502,
 					3670C12FB4CEC9373FE2F66A,
@@ -811,6 +814,7 @@
 					1FAF8F3ECCA6B85CCB1A5A57, ); name = Xml; sourceTree = "<group>"; };
 		565E7840BA7E7782669DCE2B = {isa = PBXGroup; children = (
 					8AA3407ADAAFE944F4EDA68B,
+					F317F254A059E3977F4BAAFA,
 					A412B64210F7161DCB8563E5, ); name = ArenaHelpers; sourceTree = "<group>"; };
 		1AE12BAD0748A6FEC0A96D2B = {isa = PBXGroup; children = (
 					E3BCC74E5D08893216E6AF9B,

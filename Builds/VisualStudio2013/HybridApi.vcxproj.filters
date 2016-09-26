@@ -23,6 +23,9 @@
     <Filter Include="HybridApi\Source\JuceBased\ArenaHelpers\File">
       <UniqueIdentifier>{704FC24B-910E-618B-0A11-00DB8D7FBD37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HybridApi\Source\JuceBased\ArenaHelpers\Slice">
+      <UniqueIdentifier>{4F38CC1D-EC55-2E82-C6EB-F8A47DF91B4F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="HybridApi\Source\JuceBased\ArenaHelpers\Xml">
       <UniqueIdentifier>{9B616A83-8BF0-2647-A6A8-611EFD85F2CB}</UniqueIdentifier>
     </Filter>
@@ -1418,6 +1421,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.h">
       <Filter>HybridApi\Source\JuceBased\ArenaHelpers\File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Slice\Slice.h">
+      <Filter>HybridApi\Source\JuceBased\ArenaHelpers\Slice</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ChaserXmlParser.h">
       <Filter>HybridApi\Source\JuceBased\ArenaHelpers\Xml</Filter>
