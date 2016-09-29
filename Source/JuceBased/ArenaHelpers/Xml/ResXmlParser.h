@@ -25,10 +25,13 @@ public:
 	ResXmlParser();
 	~ResXmlParser();
 	
-	static bool parseAssXml ( File f, OwnedArray<Slice>& slices, Point<int>& resolution );
+	/* parses the file we pass in, and checks if it's a Res 4 or Res 5 type
+	then it calls the approriate parsing routine, which will then fill
+	the passed in slice and resolution vars */
+	static bool parseAssFile ( File f, OwnedArray<Slice>& slices, Point<int>& resolution );
 	
-	//TODO make this take a File, not a XmlElement
-	static String getAdvancedPresetNameFromRes5Xml( juce::XmlElement& xmlTreeToParse );
+	/* parses the res 5 advanced.xml file, and returns which file was used last as the preset*/
+	static String getAdvancedPresetNameFromAdvancedXml( File res5XmlFile );
     
     static std::map<int, UniquePreset> getScreenNames ( File assFile );
 	
@@ -40,13 +43,17 @@ private:
      */
     static juce::XmlElement* getMainPresetElement ( File assFile );
     
+	
     /*
     
 	static bool parseRes4Xml( XmlElement& xmlTreeToParse, OwnedArray<Slice>& slices, Point<int>& resolution );
-	static bool parseRes5Xml( XmlElement& xmlTreeToParse, OwnedArray<Slice>& slices, Point<int>& resolution );
-	static bool parseRes5PrefXml ( XmlElement& xmlTreeToParse, OwnedArray<Slice>& slices, Point<int>& resolution );
 	static bool parseRes4ConfigXml ( XmlElement& xmlTreeToParse, OwnedArray<Slice>& slices, Point<int>& resolution );
-     */
+	
+	*/
+	static bool parseRes5Xml( XmlElement& xmlTreeToParse, OwnedArray<Slice>& slices, Point<int>& resolution );
+	//static bool parseRes5Xml( XmlElement& xmlTreeToParse, OwnedArray<Slice>& slices, Point<int>& resolution );
+	
+    
 	
 	
 	

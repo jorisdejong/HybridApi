@@ -23,7 +23,7 @@ ResXmlParser::~ResXmlParser()
 
 
 
-bool ResXmlParser::parseAssXml(File f, OwnedArray<Slice>& slices, Point<int>& resolution)
+bool ResXmlParser::parseAssFile (File f, OwnedArray<Slice>& slices, Point<int>& resolution)
 {
 	if ( !f.exists() )
 	{
@@ -40,6 +40,9 @@ bool ResXmlParser::parseAssXml(File f, OwnedArray<Slice>& slices, Point<int>& re
 		//then try to parse it
 		bool succesfulParse = false;
 		
+		ScopedPointer<XmlElement> mainPreset = getMainPresetElement( f );
+		if ( mainPreset )
+			succesfulParse = parseRes5Xml( *mainPreset, slices, resolution );
 		/*
 		if (xmlRoot != nullptr && xmlRoot->hasTagName ("preset"))
 			succesfulParse = parseRes4Xml( *xmlRoot, slices, resolution );
@@ -53,6 +56,22 @@ bool ResXmlParser::parseAssXml(File f, OwnedArray<Slice>& slices, Point<int>& re
 		*/
 		return succesfulParse;
 	}
+}
+
+
+String ResXmlParser::getAdvancedPresetNameFromAdvancedXml( File res5XmlFile )
+{
+	String fileNameToReturn = String().empty;
+
+	if ( !FileHelper::isFileValid( res5XmlFile ) )
+		return fileNameToReturn;
+
+	ScopedPointer<XmlElement> mainXmlElement = XmlDocument::parse( res5XmlFile );
+
+	if ( mainXmlElement->hasAttribute( "presetFile" ) )
+		fileNameToReturn = mainXmlElement->getStringAttribute( "presetFile", String().empty );
+
+	return fileNameToReturn;
 }
 
 
@@ -424,40 +443,34 @@ bool ResXmlParser::parseRes4Xml(XmlElement& xmlTreeToParse, OwnedArray<Slice>& s
 }
  */
 
-String ResXmlParser::getAdvancedPresetNameFromRes5Xml( XmlElement& xmlTreeToParse )
+
+
+
+bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<Slice>& slices, Point<int>& resolution )
 {
-	String fileNameToReturn = String().empty;
-
-	if ( xmlTreeToParse.hasAttribute("presetFile"))
-		fileNameToReturn = xmlTreeToParse.getStringAttribute("presetFile", String().empty);
-
-	return fileNameToReturn;
-}
-/*
-
-bool ResXmlParser::parseRes5PrefXml(juce::XmlElement& screenSetup, OwnedArray<Slice>& slices, Point<int>& resolution)
-{
-	slices.clear();
-
-	
-	XmlElement* sizing = screenSetup.getChildByName("sizing");
-	if ( sizing!= nullptr )
+	//get the resolution from the "sizing" element
+	//we later need the resolution to store the slices in the 0...1 range
+	XmlElement* sizing = screenSetup.getChildByName( "sizing" );
+	if ( sizing != nullptr )
 	{
 		forEachXmlChildElement( *sizing, inputs )
 		{
-			if ( inputs->hasTagName("inputs") )
+			if ( inputs->hasTagName( "inputs" ) )
 			{
 				forEachXmlChildElement( *inputs, InputSize )
 				{
-					if ( InputSize->getStringAttribute("name") == "0:1" )
+					if ( InputSize->getStringAttribute( "name" ) == "0:1" )
 					{
-						resolution.x = InputSize->getIntAttribute("width", 1920);
-						resolution.y = InputSize->getIntAttribute("height", 1080);
+						resolution.x = InputSize->getIntAttribute( "width", 1920 );
+						resolution.y = InputSize->getIntAttribute( "height", 1080 );
 					}
 				}
 			}
 		}
 	}
+
+	slices.clear();
+
 	XmlElement* screens = screenSetup.getChildByName("screens");
 	if ( screens!= nullptr )
 	{
@@ -479,6 +492,9 @@ bool ResXmlParser::parseRes5PrefXml(juce::XmlElement& screenSetup, OwnedArray<Sl
 							if ( child->hasTagName("Slice") || child->hasTagName("Polygon"))
 							{
 								Slice* newSlice = new Slice();
+								String uidString = child->getStringAttribute( "uniqueId", "0" );
+								int64 uid = uidString.getLargeIntValue();
+								String name = "Slice";
 								newSlice->enabled = true;
 								
 								XmlElement* params = child->getChildByName("Params");
@@ -486,12 +502,17 @@ bool ResXmlParser::parseRes5PrefXml(juce::XmlElement& screenSetup, OwnedArray<Sl
 								{
 									forEachXmlChildElement( *params, child )
 									{
-										if ( child->hasTagName("Param") && child->getStringAttribute("name") == "Name")
-											newSlice->name = child->getStringAttribute("value", "Slice");
+										if ( child->hasTagName( "Param" ) && child->getStringAttribute( "name" ) == "Name" )
+											name = child->getStringAttribute( "value", "Slice" );
+										
 										if ( child->hasTagName("Param") && child->getStringAttribute("name") == "Enabled")
 											newSlice->enabled = child->getStringAttribute("value", "1").getIntValue() != 0;
 									}
 								}
+
+								//store the name and the uniqueId
+								newSlice->sliceId = std::make_pair( uid, name );
+
 								XmlElement* inputRect = child->getChildByName("InputRect");
 								if ( inputRect != nullptr )
 								{
@@ -551,9 +572,10 @@ bool ResXmlParser::parseRes5PrefXml(juce::XmlElement& screenSetup, OwnedArray<Sl
 										}
 									}
 								}
-								newSlice->screenPair = std::make_pair(screenUniqueId, screenName);
+								newSlice->screenId = std::make_pair(screenUniqueId, screenName);
+
+								//insert at the beginning to keep everything in order
 								slices.insert(0, newSlice);
-								//slices.add( newSlice );
 							}
 						}
 					}
@@ -581,6 +603,7 @@ bool ResXmlParser::parseRes5PrefXml(juce::XmlElement& screenSetup, OwnedArray<Sl
 }
 
 
+/* no longer needed because getMainScreenSetupElement takes care of this
 bool ResXmlParser::parseRes5Xml(XmlElement& xmlTreeToParse, OwnedArray<Slice>& slices, Point<int>& resolution )
 {
     XmlElement* screenSetup = xmlTreeToParse.getChildByName("ScreenSetup");
@@ -591,7 +614,8 @@ bool ResXmlParser::parseRes5Xml(XmlElement& xmlTreeToParse, OwnedArray<Slice>& s
 		return false;
 	
 }
- */
+*/
+
 
 void ResXmlParser::addPointToSlice(juce::XmlElement *element, Array<Point<float>>& pointType, Point<int> resolution)
 {

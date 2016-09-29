@@ -57,8 +57,7 @@ File FileHelper::getAssFileAutomagically( bool showDialog )
             
         {
             //parse the advanced.xml file and see if it contains the file name of the xml that is currently loaded
-            ScopedPointer<XmlElement> xmlRoot (XmlDocument::parse ( advancedFile ));
-            String advancedName = ResXmlParser::getAdvancedPresetNameFromRes5Xml( *xmlRoot );
+			String advancedName = ResXmlParser::getAdvancedPresetNameFromAdvancedXml( advancedFile );
             
             //if we get a name, make a File out of it and return it
             if ( advancedName != String().empty )
