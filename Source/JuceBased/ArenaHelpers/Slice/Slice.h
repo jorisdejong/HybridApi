@@ -14,7 +14,7 @@
 #include "JuceHeader.h"
 
 //keep track of the unique id of the screen
-typedef std::pair<int, String> NamedUniqueId;
+typedef std::pair<int64, String> NamedUniqueId;
 
 /*A slice consists of
 
