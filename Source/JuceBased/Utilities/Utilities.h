@@ -21,7 +21,6 @@ namespace utils
 	raised to the first available free number
 	*/
 	String getUniqueName( String nameToCheck, StringArray existingNames, String defaultIfEmpty = "New Name" );
-	
 }
 
 #endif  // UTILITIES_H_INCLUDED
