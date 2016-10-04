@@ -21,7 +21,7 @@ ChaserXmlParser::~ChaserXmlParser()
 	
 }
 
-std::map<int, std::pair<String, int64>> ChaserXmlParser::getChaserSequences (juce::File chaserFile, bool onlyActiveChasers)
+std::map<int, std::pair<String, int64>> ChaserXmlParser::getChaserSequenceNames (juce::File chaserFile, bool onlyActiveChasers)
 {
     std::map<int, std::pair<String, int64>> chasers;
     
@@ -55,6 +55,7 @@ std::map<int, std::pair<String, int64>> ChaserXmlParser::getChaserSequences (juc
     
     return chasers;
 }
+
 void ChaserXmlParser::parseResolution(juce::File chaserFile, Point<int>& resolution )
 {
 	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );

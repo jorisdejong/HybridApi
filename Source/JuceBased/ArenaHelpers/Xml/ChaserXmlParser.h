@@ -23,13 +23,13 @@ public:
 	ChaserXmlParser();
 	~ChaserXmlParser();
     	
-//	static void parseSlices ( File chaserFile, OwnedArray<Slice>& slices );
+	static void parseSlices ( File chaserFile, OwnedArray<Slice>& slices );
 	static void parseResolution ( File chaserFile, Point<int>& resolution);
 	static void parseSequences ( File chaserFile, std::map<int,std::map<int, Array<int>>>& );
 	
 	static bool canThisAppVersionLoadThisChaser ( String version, File chaserFile );
     
-    static std::map<int, std::pair<String, int64>> getChaserSequences ( File chaserFile, bool onlyActiveChasers );
+    static std::map<int, std::pair<String, int64>> getChaserSequenceNames ( File chaserFile, bool onlyActiveChasers );
 
 private:
 	static XmlElement* getRoot( File chaserFile );
