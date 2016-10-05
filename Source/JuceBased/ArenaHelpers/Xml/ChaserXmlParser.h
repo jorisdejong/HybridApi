@@ -25,7 +25,7 @@ public:
     	
 	static void parseSlices ( File chaserFile, OwnedArray<Slice>& slices );
 	static void parseResolution ( File chaserFile, Point<int>& resolution);
-	static void parseSequences ( File chaserFile, std::map<int,std::map<int, Array<int>>>& );
+	static XmlElement parseSequences( File chaserFile );
 	
 	static bool canThisAppVersionLoadThisChaser ( String version, File chaserFile );
     
