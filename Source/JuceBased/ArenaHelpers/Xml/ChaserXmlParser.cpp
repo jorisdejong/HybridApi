@@ -48,7 +48,6 @@ std::map<int, std::pair<String, int64>> ChaserXmlParser::getChaserSequenceNames(
 						break;
 					}
 				}
-
 			}
 		}
 	}
@@ -56,26 +55,35 @@ std::map<int, std::pair<String, int64>> ChaserXmlParser::getChaserSequenceNames(
 	return chasers;
 }
 
+void ChaserXmlParser::parseAssFile( juce::File chaserFile, juce::File& assFile )
+{
+	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
+	if ( chaserData )
+	{
+		XmlElement* slicesXml = chaserData->getChildByName( "slices" );
+		if ( slicesXml )
+		{
+			assFile = File( slicesXml->getStringAttribute( "assFile", String().empty ) );
+		}
+	}
+}
+
 void ChaserXmlParser::parseResolution( juce::File chaserFile, Point<int>& resolution )
 {
 	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
 	if ( chaserData )
 	{
-		if ( chaserData->getChildByName( "width" ) != nullptr )
-			resolution.x = chaserData->getChildByName( "width" )->getAllSubText().getIntValue();
-		else
-			resolution.x = 1920;
-
-		if ( chaserData->getChildByName( "height" ) != nullptr )
-			resolution.y = chaserData->getChildByName( "height" )->getAllSubText().getIntValue();
-		else
-			resolution.y = 1080;
+		XmlElement* slicesXml = chaserData->getChildByName( "slices" );
+		if ( slicesXml )
+		{
+			resolution.x = slicesXml->getIntAttribute( "width", 1920 );
+			resolution.y = slicesXml->getIntAttribute( "height", 1080 );
+		}
 	}
 }
 
 XmlElement ChaserXmlParser::parseSequences( juce::File chaserFile )
 {
-
 	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
 	if ( chaserData )
 	{
@@ -85,8 +93,8 @@ XmlElement ChaserXmlParser::parseSequences( juce::File chaserFile )
 			return *sequences;
 		}
 	}
-	
-	return XmlElement("");
+
+	return XmlElement( "" );
 }
 
 void ChaserXmlParser::parseSlices( juce::File chaserFile, OwnedArray<Slice>& slices )

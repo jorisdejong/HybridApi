@@ -23,6 +23,7 @@ public:
 	ChaserXmlParser();
 	~ChaserXmlParser();
     	
+	static void parseAssFile( File chaserFile, File& assFile );
 	static void parseSlices ( File chaserFile, OwnedArray<Slice>& slices );
 	static void parseResolution ( File chaserFile, Point<int>& resolution);
 	static XmlElement parseSequences( File chaserFile );
