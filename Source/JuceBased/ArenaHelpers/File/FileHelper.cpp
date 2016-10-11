@@ -115,19 +115,24 @@ File FileHelper::getChaserPreferencesFile()
 	return prefFile;
 }
 
-File FileHelper::getLastUsedChaserFile( File prefFile )
+File FileHelper::getLastUsedChaserFile()
 {
-	XmlDocument lastUsedFile( prefFile );
-	ScopedPointer<XmlElement> lastUsedFileData = lastUsedFile.getDocumentElement();
-	if ( lastUsedFileData )
-	{
-		XmlElement* lastUsedFileXml = lastUsedFileData->getChildByName( "lastusedfile" );
-		if ( lastUsedFileXml )
-		{
-			File savedFile = File( lastUsedFileXml->getStringAttribute( "fullpathname" ) );
+	File prefFile = getChaserPreferencesFile();
 
-			if ( savedFile.exists() )
-				return savedFile;
+	if ( isFileValid( prefFile ) )
+	{
+		XmlDocument lastUsedFile( prefFile );
+		ScopedPointer<XmlElement> lastUsedFileData = lastUsedFile.getDocumentElement();
+		if ( lastUsedFileData )
+		{
+			XmlElement* lastUsedFileXml = lastUsedFileData->getChildByName( "lastusedfile" );
+			if ( lastUsedFileXml )
+			{
+				File savedFile = File( lastUsedFileXml->getStringAttribute( "fullpathname" ) );
+
+				if ( savedFile.exists() )
+					return savedFile;
+			}
 		}
 	}
 	//if all else fails, return an empty file

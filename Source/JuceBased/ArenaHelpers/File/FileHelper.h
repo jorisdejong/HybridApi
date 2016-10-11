@@ -25,11 +25,10 @@ public:
 
 	/*this will return either the Arena 5 or Arena 4 ass file*/
 	static File getAssFileAutomagically( bool showDialog );
-
-	static File getChaserPreferencesFile();
-	static File getLastUsedChaserFile( File prefFile );
-
 	
+	static File getChaserPreferencesFile();
+	static File getLastUsedChaserFile();
+
 	static void reloadAssFile();
 	
     static bool isFileValid ( File fileToCheck );
