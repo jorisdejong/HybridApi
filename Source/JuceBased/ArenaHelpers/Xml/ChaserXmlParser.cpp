@@ -55,6 +55,13 @@ std::map<int, std::pair<String, int64>> ChaserXmlParser::getChaserSequenceNames(
 	return chasers;
 }
 
+Time ChaserXmlParser::getLastUpdateTimeForActiveAssFile()
+{
+	File assFile;
+	parseAssFile( FileHelper::getLastUsedChaserFile(), assFile );
+	return assFile.getLastModificationTime();
+}
+
 void ChaserXmlParser::parseAssFile( juce::File chaserFile, juce::File& assFile )
 {
 	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
@@ -96,6 +103,9 @@ XmlElement ChaserXmlParser::parseSequences( juce::File chaserFile )
 
 	return XmlElement( "" );
 }
+
+
+
 
 void ChaserXmlParser::parseSlices( juce::File chaserFile, OwnedArray<Slice>& slices )
 {
