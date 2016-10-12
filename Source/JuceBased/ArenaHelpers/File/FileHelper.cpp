@@ -96,12 +96,6 @@ File FileHelper::getAssFileAutomagically( bool showDialog )
 	return File();
 }
 
-void FileHelper::reloadAssFile()
-{
-	//TODO add this back
-	//	if (!parseAssXml( xmlSequence->getAssFile() ))
-	//		throwLoadError();
-}
 
 File FileHelper::getChaserPreferencesFile()
 {

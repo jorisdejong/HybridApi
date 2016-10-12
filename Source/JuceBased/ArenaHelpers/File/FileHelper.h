@@ -28,8 +28,6 @@ public:
 	
 	static File getChaserPreferencesFile();
 	static File getLastUsedChaserFile();
-
-	static void reloadAssFile();
 	
     static bool isFileValid ( File fileToCheck );
 	
