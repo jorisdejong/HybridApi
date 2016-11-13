@@ -81,27 +81,40 @@ juce::XmlElement* ResXmlParser::getMainPresetElement( File assFile )
         return nullptr;
     
     DBG("Trying to parse: " + assFile.getFullPathName() );
+	int64 startTime = Time::getHighResolutionTicks();
+	int64 totalTime = Time::getHighResolutionTicks();
+	
     
     XmlElement* mainXmlElement = XmlDocument::parse ( assFile ) ;
     //deletion of the returned xmlelement will happen in the function that uses the data
-    
+
+	DBG( "Main parsing took " + String( Time::highResolutionTicksToSeconds( Time::getHighResolutionTicks() - startTime ) ) + " seconds" );
+	startTime = Time::getHighResolutionTicks();
+
     //a little sleight of hand so we can work both with the internal res pref file as well as a saved preset file
-    
+	XmlElement* returnElement = nullptr;
+
     //if the assfile starts with the tag screensetup, we got the advanced.xml file itself, so just return that
-    if ( mainXmlElement->hasTagName ( "ScreenSetup") )
-        return mainXmlElement;
-    
+	if ( mainXmlElement->hasTagName( "ScreenSetup" ) )
+	{
+		returnElement = mainXmlElement;
+		DBG( "advanced.xml parsing took " + String( Time::highResolutionTicksToSeconds( Time::getHighResolutionTicks() - startTime ) ) + " seconds" );
+		startTime = Time::getHighResolutionTicks();
+	}
+
     //else we got a named and seperately saved preset file, so we first need to extract the screensetup element
     else if ( mainXmlElement->getChildByName("ScreenSetup") != nullptr )
     {
         //create a new element, so we don't delete the child with the parent
-        XmlElement* returnElement = new XmlElement( *mainXmlElement->getChildByName("ScreenSetup"));
+        returnElement = new XmlElement( *mainXmlElement->getChildByName("ScreenSetup"));
         //delete the parent
         delete mainXmlElement;
-        return returnElement;
+		DBG( "preset parsing took " + String( Time::highResolutionTicksToSeconds( Time::getHighResolutionTicks() - startTime ) ) + " seconds" );
+		startTime = Time::getHighResolutionTicks();
     }
     
-    return nullptr;
+	DBG( "Total parsing took " + String( Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks() - totalTime) ) + " seconds" );
+	return returnElement;
 }
 
 
