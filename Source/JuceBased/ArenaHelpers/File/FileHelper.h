@@ -31,7 +31,6 @@ public:
 	
     static bool isFileValid ( File fileToCheck );
 	
-private:
 	static void throwLoadError();
 	static void throwSaveError();
 };

@@ -62,7 +62,7 @@ Time ChaserXmlParser::getLastUpdateTimeForActiveAssFile()
 	return assFile.getLastModificationTime();
 }
 
-void ChaserXmlParser::parseAssFile( juce::File chaserFile, juce::File& assFile )
+bool ChaserXmlParser::parseAssFile( File chaserFile, juce::File& assFile )
 {
 	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
 	if ( chaserData )
@@ -71,11 +71,13 @@ void ChaserXmlParser::parseAssFile( juce::File chaserFile, juce::File& assFile )
 		if ( slicesXml )
 		{
 			assFile = File( slicesXml->getStringAttribute( "assFile", String().empty ) );
+			return true;
 		}
 	}
+	return false;
 }
 
-void ChaserXmlParser::parseResolution( juce::File chaserFile, Point<int>& resolution )
+bool ChaserXmlParser::parseResolution( File chaserFile, Point<int>& resolution )
 {
 	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
 	if ( chaserData )
@@ -85,29 +87,15 @@ void ChaserXmlParser::parseResolution( juce::File chaserFile, Point<int>& resolu
 		{
 			resolution.x = slicesXml->getIntAttribute( "width", 1920 );
 			resolution.y = slicesXml->getIntAttribute( "height", 1080 );
-		}
-	}
-}
 
-XmlElement ChaserXmlParser::parseSequences( juce::File chaserFile )
-{
-	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
-	if ( chaserData )
-	{
-		XmlElement* sequences = chaserData->getChildByName( "sequences" );
-		if ( sequences )
-		{
-			return *sequences;
+			return true;
 		}
 	}
 
-	return XmlElement( "empty" );
+	return false;
 }
 
-
-
-
-void ChaserXmlParser::parseSlices( juce::File chaserFile, OwnedArray<Slice>& slices )
+bool ChaserXmlParser::parseSlices( File chaserFile, OwnedArray<Slice>& slices )
 {
 	slices.clear();
 
@@ -159,20 +147,47 @@ void ChaserXmlParser::parseSlices( juce::File chaserFile, OwnedArray<Slice>& sli
 				slices.add( newSlice );
 			}
 		}
+
+		return true;
 	}
+
+	return false;
 }
 
-bool ChaserXmlParser::canThisAppVersionLoadThisChaser( juce::String version, juce::File chaserFile )
+XmlElement ChaserXmlParser::parseSequences( juce::File chaserFile )
+{
+	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
+	if ( chaserData )
+	{
+		XmlElement* sequences = chaserData->getChildByName( "sequences" );
+		if ( sequences )
+		{
+			return *sequences;
+		}
+	}
+
+	return XmlElement( "empty" );
+}
+
+bool ChaserXmlParser::canThisAppVersionLoadThisChaser( File chaserFile, juce::String version )
 {
 	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
 	if ( chaserData != nullptr )
 	{
-		if ( chaserData->getChildByName( "version" ) != nullptr )
+		XmlElement* versionXml = chaserData->getChildByName( "version" );
+		if ( versionXml )
 		{
-			String savedVersion = chaserData->getChildByName( "version" )->getAllSubText();
+			String savedVersion = versionXml->getStringAttribute( "nr" );
 			return isVersionNewer( savedVersion, version );
 		}
+		else
+		{
+			throwVersionError();
+			return false;
+		}
 	}
+
+	FileHelper::throwLoadError();
 	return false;
 }
 
@@ -180,20 +195,35 @@ bool ChaserXmlParser::isVersionNewer( juce::String savedVersion, juce::String th
 {
 	//if the savedversion string is empty, it's always out of date
 	if ( savedVersion.isEmpty() )
+	{
+		throwVersionError();
 		return false;
+	}
 
 	//versions always have three components so break them up to individual parts
 	Array<int> savedVersionInts = subDivideString( savedVersion );
 	Array<int> thisVersionInts = subDivideString( thisVersion );
 
 	//check each level
-	//if they all match or are newer, we're good to go
-	if ( savedVersionInts[ 0 ] >= thisVersionInts[ 0 ] )
+	//if the major version doesn't match, we're no good
+	if ( savedVersionInts[ 0 ] != thisVersionInts[ 0 ] )
+		throwVersionError();
+	else
+		//if the rest matches or is newer, we're good to go
 		if ( savedVersionInts[ 1 ] >= thisVersionInts[ 1 ] )
 			if ( savedVersionInts[ 2 ] >= thisVersionInts[ 2 ] )
 				return true;
 
 	return false;
+}
+
+void ChaserXmlParser::throwVersionError()
+{
+	AlertWindow::showMessageBoxAsync( AlertWindow::AlertIconType::WarningIcon,
+		"Sorry!",
+		"This Chaser file can't be loaded, because it was created using a different version of Chaser.",
+		"Ok" );
+	DBG( "Error loading file..." );
 }
 
 XmlElement* ChaserXmlParser::getRoot( File chaserFile )
