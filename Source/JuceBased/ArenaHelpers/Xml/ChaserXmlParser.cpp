@@ -101,7 +101,7 @@ XmlElement ChaserXmlParser::parseSequences( juce::File chaserFile )
 		}
 	}
 
-	return XmlElement( "" );
+	return XmlElement( "empty" );
 }
 
 
