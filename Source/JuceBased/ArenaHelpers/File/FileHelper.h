@@ -33,6 +33,8 @@ public:
 	
 	static void throwLoadError();
 	static void throwSaveError();
+	static void throwVersionError();
+	static void throwEmptyError();
 };
 
 

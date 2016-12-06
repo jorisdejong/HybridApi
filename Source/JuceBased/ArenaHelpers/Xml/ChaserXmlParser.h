@@ -38,8 +38,6 @@ private:
 	static XmlElement* getRoot( File chaserFile );
 	static bool isVersionNewer ( String savedVersion, String thisVersion );
 	static Array<int> subDivideString ( String s);
-
-	static void throwVersionError();
 };
 
 

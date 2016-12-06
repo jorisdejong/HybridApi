@@ -137,6 +137,11 @@ bool FileHelper::isFileValid( juce::File fileToCheck )
 {
 	if ( fileToCheck.existsAsFile() && fileToCheck != File() )
 		return true;
+	
+	AlertWindow::showMessageBoxAsync( AlertWindow::AlertIconType::WarningIcon,
+		"Whoops!",
+		"That file can't be read! It looks like it's an invalid file!",
+		"Ok" );
 
 	return false;
 }
@@ -155,5 +160,22 @@ void FileHelper::throwSaveError()
 	AlertWindow::showMessageBoxAsync( AlertWindow::AlertIconType::WarningIcon,
 		"Sorry!",
 		"Could not save data.",
+		"Ok" );
+}
+
+void FileHelper::throwVersionError()
+{
+	AlertWindow::showMessageBoxAsync( AlertWindow::AlertIconType::WarningIcon,
+		"Sorry!",
+		"This Chaser file can't be loaded, because it was created using a different version of Chaser.",
+		"Ok" );
+	DBG( "Error loading file..." );
+}
+
+void FileHelper::throwEmptyError()
+{
+	AlertWindow::showMessageBoxAsync( AlertWindow::AlertIconType::WarningIcon,
+		"Whoops!",
+		"This file appears to be empty.",
 		"Ok" );
 }

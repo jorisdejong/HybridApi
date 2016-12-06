@@ -182,12 +182,14 @@ bool ChaserXmlParser::canThisAppVersionLoadThisChaser( File chaserFile, juce::St
 		}
 		else
 		{
-			throwVersionError();
+			//if we can't extract the version tag, it means we're always
+			//dealing wih a different version
+			FileHelper::throwVersionError();
 			return false;
 		}
 	}
 
-	FileHelper::throwLoadError();
+	FileHelper::throwEmptyError();
 	return false;
 }
 
@@ -196,7 +198,7 @@ bool ChaserXmlParser::isVersionNewer( juce::String savedVersion, juce::String th
 	//if the savedversion string is empty, it's always out of date
 	if ( savedVersion.isEmpty() )
 	{
-		throwVersionError();
+		FileHelper::throwVersionError();
 		return false;
 	}
 
@@ -207,7 +209,7 @@ bool ChaserXmlParser::isVersionNewer( juce::String savedVersion, juce::String th
 	//check each level
 	//if the major version doesn't match, we're no good
 	if ( savedVersionInts[ 0 ] != thisVersionInts[ 0 ] )
-		throwVersionError();
+		FileHelper::throwVersionError();
 	else
 		//if the rest matches or is newer, we're good to go
 		if ( savedVersionInts[ 1 ] >= thisVersionInts[ 1 ] )
@@ -217,14 +219,7 @@ bool ChaserXmlParser::isVersionNewer( juce::String savedVersion, juce::String th
 	return false;
 }
 
-void ChaserXmlParser::throwVersionError()
-{
-	AlertWindow::showMessageBoxAsync( AlertWindow::AlertIconType::WarningIcon,
-		"Sorry!",
-		"This Chaser file can't be loaded, because it was created using a different version of Chaser.",
-		"Ok" );
-	DBG( "Error loading file..." );
-}
+
 
 XmlElement* ChaserXmlParser::getRoot( File chaserFile )
 {
