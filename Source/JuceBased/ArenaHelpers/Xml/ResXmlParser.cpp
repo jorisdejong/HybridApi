@@ -479,6 +479,13 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<Slice
 	}
 
 	slices.clear();
+
+	//i can't clear the screens array completely, because i need to restore the folded value
+	//make a list of screennames that are folded
+	Array<int64> foldedScreens;
+	for ( auto screen : screens )
+		if ( screen.folded )
+			foldedScreens.add( screen.uid );
 	screens.clear();
 
 	XmlElement* screensXml = screenSetup.getChildByName( "screens" );
@@ -491,7 +498,10 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<Slice
 				Screen newScreen;
 				newScreen.name = child->getStringAttribute( "name" );
 				newScreen.uid = child->getStringAttribute( "uniqueId", "0" ).getLargeIntValue();
-				newScreen.folded = child->getBoolAttribute( "folded", false );
+				//check if the uid is part of the folded list
+				for ( auto id : foldedScreens )
+					if ( id == newScreen.uid )
+						newScreen.folded = true;
 				screens.add( newScreen );
 
 

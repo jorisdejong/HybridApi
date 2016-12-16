@@ -20,7 +20,7 @@ struct Screen
 {
 	int64 uid;
 	String name;
-	bool folded;
+	bool folded = false;
 };
 
 /*A slice consists of
