@@ -133,15 +133,18 @@ File FileHelper::getLastUsedChaserFile()
 	return File();
 }
 
-bool FileHelper::isFileValid( juce::File fileToCheck )
+bool FileHelper::isFileValid( juce::File fileToCheck, bool giveFeedback )
 {
 	if ( fileToCheck.existsAsFile() && fileToCheck != File() )
 		return true;
 	
-	AlertWindow::showMessageBoxAsync( AlertWindow::AlertIconType::WarningIcon,
-		"Whoops!",
-		"That file can't be read! It looks like it's an invalid file!",
-		"Ok" );
+    if ( giveFeedback )
+    {
+        AlertWindow::showMessageBoxAsync( AlertWindow::AlertIconType::WarningIcon,
+            "Whoops!",
+            "That file can't be read! It looks like it's an invalid file!",
+            "Ok" );
+    }
 
 	return false;
 }

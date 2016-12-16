@@ -29,7 +29,7 @@ public:
 	static File getChaserPreferencesFile();
 	static File getLastUsedChaserFile();
 	
-    static bool isFileValid ( File fileToCheck );
+    static bool isFileValid ( File fileToCheck, bool giveFeedback = true );
 	
 	static void throwLoadError();
 	static void throwSaveError();
