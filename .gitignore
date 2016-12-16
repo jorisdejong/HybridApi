@@ -3,3 +3,6 @@ Builds/VisualStudio2013/x64/
 Builds/VisualStudio2013/HybridApi.opensdf
 Builds/VisualStudio2013/HybridApi.sdf
 Builds/VisualStudio2013/HybridApi.v12.suo
+Builds/MacOSX/build
+Builds/MacOSX/HybridApi.xcodeproj/project.xcworkspace/xcuserdata/
+Builds/MacOSX/HybridApi.xcodeproj/xcuserdata/
