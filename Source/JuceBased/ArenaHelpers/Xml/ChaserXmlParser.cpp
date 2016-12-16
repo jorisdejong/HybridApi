@@ -95,6 +95,28 @@ bool ChaserXmlParser::parseResolution( File chaserFile, Point<int>& resolution )
 	return false;
 }
 
+bool ChaserXmlParser::parseScreens( File chaserFile, Array<Screen>& screens )
+{
+	screens.clear();
+	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
+	if ( chaserData )
+	{
+		if ( XmlElement* screensXml = chaserData->getChildByName( "screens" ) )
+		{
+			forEachXmlChildElement( *screensXml, screenXml )
+			{
+				Screen newScreen;
+				newScreen.name = screenXml->getStringAttribute( "name" );
+				newScreen.uid = screenXml->getStringAttribute( "uniqueId" ).getLargeIntValue();
+				newScreen.folded = screenXml->getBoolAttribute( "folded", false );
+				screens.add( newScreen );
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
 bool ChaserXmlParser::parseSlices( File chaserFile, OwnedArray<Slice>& slices )
 {
 	slices.clear();
@@ -113,11 +135,10 @@ bool ChaserXmlParser::parseSlices( File chaserFile, OwnedArray<Slice>& slices )
 			forEachXmlChildElement( *slicesXml, slice )
 			{
 				Slice* newSlice = new Slice();
-				newSlice->sliceId.second = slice->getStringAttribute( "name", "Slice " + String( sliceCount + 1 ) );
-				newSlice->sliceId.first = slice->getStringAttribute( "uniqueId", String( sliceCount ) ).getLargeIntValue();
+				newSlice->sliceId.first = slice->getStringAttribute( "name", "Slice " + String( sliceCount + 1 ) );
+				newSlice->sliceId.second = slice->getStringAttribute( "uniqueId", String( sliceCount ) ).getLargeIntValue();
 				newSlice->enabled = slice->getBoolAttribute( "enable", true );
-				newSlice->screenId.second = slice->getStringAttribute( "screenName", "Screen 1" );
-				newSlice->screenId.first = slice->getStringAttribute( "screenId", String( 0 ) ).getLargeIntValue();
+				newSlice->screenId = slice->getStringAttribute( "screenId", String( 0 ) ).getLargeIntValue();
 
 				forEachXmlChildElement( *slice, pointData )
 				{
@@ -168,6 +189,8 @@ XmlElement ChaserXmlParser::parseSequences( juce::File chaserFile )
 
 	return XmlElement( "empty" );
 }
+
+
 
 bool ChaserXmlParser::canThisAppVersionLoadThisChaser( File chaserFile, juce::String version )
 {

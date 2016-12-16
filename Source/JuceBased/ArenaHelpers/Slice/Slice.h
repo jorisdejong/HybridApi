@@ -14,7 +14,14 @@
 #include "JuceHeader.h"
 
 //keep track of the unique id of the screen
-typedef std::pair<int64, String> NamedUniqueId;
+typedef std::pair<String, int64> NamedUniqueId;
+
+struct Screen
+{
+	int64 uid;
+	String name;
+	bool folded;
+};
 
 /*A slice consists of
 
@@ -38,7 +45,7 @@ public:
 
 	Slice( const Slice& slice ) : sliceId( slice.sliceId ), enabled( slice.enabled ), inputRectPoints( slice.inputRectPoints ), maskPoints( slice.maskPoints ), maskRectPoints( slice.maskRectPoints ), inputRectOrientation( slice.inputRectOrientation ), maskRectOrientation( slice.maskRectOrientation ){	}
 
-	Slice() : Slice( std::make_pair( 0, "New Slice" ), false ){}
+	Slice() : Slice( std::make_pair( String("New Slice"), 0 ), false ){}
 
 	~Slice(){}
 
@@ -51,7 +58,7 @@ public:
 
 	//uniqued id and name of the screen this slice is a part of
 	//this is needed to sort the slice into screens in chaser app
-	NamedUniqueId screenId = std::make_pair( 0, "Default Screen" );
+	int64 screenId = 0;
 
 	//unique id and name of this slice
 	NamedUniqueId sliceId;

@@ -25,6 +25,7 @@ public:
 
 	static bool parseAssFile( File chaserFile, File& assFile );
 	static bool parseSlices( File chaserFile, OwnedArray<Slice>& slices );
+	static bool parseScreens( File chaserFile, Array<Screen>& screens );
 	static bool parseResolution( File chaserFile, Point<int>& resolution );
 	static XmlElement parseSequences( File chaserFile );
 
