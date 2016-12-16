@@ -118,13 +118,13 @@ juce::XmlElement* ResXmlParser::getMainPresetElement( File assFile )
 }
 
 
-std::map<int, std::pair<String, int64> > ResXmlParser::getScreenNames ( File assFile )
+Array< UniquePreset > ResXmlParser::getScreenNames ( File assFile )
 {
-    std::map<int, std::pair<String, int64> > names;
+    Array< UniquePreset > names;
   
     //if the file isn't valid, just return an empty array
     //the component will catch this
-    if ( !FileHelper::isFileValid( assFile ) )
+    if ( !FileHelper::isFileValid( assFile, false ) )
         return names;
     
     XmlElement* mainPreset = getMainPresetElement( assFile );
@@ -133,7 +133,6 @@ std::map<int, std::pair<String, int64> > ResXmlParser::getScreenNames ( File ass
 		XmlElement* screens = mainPreset->getChildByName("screens");
 		if (screens != nullptr)
 		{
-			int count = 0;
 			forEachXmlChildElement(*screens, child)
 			{
 				//keep track of how many scaling screens we have
@@ -158,10 +157,7 @@ std::map<int, std::pair<String, int64> > ResXmlParser::getScreenNames ( File ass
 
 						String screenUniqueIdString = child->getStringAttribute("uniqueId", "0");
 						int64 uId = screenUniqueIdString.getLargeIntValue();
-						names[count] = std::make_pair(screenName, uId);
-
-						//increase the screencount by 1
-						count++;
+						names.add( std::make_pair(screenName, uId) );
 					}
 				}
 			}

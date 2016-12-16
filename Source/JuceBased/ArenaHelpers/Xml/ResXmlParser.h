@@ -33,7 +33,7 @@ public:
 	/* parses the res 5 advanced.xml file, and returns which file was used last as the preset*/
 	static String getAdvancedPresetNameFromAdvancedXml( File res5XmlFile );
     
-    static std::map<int, UniquePreset> getScreenNames ( File assFile );
+    static Array< UniquePreset> getScreenNames ( File assFile );
 	
 	
 	
