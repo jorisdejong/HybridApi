@@ -14,6 +14,9 @@
 #include "JuceHeader.h"
 
 //keep track of the unique id of the screen
+//jtodo this should be the other way around
+//or be a struct
+//or even be a map instead of a pair
 typedef std::pair<String, int64> NamedUniqueId;
 
 struct Screen
