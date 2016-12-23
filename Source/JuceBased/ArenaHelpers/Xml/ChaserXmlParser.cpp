@@ -21,9 +21,9 @@ ChaserXmlParser::~ChaserXmlParser()
 
 }
 
-std::map<int, std::pair<String, int64>> ChaserXmlParser::getChaserSequenceNames( juce::File chaserFile, bool onlyActiveChasers )
+Array<NamedUniqueId> ChaserXmlParser::getChaserSequenceNames( juce::File chaserFile, bool onlyActiveChasers )
 {
-	std::map<int, std::pair<String, int64>> chasers;
+	Array<NamedUniqueId> chasers;
 
 	if ( !FileHelper::isFileValid( chaserFile ) )
 		return chasers;
@@ -43,7 +43,7 @@ std::map<int, std::pair<String, int64>> ChaserXmlParser::getChaserSequenceNames(
 					//so if the step has any children, add it and then break out of the loop
 					if ( step->getNumChildElements() > 0 || onlyActiveChasers == false )
 					{
-						chasers[ sequence->getIntAttribute( "nr" ) ] = std::make_pair( sequence->getStringAttribute( "name" ), count );
+						chasers.add (std::make_pair( sequence->getStringAttribute( "name" ), count ));
 						count++;
 						break;
 					}

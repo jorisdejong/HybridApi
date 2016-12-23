@@ -33,7 +33,7 @@ public:
 	
 	static bool canThisAppVersionLoadThisChaser ( File chaserFile, String version );
     
-    static std::map<int, std::pair<String, int64>> getChaserSequenceNames ( File chaserFile, bool onlyActiveChasers );
+    static Array<NamedUniqueId> getChaserSequenceNames ( File chaserFile, bool onlyActiveChasers );
 
 private:
 	static XmlElement* getRoot( File chaserFile );
