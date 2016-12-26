@@ -96,6 +96,25 @@ File FileHelper::getAssFileAutomagically( bool showDialog )
 	return File();
 }
 
+File FileHelper::getArenaCompFile()
+{
+	File configFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 5/preferences/config.xml";
+	if ( configFile.existsAsFile() )
+	{
+		if ( XmlElement* configXml = XmlDocument::parse( configFile ) )
+		{
+			if ( XmlElement* settings = configXml->getChildByName( "settings" ) )
+			{
+				if ( XmlElement* composition = settings->getChildByName( "composition" ) )
+				{
+					return File( composition->getStringAttribute( "startupFileName" ) );
+				}
+			}
+		}
+	}
+	return File();
+}
+
 
 File FileHelper::getChaserPreferencesFile()
 {

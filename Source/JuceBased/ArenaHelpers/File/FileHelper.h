@@ -25,6 +25,8 @@ public:
 
 	/*this will return either the Arena 5 or Arena 4 ass file*/
 	static File getAssFileAutomagically( bool showDialog );
+
+	static File getArenaCompFile();
 	
 	static File getChaserPreferencesFile();
 	static File getLastUsedChaserFile();
