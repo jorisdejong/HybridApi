@@ -5,6 +5,7 @@ Builds/VisualStudio2015/x64/
 *.sdf
 *.suo
 *.VC.db
+*.opendb
 Builds/MacOSX/build
 Builds/MacOSX/HybridApi.xcodeproj/project.xcworkspace/xcuserdata/
 Builds/MacOSX/HybridApi.xcodeproj/xcuserdata/
