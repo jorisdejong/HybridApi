@@ -101,7 +101,7 @@ File FileHelper::getArenaCompFile()
 	File configFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 5/preferences/config.xml";
 	if ( configFile.existsAsFile() )
 	{
-		if ( XmlElement* configXml = XmlDocument::parse( configFile ) )
+		if ( ScopedPointer<XmlElement> configXml = XmlDocument::parse( configFile ) )
 		{
 			if ( XmlElement* settings = configXml->getChildByName( "settings" ) )
 			{
