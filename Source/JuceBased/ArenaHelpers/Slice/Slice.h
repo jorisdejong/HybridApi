@@ -13,71 +13,74 @@
 
 #include "JuceHeader.h"
 
-//keep track of the unique id of the screen
-//jtodo this should be the other way around
-//or be a struct
-//or even be a map instead of a pair
-typedef std::pair<String, int64> NamedUniqueId;
-
-struct Screen
+namespace hybrid
 {
-	int64 uid;
-	String name;
-	bool folded = false;
-};
+	//keep track of the unique id of the screen
+	//jtodo this should be the other way around
+	//or be a struct
+	//or even be a map instead of a pair
+	typedef std::pair<String, int64> NamedUniqueId;
 
-/*A slice consists of
-
-inputRect: the smallest rectangle that covers this slice in its entirety
-mask points: the input polygon or input mask points that make up the shape of this slice
-orientation: the rotation of the input rect
-
-*/
-class Slice
-{
-public:
-
-	Slice( NamedUniqueId id, bool enable ) : sliceId( id ), enabled( enable )
+	struct Screen
 	{
-		inputRectPoints.clear();
-		maskPoints.clear();
-		maskRectPoints.clear();
-		inputRectOrientation = 0.0;
-		maskRectOrientation = 0.0;
-	}
+		int64 uid;
+		String name;
+		bool folded = false;
+	};
 
-	Slice( const Slice& slice ) : sliceId( slice.sliceId ), enabled( slice.enabled ), inputRectPoints( slice.inputRectPoints ), maskPoints( slice.maskPoints ), maskRectPoints( slice.maskRectPoints ), inputRectOrientation( slice.inputRectOrientation ), maskRectOrientation( slice.maskRectOrientation ){	}
+	/*A slice consists of
 
-	Slice() : Slice( std::make_pair( String("New Slice"), 0 ), false ){}
+	inputRect: the smallest rectangle that covers this slice in its entirety
+	mask points: the input polygon or input mask points that make up the shape of this slice
+	orientation: the rotation of the input rect
 
-	~Slice(){}
+	*/
+	class Slice
+	{
+	public:
 
-	bool enabled;
+		Slice( NamedUniqueId id, bool enable ) : sliceId( id ), enabled( enable )
+		{
+			inputRectPoints.clear();
+			maskPoints.clear();
+			maskRectPoints.clear();
+			inputRectOrientation = 0.0;
+			maskRectOrientation = 0.0;
+		}
 
-	/*when a screen is collapsed, the slice should not draw in preview
-	i cannot use the enabled bool for this, because when the screen is uncollapsed
-	this value should be maintained*/
-	bool screenIsCollapsed = false;
+		Slice( const Slice& slice ) : sliceId( slice.sliceId ), enabled( slice.enabled ), inputRectPoints( slice.inputRectPoints ), maskPoints( slice.maskPoints ), maskRectPoints( slice.maskRectPoints ), inputRectOrientation( slice.inputRectOrientation ), maskRectOrientation( slice.maskRectOrientation ) {	}
 
-	//uniqued id and name of the screen this slice is a part of
-	//this is needed to sort the slice into screens in chaser app
-	int64 screenId = 0;
+		Slice() : Slice( std::make_pair( String( "New Slice" ), 0 ), false ) {}
 
-	//unique id and name of this slice
-	NamedUniqueId sliceId;
+		~Slice() {}
 
-	Array<Point<float>> inputRectPoints;
-	Array<Point<float>> maskPoints;
-	float inputRectOrientation;
+		bool enabled;
 
-	//currently the maskRectPoints are not being used for anything
-	//i use the inputRect of the slice to decide which parts of the slice to draw
-	Array<Point<float>> maskRectPoints;
-	float maskRectOrientation;
+		/*when a screen is collapsed, the slice should not draw in preview
+		i cannot use the enabled bool for this, because when the screen is uncollapsed
+		this value should be maintained*/
+		bool screenIsCollapsed = false;
 
-private:
+		//uniqued id and name of the screen this slice is a part of
+		//this is needed to sort the slice into screens in chaser app
+		int64 screenId = 0;
 
-};
+		//unique id and name of this slice
+		NamedUniqueId sliceId;
+
+		Array<Point<float>> inputRectPoints;
+		Array<Point<float>> maskPoints;
+		float inputRectOrientation;
+
+		//currently the maskRectPoints are not being used for anything
+		//i use the inputRect of the slice to decide which parts of the slice to draw
+		Array<Point<float>> maskRectPoints;
+		float maskRectOrientation;
+
+	private:
+
+	};
+}
 
 
 

@@ -26,12 +26,12 @@ public:
 	/* parses the file we pass in, and checks if it's a Res 4 or Res 5 type
 	then it calls the approriate parsing routine, which will then fill
 	the passed in slice and resolution vars */
-	static bool parseAssFile( File f, OwnedArray<Slice>& slices, Array<Screen>& screens, Point<int>& resolution );
+	static bool parseAssFile( File f, OwnedArray<hybrid::Slice>& slices, Array<hybrid::Screen>& screens, Point<int>& resolution );
 
 	/* parses the res 5 advanced.xml file, and returns which file was used last as the preset*/
 	static String getAdvancedPresetNameFromAdvancedXml( File res5XmlFile );
 
-	static Array< NamedUniqueId > getScreenNames( File assFile );
+	static Array< hybrid::NamedUniqueId > getScreenNames( File assFile );
 
 
 
@@ -41,23 +41,9 @@ private:
 	*/
 	static juce::XmlElement* getMainPresetElement( File assFile );
 
-
-	/*
-
-	static bool parseRes4Xml( XmlElement& xmlTreeToParse, OwnedArray<Slice>& slices, Point<int>& resolution );
-	static bool parseRes4ConfigXml ( XmlElement& xmlTreeToParse, OwnedArray<Slice>& slices, Point<int>& resolution );
-
-	*/
-	static bool parseRes5Xml( XmlElement& xmlTreeToParse, OwnedArray<Slice>& slices, Array<Screen>& screens, Point<int>& resolution );
-	//static bool parseRes5Xml( XmlElement& xmlTreeToParse, OwnedArray<Slice>& slices, Point<int>& resolution );
-
-
-
-
-
+	static bool parseRes5Xml( XmlElement& xmlTreeToParse, OwnedArray<hybrid::Slice>& slices, Array<hybrid::Screen>& screens, Point<int>& resolution );
+	
 	static void addPointToSlice( XmlElement* sliceElement, Array<Point<float>>& pointType, Point<int> resolution );
-
-
 };
 
 

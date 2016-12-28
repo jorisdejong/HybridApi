@@ -23,7 +23,7 @@ ResXmlParser::~ResXmlParser()
 
 
 
-bool ResXmlParser::parseAssFile( File f, OwnedArray<Slice>& slices, Array<Screen>& screens, Point<int>& resolution )
+bool ResXmlParser::parseAssFile( File f, OwnedArray<hybrid::Slice>& slices, Array<hybrid::Screen>& screens, Point<int>& resolution )
 {
 	if ( !f.exists() )
 	{
@@ -43,17 +43,7 @@ bool ResXmlParser::parseAssFile( File f, OwnedArray<Slice>& slices, Array<Screen
 		ScopedPointer<XmlElement> mainPreset = getMainPresetElement( f );
 		if ( mainPreset )
 			succesfulParse = parseRes5Xml( *mainPreset, slices, screens, resolution );
-		/*
-		if (xmlRoot != nullptr && xmlRoot->hasTagName ("preset"))
-		succesfulParse = parseRes4Xml( *xmlRoot, slices, resolution );
-		else if ( xmlRoot != nullptr && xmlRoot->hasTagName("XmlState"))
-		succesfulParse = parseRes5Xml( *xmlRoot, slices, resolution );
-		else if ( xmlRoot != nullptr && xmlRoot->hasTagName("ScreenSetup") )
-		succesfulParse = parseRes5PrefXml( *xmlRoot, slices, resolution);
-		else if ( xmlRoot != nullptr && xmlRoot->hasTagName("avenue"))
-		succesfulParse = parseRes4ConfigXml( *xmlRoot, slices, resolution);
-
-		*/
+		
 		return succesfulParse;
 	}
 }
@@ -118,9 +108,9 @@ juce::XmlElement* ResXmlParser::getMainPresetElement( File assFile )
 }
 
 
-Array< NamedUniqueId > ResXmlParser::getScreenNames( File assFile )
+Array< hybrid::NamedUniqueId > ResXmlParser::getScreenNames( File assFile )
 {
-	Array< NamedUniqueId > names;
+	Array< hybrid::NamedUniqueId > names;
 
 	//if the file isn't valid, just return an empty array
 	//the component will catch this
@@ -170,292 +160,12 @@ Array< NamedUniqueId > ResXmlParser::getScreenNames( File assFile )
 
 
 
-/*
-bool ResXmlParser::parseRes4ConfigXml(juce::XmlElement &xmlTreeToParse, OwnedArray<Slice>& slices, Point<int> &resolution)
-{
-forEachXmlChildElement( xmlTreeToParse, avenueChild )
-{
-if ( avenueChild->hasTagName("settings") )
-{
-forEachXmlChildElement( *avenueChild, settingsChild )
-{
-if ( settingsChild->hasTagName("video"))
-{
-forEachXmlChildElement( *settingsChild, videoChild )
-{
-if ( videoChild->hasTagName("settings"))
-{
-forEachXmlChildElement( *videoChild, videoSettingsChild )
-{
-if ( videoSettingsChild->hasTagName("screenSetup"))
-{
-forEachXmlChildElement( *videoSettingsChild, screenSetupChild )
-{
-if ( screenSetupChild->hasTagName("screens"))
-{
-forEachXmlChildElement(*screenSetupChild, screensChild )
-{
-if ( screensChild->hasTagName("advancedScreens") )
-{
-forEachXmlChildElement( *screensChild, advancedScreensChild )
-{
-if ( advancedScreensChild->hasTagName("screen") )
-{
-forEachXmlChildElement( *advancedScreensChild, screenNode )
-{
-if ( screenNode->hasTagName("slices") )
-{
-//clear the slice array so we don't get doubles
-slices.clear();
-
-forEachXmlChildElement( *screenNode, slicesNode)
-{
-if ( slicesNode->hasTagName("Slice") )
-{
-String name;
-bool enabled = slicesNode->getBoolAttribute("isEnabled");
-int type = 0;
-float l = 0.0f;
-float t = 0.0f;
-float r = 0.0f;
-float b = 0.0f;
-
-forEachXmlChildElement( *slicesNode, sliceNode)
-{
-
-if ( sliceNode->hasTagName("name") )
-{
-name = sliceNode->getStringAttribute("value");
-}
-
-if ( sliceNode->hasTagName("type") )
-{
-type = sliceNode->getIntAttribute("value");
-}
-
-if ( sliceNode->hasTagName("rect") )
-{
-l = float(sliceNode->getDoubleAttribute("l"));
-t = float(sliceNode->getDoubleAttribute("t"));
-r = float(sliceNode->getDoubleAttribute("r"));
-b = float(sliceNode->getDoubleAttribute("b"));
-}
-
-}
-
-//type 0 means only slices are loaded, no masks or crops
-if ( type == 0 )
-{
-Slice* slice = new Slice( name, enabled );
-//create 4 points out of the ltrb data
-for (int i = 0; i < 4; i++ )
-{
-Point<float> newPoint;
-switch (i)
-{
-case 0:
-newPoint = Point<float>(l,t);
-break;
-case 1:
-newPoint = Point<float>(r,t);
-break;
-case 2:
-newPoint = Point<float>(r,b);
-break;
-case 3:
-newPoint = Point<float>(l,b);
-break;
-}
-slice->inputRectPoints.add(newPoint);
-}
-slices.insert(0, slice);
-}
-}
-}
-}
-}
-}
-}
-}
-}
-}
-}
-}
-}
-}
-}
-}
-if ( settingsChild->hasTagName("composition"))
-{
-//read out the resolution from the comp file
-File compFile = settingsChild->getStringAttribute("startupFileName");
-if (compFile.exists())
-{
-ScopedPointer<XmlElement> composition;
-composition = (XmlDocument::parse ( compFile ));
-forEachXmlChildElement( *composition, compChild )
-{
-if ( compChild->hasTagName("generalInfo"))
-{
-resolution.x = compChild->getIntAttribute("width", 1920);
-resolution.y = compChild->getIntAttribute("height", 1080);
-}
-}
-}
-}
-}
-}
-}
-
-if ( slices.size() == 0 )
-{
-DBG("Not able to parse any slice data");
-return false;
-}
-else
-{
-DBG("Slice data parsed succesfully");
-return true;
-}
-}
-
-bool ResXmlParser::parseRes4Xml(XmlElement& xmlTreeToParse, OwnedArray<Slice>& slices, Point<int>& resolution)
-{
-forEachXmlChildElement( xmlTreeToParse, presetNode )
-{
-if ( presetNode->hasTagName("screen") )
-{
-forEachXmlChildElement( *presetNode, screenNode )
-{
-if ( screenNode->hasTagName("slices") )
-{
-//clear the slice array so we don't get doubles
-slices.clear();
-
-forEachXmlChildElement( *screenNode, slicesNode)
-{
-if ( slicesNode->hasTagName("Slice") )
-{
-String name;
-bool enabled = slicesNode->getBoolAttribute("isEnabled");
-int type = 0;
-float l = 0.0f;
-float t = 0.0f;
-float r = 0.0f;
-float b = 0.0f;
-
-forEachXmlChildElement( *slicesNode, sliceNode)
-{
-
-if ( sliceNode->hasTagName("name") )
-{
-name = sliceNode->getStringAttribute("value");
-}
-
-if ( sliceNode->hasTagName("type") )
-{
-type = sliceNode->getIntAttribute("value");
-}
-
-if ( sliceNode->hasTagName("rect") )
-{
-l = float(sliceNode->getDoubleAttribute("l"));
-t = float(sliceNode->getDoubleAttribute("t"));
-r = float(sliceNode->getDoubleAttribute("r"));
-b = float(sliceNode->getDoubleAttribute("b"));
-}
-
-}
-
-//type 0 means only slices are loaded, no masks or crops
-if ( type == 0 )
-{
-Slice* slice = new Slice( name, enabled );
-
-
-//create 4 points out of the ltrb data
-for (int i = 0; i < 4; i++ )
-{
-Point<float> newPoint;
-switch (i)
-{
-case 0:
-newPoint = Point<float>(l,t);
-break;
-case 1:
-newPoint = Point<float>(r,t);
-break;
-case 2:
-newPoint = Point<float>(r,b);
-break;
-case 3:
-newPoint = Point<float>(l,b);
-break;
-}
-slice->inputRectPoints.add(newPoint);
-}
-slices.insert(0, slice);
-}
-}
-}
-}
-}
-}
-}
-
-//try to get the resolution from the config.xml file and the associated comp file
-File advancedLocation = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 4/preferences/config.xml";
-if ( advancedLocation.exists() )
-{
-ScopedPointer<XmlElement> xmlRoot;
-xmlRoot = (XmlDocument::parse ( advancedLocation ));
-forEachXmlChildElement( *xmlRoot, avenueChild )
-{
-if ( avenueChild->hasTagName("settings") )
-{
-forEachXmlChildElement( *avenueChild, settingsChild )
-{
-if ( settingsChild->hasTagName("composition"))
-{
-//read out the resolution from the comp file
-File compFile = settingsChild->getStringAttribute("startupFileName");
-if (compFile.exists())
-{
-ScopedPointer<XmlElement> composition;
-composition = (XmlDocument::parse ( compFile ));
-forEachXmlChildElement( *composition, compChild )
-{
-if ( compChild->hasTagName("generalInfo"))
-{
-resolution.x = compChild->getIntAttribute("width", 1920);
-resolution.y = compChild->getIntAttribute("height", 1080);
-}
-}
-}
-}
-}
-}
-}
-
-}
-
-if ( slices.size() == 0 )
-{
-DBG("Not able to parse any slice data");
-return false;
-}
-else
-{
-DBG("Slice data parsed succesfully");
-return true;
-}
-}
-*/
 
 
 
 
-bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<Slice>& slices, Array<Screen>& screens, Point<int>& resolution )
+
+bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybrid::Slice>& slices, Array<hybrid::Screen>& screens, Point<int>& resolution )
 {
 	//get the resolution from the "sizing" element
 	//we later need the resolution to store the slices in the 0...1 range
@@ -495,7 +205,7 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<Slice
 		{
 			if ( child->hasTagName( "Screen" ) )
 			{
-				Screen newScreen;
+				hybrid::Screen newScreen;
 				newScreen.name = child->getStringAttribute( "name" );
 				newScreen.uid = child->getStringAttribute( "uniqueId", "0" ).getLargeIntValue();
 				//check if the uid is part of the folded list
@@ -515,7 +225,7 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<Slice
 						{
 							if ( child->hasTagName( "Slice" ) || child->hasTagName( "Polygon" ) )
 							{
-								Slice* newSlice = new Slice();
+								hybrid::Slice* newSlice = new hybrid::Slice();
 								String uidString = child->getStringAttribute( "uniqueId", "0" );
 								int64 uid = uidString.getLargeIntValue();
 								String name = "Slice";
@@ -627,18 +337,6 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<Slice
 }
 
 
-/* no longer needed because getMainScreenSetupElement takes care of this
-bool ResXmlParser::parseRes5Xml(XmlElement& xmlTreeToParse, OwnedArray<Slice>& slices, Point<int>& resolution )
-{
-XmlElement* screenSetup = xmlTreeToParse.getChildByName("ScreenSetup");
-
-if ( screenSetup != nullptr )
-return parseRes5PrefXml(*screenSetup, slices, resolution);
-else
-return false;
-
-}
-*/
 
 
 void ResXmlParser::addPointToSlice( juce::XmlElement *element, Array<Point<float>>& pointType, Point<int> resolution )

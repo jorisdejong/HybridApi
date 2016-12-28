@@ -21,9 +21,9 @@ ChaserXmlParser::~ChaserXmlParser()
 
 }
 
-Array<NamedUniqueId> ChaserXmlParser::getChaserSequenceNames( juce::File chaserFile, bool onlyActiveChasers )
+Array<hybrid::NamedUniqueId> ChaserXmlParser::getChaserSequenceNames( juce::File chaserFile, bool onlyActiveChasers )
 {
-	Array<NamedUniqueId> chasers;
+	Array<hybrid::NamedUniqueId> chasers;
 
 	if ( !FileHelper::isFileValid( chaserFile ) )
 		return chasers;
@@ -95,7 +95,7 @@ bool ChaserXmlParser::parseResolution( File chaserFile, Point<int>& resolution )
 	return false;
 }
 
-bool ChaserXmlParser::parseScreens( File chaserFile, Array<Screen>& screens )
+bool ChaserXmlParser::parseScreens( File chaserFile, Array<hybrid::Screen>& screens )
 {
 	screens.clear();
 	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
@@ -105,7 +105,7 @@ bool ChaserXmlParser::parseScreens( File chaserFile, Array<Screen>& screens )
 		{
 			forEachXmlChildElement( *screensXml, screenXml )
 			{
-				Screen newScreen;
+				hybrid::Screen newScreen;
 				newScreen.name = screenXml->getStringAttribute( "name" );
 				newScreen.uid = screenXml->getStringAttribute( "uniqueId" ).getLargeIntValue();
 				newScreen.folded = screenXml->getBoolAttribute( "folded", false );
@@ -117,7 +117,7 @@ bool ChaserXmlParser::parseScreens( File chaserFile, Array<Screen>& screens )
 	return false;
 }
 
-bool ChaserXmlParser::parseSlices( File chaserFile, OwnedArray<Slice>& slices )
+bool ChaserXmlParser::parseSlices( File chaserFile, OwnedArray<hybrid::Slice>& slices )
 {
 	slices.clear();
 
@@ -134,7 +134,7 @@ bool ChaserXmlParser::parseSlices( File chaserFile, OwnedArray<Slice>& slices )
 
 			forEachXmlChildElement( *slicesXml, slice )
 			{
-				Slice* newSlice = new Slice();
+				hybrid::Slice* newSlice = new hybrid::Slice();
 				newSlice->sliceId.first = slice->getStringAttribute( "name", "Slice " + String( sliceCount + 1 ) );
 				newSlice->sliceId.second = slice->getStringAttribute( "uniqueId", String( sliceCount ) ).getLargeIntValue();
 				newSlice->enabled = slice->getBoolAttribute( "enable", true );
