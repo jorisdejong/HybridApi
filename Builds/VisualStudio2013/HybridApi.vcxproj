@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\JuceBased\Utilities\Utilities.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\Components\DeletableItemListComponent.cpp"/>
+    <ClCompile Include="..\..\Source\JuceBased\Components\SliceButton.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ChaserXmlParser.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ResXmlParser.cpp"/>
@@ -137,6 +138,9 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\containers\juce_DynamicObject.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_core\containers\juce_ListenerList.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\containers\juce_NamedValueSet.cpp">
@@ -272,6 +276,9 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\network\juce_URL.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_core\network\juce_WebInputStream.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\streams\juce_BufferedInputStream.cpp">
@@ -1211,6 +1218,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\JuceBased\Utilities\Utilities.h"/>
     <ClInclude Include="..\..\Source\JuceBased\Components\DeletableItemListComponent.h"/>
+    <ClInclude Include="..\..\Source\JuceBased\Components\SliceButton.h"/>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.h"/>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Slice\Slice.h"/>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ChaserXmlParser.h"/>
@@ -1280,6 +1288,7 @@
     <ClInclude Include="..\..\..\JUCE\modules\juce_core\network\juce_NamedPipe.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_core\network\juce_Socket.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_core\network\juce_URL.h"/>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_core\network\juce_WebInputStream.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_core\streams\juce_BufferedInputStream.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_core\streams\juce_FileInputSource.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_core\streams\juce_InputSource.h"/>

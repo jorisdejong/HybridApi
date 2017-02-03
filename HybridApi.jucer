@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="Ytjs3y" name="HybridApi" projectType="library" version="1.0.0"
               bundleIdentifier="nl.hybridvisuals.HybridApi" includeBinaryInAppConfig="1"
-              jucerVersion="4.2.4" companyName="Hybrid Visuals" companyWebsite="www.hybridvisuals.nl"
+              jucerVersion="4.3.0" companyName="Hybrid Visuals" companyWebsite="www.hybridvisuals.nl"
               companyEmail="joris@hybridvisuals.nl">
   <MAINGROUP id="Tpfysd" name="HybridApi">
     <GROUP id="{DEF88503-0234-EF40-24CA-11CD44ADB7BE}" name="Source">
@@ -16,6 +16,8 @@
                 resource="0" file="Source/JuceBased/Components/DeletableItemListComponent.cpp"/>
           <FILE id="QmKMI5" name="DeletableItemListComponent.h" compile="0" resource="0"
                 file="Source/JuceBased/Components/DeletableItemListComponent.h"/>
+          <FILE id="aENVdh" name="SliceButton.cpp" compile="1" resource="0" file="Source/JuceBased/Components/SliceButton.cpp"/>
+          <FILE id="fMK2QP" name="SliceButton.h" compile="0" resource="0" file="Source/JuceBased/Components/SliceButton.h"/>
         </GROUP>
         <GROUP id="{646C7023-CF29-7739-6F71-AD8AF464BC96}" name="ArenaHelpers">
           <GROUP id="{F6AB9423-2DD0-7074-8B30-BB43E055081A}" name="File">

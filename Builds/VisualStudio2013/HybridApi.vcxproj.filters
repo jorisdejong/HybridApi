@@ -238,6 +238,9 @@
     <ClCompile Include="..\..\Source\JuceBased\Components\DeletableItemListComponent.cpp">
       <Filter>HybridApi\Source\JuceBased\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\JuceBased\Components\SliceButton.cpp">
+      <Filter>HybridApi\Source\JuceBased\Components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.cpp">
       <Filter>HybridApi\Source\JuceBased\ArenaHelpers\File</Filter>
     </ClCompile>
@@ -251,6 +254,9 @@
       <Filter>Juce Modules\juce_core\containers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\containers\juce_DynamicObject.cpp">
+      <Filter>Juce Modules\juce_core\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_core\containers\juce_ListenerList.cpp">
       <Filter>Juce Modules\juce_core\containers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\containers\juce_NamedValueSet.cpp">
@@ -401,6 +407,9 @@
       <Filter>Juce Modules\juce_core\network</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\network\juce_URL.cpp">
+      <Filter>Juce Modules\juce_core\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_core\network\juce_WebInputStream.cpp">
       <Filter>Juce Modules\juce_core\network</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\streams\juce_BufferedInputStream.cpp">
@@ -1419,6 +1428,9 @@
     <ClInclude Include="..\..\Source\JuceBased\Components\DeletableItemListComponent.h">
       <Filter>HybridApi\Source\JuceBased\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\JuceBased\Components\SliceButton.h">
+      <Filter>HybridApi\Source\JuceBased\Components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.h">
       <Filter>HybridApi\Source\JuceBased\ArenaHelpers\File</Filter>
     </ClInclude>
@@ -1624,6 +1636,9 @@
       <Filter>Juce Modules\juce_core\network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\JUCE\modules\juce_core\network\juce_URL.h">
+      <Filter>Juce Modules\juce_core\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_core\network\juce_WebInputStream.h">
       <Filter>Juce Modules\juce_core\network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\JUCE\modules\juce_core\streams\juce_BufferedInputStream.h">
