@@ -241,6 +241,9 @@
     <ClCompile Include="..\..\Source\JuceBased\Components\PathButton.cpp">
       <Filter>HybridApi\Source\JuceBased\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\JuceBased\Components\SliceButton.cpp">
+      <Filter>HybridApi\Source\JuceBased\Components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.cpp">
       <Filter>HybridApi\Source\JuceBased\ArenaHelpers\File</Filter>
     </ClCompile>
@@ -1429,6 +1432,9 @@
       <Filter>HybridApi\Source\JuceBased\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\JuceBased\Components\PathButton.h">
+      <Filter>HybridApi\Source\JuceBased\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\JuceBased\Components\SliceButton.h">
       <Filter>HybridApi\Source\JuceBased\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.h">

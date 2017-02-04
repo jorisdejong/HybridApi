@@ -2,8 +2,8 @@
   ==============================================================================
 
     SliceButton.h
-    Created: 28 Dec 2014 11:15:33am
-    Author:  Joris de Jong
+    Created: 4 Feb 2017 1:31:25am
+    Author:  Joris
 
   ==============================================================================
 */
@@ -11,50 +11,24 @@
 #ifndef SLICEBUTTON_H_INCLUDED
 #define SLICEBUTTON_H_INCLUDED
 
-#include "JuceHeader.h"
-//#include "../ArenaHelpers/Slice/Slice.h"
+#include "PathButton.h"
+#include "../ArenaHelpers/Slice/Slice.h"
 
-
-
-//==============================================================================
-/* 
-PathButton can create a button out of a series of absolute points
-and then scale itself based on the current view it's living in
-*/
-
-class PathButton    : public ShapeButton
+class SliceButton : public PathButton
 {
 public:
-	PathButton ( String name, Array<Point<float>> points, Point<int> scale );
-    ~PathButton();
-	
-    //String name;
-	//int64 getUniqueId();
-    
-	//void createPath( Point<int> scale );
-	
-	//overridden functions for ShapeButton
-	bool hitTest(int x, int y) override;
-	void paintButton (Graphics& g, bool isMouseOverButton, bool isButtonDown) override;
+	SliceButton( hybrid::Slice& slice );
+	~SliceButton();
+
+	int64 getUniqueId();
+
 	void resized() override;
 
-	void mouseDown( const MouseEvent& ) override;
-	void mouseUp( const MouseEvent& ) override;
-	void mouseDrag( const MouseEvent& ) override;
-
 private:
-	Array<Point<float>> pathPoints;
-	Path path;
-	Path makePath( Array<Point<float>> points, Point<int> scale );
-
-	PathButton* lastDraggedButton;
-
-	Colour primaryColour = Colours::aquamarine;
-	Colour backgroundColour = Colours::crimson;
-	Colour outlineColour = Colours::antiquewhite;
-	
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PathButton)
+	hybrid::Slice& slice;
 };
+
+
 
 
 #endif  // SLICEBUTTON_H_INCLUDED

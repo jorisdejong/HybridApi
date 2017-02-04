@@ -131,6 +131,7 @@
     <ClCompile Include="..\..\Source\JuceBased\Utilities\Utilities.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\Components\DeletableItemListComponent.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\Components\PathButton.cpp"/>
+    <ClCompile Include="..\..\Source\JuceBased\Components\SliceButton.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ChaserXmlParser.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ResXmlParser.cpp"/>
@@ -1219,6 +1220,7 @@
     <ClInclude Include="..\..\Source\JuceBased\Utilities\Utilities.h"/>
     <ClInclude Include="..\..\Source\JuceBased\Components\DeletableItemListComponent.h"/>
     <ClInclude Include="..\..\Source\JuceBased\Components\PathButton.h"/>
+    <ClInclude Include="..\..\Source\JuceBased\Components\SliceButton.h"/>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.h"/>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Slice\Slice.h"/>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ChaserXmlParser.h"/>

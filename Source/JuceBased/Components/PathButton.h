@@ -1,15 +1,15 @@
 /*
   ==============================================================================
 
-    SliceButton.h
+    PathButton.h
     Created: 28 Dec 2014 11:15:33am
     Author:  Joris de Jong
 
   ==============================================================================
 */
 
-#ifndef SLICEBUTTON_H_INCLUDED
-#define SLICEBUTTON_H_INCLUDED
+#ifndef PATHBUTTON_H_INCLUDED
+#define PATHBUTTON_H_INCLUDED
 
 #include "JuceHeader.h"
 
@@ -51,4 +51,4 @@ private:
 };
 
 
-#endif  // SLICEBUTTON_H_INCLUDED
+#endif  // PATHBUTTON_H_INCLUDED

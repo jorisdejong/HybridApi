@@ -12,13 +12,10 @@
 #include "PathButton.h"
 
 
-PathButton::PathButton( String name, Array<Point<float>> points ) : ShapeButton( name, Colours::transparentBlack, Colours::transparentBlack, Colours::transparentBlack ), slice( s )
+PathButton::PathButton( String name, Array<Point<float>> points ) : ShapeButton( name, Colours::transparentBlack, Colours::transparentBlack, Colours::transparentBlack )
 {
 	setButtonText( name );
-	////enable loads the state from the ass xml file
-	////it can still be edited via the slicelist
-	//setVisible( s.enabled );
-	//name = s.sliceId.first;
+	
 	pathPoints = points;
 	setClickingTogglesState( true );
 	setToggleState( false, sendNotification );
@@ -28,18 +25,6 @@ PathButton::~PathButton()
 {
 
 }
-
-//void PathButton::createPath( Point<int> scale )
-//{
-//	//check if the slice has maskpoints,
-//	//if so, it's a regular slice with a mask or a polyslice
-//	//and the mask points should be used for the path
-//	//otherwise it's a regular slice and the inputrect points should be used for the path
-//	if ( slice.maskPoints.size() > 0 )
-//		path = makePath(slice.maskPoints, scale);
-//	else
-//		path = makePath(slice.inputRectPoints, scale);
-//}
 
 void PathButton::makePath( Array<Point<float>> points )
 {
@@ -110,9 +95,6 @@ void PathButton::resized()
 
 	Rectangle<int> bounds = path.getBounds().toType<int>();
 	setBounds( bounds );
-
-	////update the visibilty
-	//setVisible( slice.enabled && !slice.screenIsCollapsed );
 }
 
 
