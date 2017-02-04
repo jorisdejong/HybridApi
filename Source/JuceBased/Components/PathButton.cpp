@@ -41,24 +41,26 @@ PathButton::~PathButton()
 //		path = makePath(slice.inputRectPoints, scale);
 //}
 
-Path PathButton::makePath( Array<Point<float>> points )
+void PathButton::makePath( Array<Point<float>> points )
 {
-	Path newPath;
+	if ( !getParentComponent() )
+		return;
+
+	path.clear();
+
 	Point<int> scale = Point<int>{ getParentWidth(), getParentHeight() };
 	for ( int i = 0; i < points.size(); i++ )
 	{
 		Point<float> p = points[i];
 		//points are stored normalized in 0...1 range
-		//here points are transformed to fit within the preview window
+		//here points are transformed to fit within the window they live in
 		p *= scale;
 		if ( i == 0 )
-			newPath.startNewSubPath( p );
+			path.startNewSubPath( p );
 		else
-			newPath.lineTo( p );
+			path.lineTo( p );
 	}
-	newPath.closeSubPath();
-
-	return newPath;
+	path.closeSubPath();
 }
 
 
@@ -105,6 +107,7 @@ void PathButton::paintButton( juce::Graphics &g, bool isMouseOverButton, bool is
 void PathButton::resized()
 {
 	makePath( pathPoints );
+
 	Rectangle<int> bounds = path.getBounds().toType<int>();
 	setBounds( bounds );
 

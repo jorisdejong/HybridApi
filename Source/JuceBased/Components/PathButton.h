@@ -39,7 +39,7 @@ public:
 private:
 	Array<Point<float>> pathPoints;
 	Path path;
-	Path makePath( Array<Point<float>> points );
+	void makePath( Array<Point<float>> points );
 
 	PathButton* lastDraggedButton;
 
