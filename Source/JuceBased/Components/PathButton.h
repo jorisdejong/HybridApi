@@ -12,12 +12,13 @@
 #define SLICEBUTTON_H_INCLUDED
 
 #include "JuceHeader.h"
-#include "../ArenaHelpers/Slice/Slice.h"
 
 
 
 //==============================================================================
 /*
+PathButton create a button based on a set of points
+It can then resize its path based on the resolution of the view it's living in
 */
 
 class PathButton    : public ShapeButton
