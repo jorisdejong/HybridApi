@@ -12,14 +12,12 @@
 #define SLICEBUTTON_H_INCLUDED
 
 #include "JuceHeader.h"
-//#include "../ArenaHelpers/Slice/Slice.h"
+#include "../ArenaHelpers/Slice/Slice.h"
 
 
 
 //==============================================================================
-/* 
-PathButton can create a button out of a series of absolute points
-and then scale itself based on the current view it's living in
+/*
 */
 
 class PathButton    : public ShapeButton
@@ -27,12 +25,7 @@ class PathButton    : public ShapeButton
 public:
 	PathButton ( String name, Array<Point<float>> points, Point<int> scale );
     ~PathButton();
-	
-    //String name;
-	//int64 getUniqueId();
     
-	//void createPath( Point<int> scale );
-	
 	//overridden functions for ShapeButton
 	bool hitTest(int x, int y) override;
 	void paintButton (Graphics& g, bool isMouseOverButton, bool isButtonDown) override;
