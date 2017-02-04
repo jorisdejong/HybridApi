@@ -13,7 +13,7 @@
 
 PathButton::PathButton( String name, Array<Point<float>> points ) : ShapeButton( name, Colours::transparentBlack, Colours::transparentBlack, Colours::transparentBlack )
 {
-	setButtonText( name );
+	setName( name );
 	
 	pathPoints = points;
 	setClickingTogglesState( true );
@@ -82,7 +82,7 @@ void PathButton::paintButton( juce::Graphics &g, bool isMouseOverButton, bool is
 
 		//draw the name because DJAktion is a little bitch
 		g.setColour( outlineColour );
-		g.drawFittedText( getButtonText(), r.toType<int>(), Justification::centred, 1 );
+		g.drawFittedText( getName(), r.toType<int>(), Justification::centred, 1 );
 
 		g.strokePath( path, PathStrokeType( 1.0 ), trans );
 	}
