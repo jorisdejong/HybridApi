@@ -68,6 +68,8 @@ namespace hybrid
 		//unique id and name of this slice
 		NamedUniqueId sliceId;
 
+		Array<Point<float>> getPoints();
+
 		Array<Point<float>> inputRectPoints;
 		Array<Point<float>> maskPoints;
 		float inputRectOrientation;
