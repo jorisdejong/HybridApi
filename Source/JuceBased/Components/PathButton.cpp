@@ -8,7 +8,6 @@
   ==============================================================================
 */
 
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "PathButton.h"
 
 
@@ -23,7 +22,7 @@ PathButton::PathButton( String name, Array<Point<float>> points ) : ShapeButton(
 
 PathButton::~PathButton()
 {
-
+	lastDraggedButton = nullptr;
 }
 
 void PathButton::makePath( Array<Point<float>> points )

@@ -10,7 +10,9 @@
 
 #include "SliceButton.h"
 
-SliceButton::SliceButton( hybrid::Slice & slice ) : slice ( slice ), PathButton( slice.sliceId.first, slice.maskPoints.size() > 0 ? slice.maskPoints : slice.inputRectPoints )
+SliceButton::SliceButton( hybrid::Slice & slice ) : 
+	slice ( slice ), 
+	PathButton( slice.sliceId.first, slice.maskPoints.size() > 0 ? slice.maskPoints : slice.inputRectPoints )
 {
 	//check if the slice has maskpoints,
 	//if so, it's a regular slice with a mask or a polyslice
