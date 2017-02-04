@@ -234,13 +234,13 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybri
 								XmlElement* params = layerChild->getChildByName( "Params" );
 								if ( params != nullptr )
 								{
-									forEachXmlChildElement( *params, child )
+									forEachXmlChildElement( *params, paramChild )
 									{
-										if ( child->hasTagName( "Param" ) && child->getStringAttribute( "name" ) == "Name" )
-											name = child->getStringAttribute( "value", "Slice" );
+										if ( paramChild->hasTagName( "Param" ) && paramChild->getStringAttribute( "name" ) == "Name" )
+											name = paramChild->getStringAttribute( "value", "Slice" );
 
-										if ( child->hasTagName( "Param" ) && child->getStringAttribute( "name" ) == "Enabled" )
-											newSlice->enabled = child->getStringAttribute( "value", "1" ).getIntValue() != 0;
+										if ( paramChild->hasTagName( "Param" ) && paramChild->getStringAttribute( "name" ) == "Enabled" )
+											newSlice->enabled = paramChild->getStringAttribute( "value", "1" ).getIntValue() != 0;
 									}
 								}
 
@@ -251,10 +251,10 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybri
 								if ( inputRect != nullptr )
 								{
 									newSlice->inputRectOrientation = inputRect->getStringAttribute( "orientation", "0" ).getFloatValue();
-									forEachXmlChildElement( *inputRect, child )
+									forEachXmlChildElement( *inputRect, vertex )
 									{
-										if ( child->hasTagName( "v" ) )
-											addPointToSlice( child, newSlice->inputRectPoints, resolution );
+										if ( vertex->hasTagName( "v" ) )
+											addPointToSlice( vertex, newSlice->inputRectPoints, resolution );
 									}
 								}
 								XmlElement* sliceMask = layerChild->getChildByName( "SliceMask" );
@@ -267,10 +267,10 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybri
 										if ( maskRect != nullptr )
 										{
 											newSlice->maskRectOrientation = maskRect->getStringAttribute( "orientation", "0" ).getFloatValue();
-											forEachXmlChildElement( *maskRect, child )
+											forEachXmlChildElement( *maskRect, vertex )
 											{
-												if ( child->hasTagName( "v" ) )
-													addPointToSlice( child, newSlice->maskRectPoints, resolution );
+												if ( vertex->hasTagName( "v" ) )
+													addPointToSlice( vertex, newSlice->maskRectPoints, resolution );
 											}
 										}
 										XmlElement* shape = shapeObject->getChildByName( "Shape" );
@@ -282,10 +282,10 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybri
 												XmlElement* points = contour->getChildByName( "points" );
 												if ( points != nullptr )
 												{
-													forEachXmlChildElement( *points, child )
+													forEachXmlChildElement( *points, vertex )
 													{
-														if ( child->hasTagName( "v" ) )
-															addPointToSlice( child, newSlice->maskPoints, resolution );
+														if ( vertex->hasTagName( "v" ) )
+															addPointToSlice( vertex, newSlice->maskPoints, resolution );
 													}
 												}
 											}
@@ -299,10 +299,10 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybri
 									XmlElement* points = contour->getChildByName( "points" );
 									if ( points != nullptr )
 									{
-										forEachXmlChildElement( *points, child )
+										forEachXmlChildElement( *points, vertex )
 										{
-											if ( child->hasTagName( "v" ) )
-												addPointToSlice( child, newSlice->maskPoints, resolution );
+											if ( vertex->hasTagName( "v" ) )
+												addPointToSlice( vertex, newSlice->maskPoints, resolution );
 										}
 									}
 								}
