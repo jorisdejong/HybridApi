@@ -12,7 +12,7 @@
 #include "PathButton.h"
 
 
-PathButton::PathButton( String name, Array<Point<float>> points, Point<int> scale ) : ShapeButton( name, Colours::transparentBlack, Colours::transparentBlack, Colours::transparentBlack ), slice( s )
+PathButton::PathButton( String name, Array<Point<float>> points ) : ShapeButton( name, Colours::transparentBlack, Colours::transparentBlack, Colours::transparentBlack ), slice( s )
 {
 	setButtonText( name );
 	////enable loads the state from the ass xml file
@@ -20,7 +20,6 @@ PathButton::PathButton( String name, Array<Point<float>> points, Point<int> scal
 	//setVisible( s.enabled );
 	//name = s.sliceId.first;
 	pathPoints = points;
-	makePath( pathPoints, scale );
 	setClickingTogglesState( true );
 	setToggleState( false, sendNotification );
 }
@@ -42,9 +41,10 @@ PathButton::~PathButton()
 //		path = makePath(slice.inputRectPoints, scale);
 //}
 
-Path PathButton::makePath( Array<Point<float>> points, Point<int> scale )
+Path PathButton::makePath( Array<Point<float>> points )
 {
 	Path newPath;
+	Point<int> scale = Point<int>{ getParentWidth(), getParentHeight() };
 	for ( int i = 0; i < points.size(); i++ )
 	{
 		Point<float> p = points[i];
@@ -104,7 +104,7 @@ void PathButton::paintButton( juce::Graphics &g, bool isMouseOverButton, bool is
 
 void PathButton::resized()
 {
-	makePath( pathPoints, Point<int>( getParentWidth(), getParentHeight() ) );
+	makePath( pathPoints );
 	Rectangle<int> bounds = path.getBounds().toType<int>();
 	setBounds( bounds );
 

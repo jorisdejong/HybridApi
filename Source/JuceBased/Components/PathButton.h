@@ -24,7 +24,7 @@ It can then resize its path based on the resolution of the view it's living in
 class PathButton    : public ShapeButton
 {
 public:
-	PathButton ( String name, Array<Point<float>> points, Point<int> scale );
+	PathButton ( String name, Array<Point<float>> points );
     ~PathButton();
     
 	//overridden functions for ShapeButton
@@ -39,7 +39,7 @@ public:
 private:
 	Array<Point<float>> pathPoints;
 	Path path;
-	Path makePath( Array<Point<float>> points, Point<int> scale );
+	Path makePath( Array<Point<float>> points );
 
 	PathButton* lastDraggedButton;
 
