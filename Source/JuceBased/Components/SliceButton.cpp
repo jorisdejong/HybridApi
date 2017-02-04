@@ -33,6 +33,11 @@ int64 SliceButton::getUniqueId()
 	return slice.sliceId.second;
 }
 
+hybrid::Slice & SliceButton::getSlice()
+{
+	return slice;
+}
+
 void SliceButton::resized()
 {
 	PathButton::resized();

@@ -21,6 +21,7 @@ public:
 	~SliceButton();
 
 	int64 getUniqueId();
+	hybrid::Slice& getSlice();
 
 	void resized() override;
 
