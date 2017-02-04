@@ -221,17 +221,17 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybri
 					XmlElement* layers = child->getChildByName( "layers" );
 					if ( layers != nullptr )
 					{
-						forEachXmlChildElement( *layers, child )
+						forEachXmlChildElement( *layers, layerChild )
 						{
-							if ( child->hasTagName( "Slice" ) || child->hasTagName( "Polygon" ) )
+							if ( layerChild->hasTagName( "Slice" ) || layerChild->hasTagName( "Polygon" ) )
 							{
 								hybrid::Slice* newSlice = new hybrid::Slice();
-								String uidString = child->getStringAttribute( "uniqueId", "0" );
+								String uidString = layerChild->getStringAttribute( "uniqueId", "0" );
 								int64 uid = uidString.getLargeIntValue();
 								String name = "Slice";
 								newSlice->enabled = true;
 
-								XmlElement* params = child->getChildByName( "Params" );
+								XmlElement* params = layerChild->getChildByName( "Params" );
 								if ( params != nullptr )
 								{
 									forEachXmlChildElement( *params, child )
@@ -247,7 +247,7 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybri
 								//store the name and the uniqueId
 								newSlice->sliceId = std::make_pair( name, uid );
 
-								XmlElement* inputRect = child->getChildByName( "InputRect" );
+								XmlElement* inputRect = layerChild->getChildByName( "InputRect" );
 								if ( inputRect != nullptr )
 								{
 									newSlice->inputRectOrientation = inputRect->getStringAttribute( "orientation", "0" ).getFloatValue();
@@ -257,7 +257,7 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybri
 											addPointToSlice( child, newSlice->inputRectPoints, resolution );
 									}
 								}
-								XmlElement* sliceMask = child->getChildByName( "SliceMask" );
+								XmlElement* sliceMask = layerChild->getChildByName( "SliceMask" );
 								if ( sliceMask != nullptr )
 								{
 									XmlElement* shapeObject = sliceMask->getChildByName( "ShapeObject" );
@@ -293,7 +293,7 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybri
 									}
 								}
 
-								XmlElement* contour = child->getChildByName( "InputContour" );
+								XmlElement* contour = layerChild->getChildByName( "InputContour" );
 								if ( contour != nullptr )
 								{
 									XmlElement* points = contour->getChildByName( "points" );
