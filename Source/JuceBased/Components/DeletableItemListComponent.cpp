@@ -15,7 +15,7 @@
 
 ////ITEM!!!!
 
-DeletableItem::DeletableItem( String itemName )
+DeletableItem::DeletableItem( String itemName, DeletableItemListComponent* parent ) : parent( parent )
 {
     label = new Label();
     label->setText( itemName, dontSendNotification );
@@ -24,12 +24,19 @@ DeletableItem::DeletableItem( String itemName )
     
     deleteButton = new TextButton("-");
     addAndMakeVisible( deleteButton );
+	deleteButton->addListener( this );
 }
 
 DeletableItem::~DeletableItem()
 {
     label = nullptr;
     deleteButton = nullptr;
+}
+
+void DeletableItem::buttonClicked( Button * )
+{
+	//only one button, call the parent
+	parent->removeItem( label->getText() );
 }
 
 void DeletableItem::paint(juce::Graphics &g)
@@ -60,10 +67,26 @@ DeletableItemListComponent::~DeletableItemListComponent()
 
 void DeletableItemListComponent::addItem(juce::String newItemName)
 {
-    DeletableItem* newItem = new DeletableItem ( newItemName );
+    DeletableItem* newItem = new DeletableItem ( newItemName, this );
     items.add( newItem );
     itemListBox.updateContent();
     repaint();
+}
+
+void DeletableItemListComponent::removeItem( String removedName )
+{
+	//figure out which item matches the name
+	for ( auto item : items )
+	{
+		if ( item->label->getText() == removedName )
+		{
+			//call the listeners
+			BailOutChecker checker( this );
+			if ( !checker.shouldBailOut() )
+				listeners.callChecked( checker, &DeletableItemListComponent::Listener::itemRemoved, items.indexOf( item ) );
+		}
+	}
+	
 }
 
 int DeletableItemListComponent::getNumRows()
@@ -87,7 +110,7 @@ Component* DeletableItemListComponent::refreshComponentForRow(int rowNumber, boo
         // If an existing component is being passed-in for updating, we'll re-use it, but
         // if not, we'll have to create one.
         if ( item == 0)
-            item = new DeletableItem( String() );
+            item = new DeletableItem( String(), this );
         
         item->label->setText(items[rowNumber]->label->getText(), dontSendNotification);
     }

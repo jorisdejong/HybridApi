@@ -17,11 +17,17 @@
 /*
 */
 
-class DeletableItem : public Component
+class DeletableItemListComponent;
+
+class DeletableItem : 
+	public Component,
+	public juce::Button::Listener
 {
 public:
-    DeletableItem( String itemName );
+    DeletableItem( String itemName, DeletableItemListComponent* parent );
     ~DeletableItem();
+
+	void buttonClicked( Button* b ) override;
     
     ScopedPointer<Label> label;
     
@@ -29,6 +35,7 @@ public:
     void resized() override;
     
 private:
+	DeletableItemListComponent* parent;
     ScopedPointer<TextButton> deleteButton;
     
 };
@@ -40,6 +47,7 @@ public:
     ~DeletableItemListComponent();
     
     void addItem ( String newItemName );
+	void removeItem( String removedName );
 
     void paint (Graphics&) override;
     void resized() override;
@@ -59,8 +67,9 @@ public:
         /** Destructor. */
         virtual ~Listener()  {}
         
-        virtual void oscOutputRemoved ( String ip, int port ) = 0;
-        virtual void oscOutputAdded ( String ip, int port ) = 0;
+		virtual void itemRemoved( int index ) = 0;
+        //virtual void oscOutputRemoved ( String ip, int port ) = 0;
+        //virtual void oscOutputAdded ( String ip, int port ) = 0;
     };
     
     void addListener (Listener* listener) { listeners.add( listener ); };
