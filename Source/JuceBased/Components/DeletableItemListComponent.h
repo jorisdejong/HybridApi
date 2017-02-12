@@ -33,10 +33,12 @@ public:
     
     void paint (Graphics&) override;
     void resized() override;
+
+	ScopedPointer<TextButton> deleteButton;
     
 private:
 	DeletableItemListComponent* parent;
-    ScopedPointer<TextButton> deleteButton;
+    
     
 };
 
@@ -45,9 +47,13 @@ class DeletableItemListComponent    : public Component, public ListBoxModel
 public:
     DeletableItemListComponent();
     ~DeletableItemListComponent();
+
+	void itemDeleteButtonClicked( String removedName );
     
     void addItem ( String newItemName );
 	void removeItem( String removedName );
+	void removeAllItems();
+	void renameItem( int index, String newName );
 
     void paint (Graphics&) override;
     void resized() override;
@@ -60,6 +66,9 @@ public:
                                    bool rowIsSelected) override;
     Component* refreshComponentForRow (int rowNumber, bool isRowSelected,
                                                Component* existingComponentToUpdate) override;
+	void listBoxItemClicked( int row, const MouseEvent& ) override;
+	void selectedRowsChanged( int lastRowSelected ) override;
+	void backgroundClicked( const MouseEvent& ) override;
     
     class JUCE_API Listener
     {
