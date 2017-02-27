@@ -35,6 +35,15 @@ namespace hybrid
 	orientation: the rotation of the input rect
 
 	*/
+
+	enum FillMode
+	{
+		Fit = 0,
+		Fill = 1,
+		Stretch = 2,
+		Clone = 3
+	};
+
 	class Slice
 	{
 	public:
@@ -46,6 +55,8 @@ namespace hybrid
 			maskRectPoints.clear();
 			inputRectOrientation = 0.0;
 			maskRectOrientation = 0.0;
+
+			fillMode = FillMode::Fit;
 		}
 
 		Slice( const Slice& slice ) : sliceId( slice.sliceId ), enabled( slice.enabled ), inputRectPoints( slice.inputRectPoints ), maskPoints( slice.maskPoints ), maskRectPoints( slice.maskRectPoints ), inputRectOrientation( slice.inputRectOrientation ), maskRectOrientation( slice.maskRectOrientation ) {	}
@@ -78,6 +89,9 @@ namespace hybrid
 		//i use the inputRect of the slice to decide which parts of the slice to draw
 		Array<Point<float>> maskRectPoints;
 		float maskRectOrientation;
+
+		//this is used in TemplateTool to set the fillmode of a slice individually
+		FillMode fillMode;
 
 	private:
 
