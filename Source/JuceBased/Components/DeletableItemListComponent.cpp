@@ -89,20 +89,16 @@ void DeletableItemListComponent::addItem(juce::String newItemName)
     DeletableItem* newItem = new DeletableItem ( newItemName, this );
     items.add( newItem );
     itemListBox.updateContent();
-  //  repaint();
 }
 
 void DeletableItemListComponent::removeItem( String removedName )
 {
 	//find the item
 	for ( auto item : items )
-	{
 		if ( item->label->getText() == removedName )
-		{
 			items.removeObject( item, true );
-			itemListBox.updateContent();
-		}
-	}
+	
+	itemListBox.updateContent();
 }
 
 void DeletableItemListComponent::removeAllItems()

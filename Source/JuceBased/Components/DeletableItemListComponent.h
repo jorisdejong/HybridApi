@@ -51,8 +51,16 @@ public:
 	void itemDeleteButtonClicked( String removedName );
     
     void addItem ( String newItemName );
+
+	/** the listener is reponsible for removing the item
+	it will be notified via a callback that the user wants to delete an item, 
+	then when it has succesfully removed the object the item is linked to
+	it can call this function to remove it from the list
+	*/
 	void removeItem( String removedName );
 	void removeAllItems();
+
+	/** not implemented yet */
 	void renameItem( int index, String newName );
 
     void paint (Graphics&) override;
@@ -77,8 +85,6 @@ public:
         virtual ~Listener()  {}
         
 		virtual void itemRemoved( int index ) = 0;
-        //virtual void oscOutputRemoved ( String ip, int port ) = 0;
-        //virtual void oscOutputAdded ( String ip, int port ) = 0;
     };
     
     void addListener (Listener* listener) { listeners.add( listener ); };
