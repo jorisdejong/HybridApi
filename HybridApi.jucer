@@ -7,6 +7,10 @@
   <MAINGROUP id="Tpfysd" name="HybridApi">
     <GROUP id="{DEF88503-0234-EF40-24CA-11CD44ADB7BE}" name="Source">
       <GROUP id="{E9D8AF3E-3DEC-DA52-CFB2-F321EBBAAA88}" name="JuceBased">
+        <GROUP id="{DDF02C0A-1AED-6E94-C7AD-941C11A3BDC8}" name="Fileless">
+          <FILE id="bWSNZG" name="FileLess.cpp" compile="1" resource="0" file="Source/JuceBased/Fileless/FileLess.cpp"/>
+          <FILE id="jqXFJM" name="FileLess.h" compile="0" resource="0" file="Source/JuceBased/Fileless/FileLess.h"/>
+        </GROUP>
         <GROUP id="{46846064-7016-FDC2-2941-CEA04570583A}" name="Utilities">
           <FILE id="HXIUF2" name="Utilities.cpp" compile="1" resource="0" file="Source/JuceBased/Utilities/Utilities.cpp"/>
           <FILE id="tlbSP8" name="Utilities.h" compile="0" resource="0" file="Source/JuceBased/Utilities/Utilities.h"/>

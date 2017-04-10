@@ -11,6 +11,9 @@
     <Filter Include="HybridApi\Source\JuceBased">
       <UniqueIdentifier>{8342D84D-F361-03EA-3462-A7A9E3D299A6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HybridApi\Source\JuceBased\Fileless">
+      <UniqueIdentifier>{7023581A-E08E-124F-8541-A59DC7188CA1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="HybridApi\Source\JuceBased\Utilities">
       <UniqueIdentifier>{15C29A64-E945-B7DC-BFC2-5452121E141E}</UniqueIdentifier>
     </Filter>
@@ -232,6 +235,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\JuceBased\Fileless\FileLess.cpp">
+      <Filter>HybridApi\Source\JuceBased\Fileless</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\JuceBased\Utilities\Utilities.cpp">
       <Filter>HybridApi\Source\JuceBased\Utilities</Filter>
     </ClCompile>
@@ -1425,6 +1431,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\JuceBased\Fileless\FileLess.h">
+      <Filter>HybridApi\Source\JuceBased\Fileless</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\JuceBased\Utilities\Utilities.h">
       <Filter>HybridApi\Source\JuceBased\Utilities</Filter>
     </ClInclude>
