@@ -53,7 +53,7 @@ String ResXmlParser::getAdvancedPresetNameFromAdvancedXml( File res5XmlFile )
 {
 	String fileNameToReturn = String().empty;
 
-	if ( !FileHelper::isFileValid( res5XmlFile ) )
+	if ( !FileHelper::isFileValid( res5XmlFile, false ) )
 		return fileNameToReturn;
 
 	ScopedPointer<XmlElement> mainXmlElement = XmlDocument::parse( res5XmlFile );
@@ -67,7 +67,7 @@ String ResXmlParser::getAdvancedPresetNameFromAdvancedXml( File res5XmlFile )
 
 juce::XmlElement* ResXmlParser::getMainPresetElement( File assFile )
 {
-	if ( !FileHelper::isFileValid( assFile ) )
+	if ( !FileHelper::isFileValid( assFile, false ) )
 		return nullptr;
 
 	DBG( "Trying to parse: " + assFile.getFullPathName() );

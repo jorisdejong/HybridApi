@@ -31,7 +31,7 @@ public:
 	static File getChaserPreferencesFile();
 	static File getLastUsedChaserFile();
 	
-    static bool isFileValid ( File fileToCheck, bool giveFeedback = true );
+    static bool isFileValid ( File fileToCheck, bool giveFeedback );
 	
 	static void throwLoadError();
 	static void throwSaveError();

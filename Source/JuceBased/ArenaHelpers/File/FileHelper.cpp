@@ -122,7 +122,7 @@ File FileHelper::getChaserPreferencesFile()
 	File docDir = File::getSpecialLocation( File::userDocumentsDirectory );
 	File prefFile = docDir.getChildFile( "Chaser/preferences/preferences.xml" );
 
-	if ( !isFileValid( prefFile ) )
+	if ( !isFileValid( prefFile, false ) )
 		prefFile.create();
 
 	return prefFile;
@@ -132,7 +132,7 @@ File FileHelper::getLastUsedChaserFile()
 {
 	File prefFile = getChaserPreferencesFile();
 
-	if ( isFileValid( prefFile ) )
+	if ( isFileValid( prefFile, false ) )
 	{
 		XmlDocument lastUsedFile( prefFile );
 		ScopedPointer<XmlElement> lastUsedFileData = lastUsedFile.getDocumentElement();

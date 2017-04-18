@@ -25,7 +25,7 @@ Array<hybrid::NamedUniqueId> ChaserXmlParser::getChaserSequenceNames( juce::File
 {
 	Array<hybrid::NamedUniqueId> chasers;
 
-	if ( !FileHelper::isFileValid( chaserFile ) )
+	if ( !FileHelper::isFileValid( chaserFile, false ) )
 		return chasers;
 
 	ScopedPointer<XmlElement> chaserData = getRoot( chaserFile );
