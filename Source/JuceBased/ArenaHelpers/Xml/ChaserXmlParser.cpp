@@ -10,6 +10,7 @@
 
 #include "ChaserXmlParser.h"
 #include "../File/FileHelper.h"
+#include "../../Fileless/FileLess.h"
 
 ChaserXmlParser::ChaserXmlParser()
 {
@@ -58,7 +59,7 @@ Array<hybrid::NamedUniqueId> ChaserXmlParser::getChaserSequenceNames( juce::File
 Time ChaserXmlParser::getLastUpdateTimeForActiveAssFile()
 {
 	File assFile;
-	parseAssFile( FileHelper::getLastUsedChaserFile(), assFile );
+	parseAssFile( FileLess::getLastUsedFileName(FileLess::Chaser), assFile );
 	return assFile.getLastModificationTime();
 }
 

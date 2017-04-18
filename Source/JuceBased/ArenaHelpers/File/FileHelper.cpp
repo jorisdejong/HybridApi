@@ -11,8 +11,6 @@
 #include "FileHelper.h"
 #include "../Xml/ResXmlParser.h"
 
-
-
 FileHelper::FileHelper()
 {
 
@@ -116,41 +114,7 @@ File FileHelper::getArenaCompFile()
 }
 
 
-File FileHelper::getChaserPreferencesFile()
-{
-	//the preferences file is stored in the userDocs
-	File docDir = File::getSpecialLocation( File::userDocumentsDirectory );
-	File prefFile = docDir.getChildFile( "Chaser/preferences/preferences.xml" );
 
-	if ( !isFileValid( prefFile, false ) )
-		prefFile.create();
-
-	return prefFile;
-}
-
-File FileHelper::getLastUsedChaserFile()
-{
-	File prefFile = getChaserPreferencesFile();
-
-	if ( isFileValid( prefFile, false ) )
-	{
-		XmlDocument lastUsedFile( prefFile );
-		ScopedPointer<XmlElement> lastUsedFileData = lastUsedFile.getDocumentElement();
-		if ( lastUsedFileData )
-		{
-			XmlElement* lastUsedFileXml = lastUsedFileData->getChildByName( "lastusedfile" );
-			if ( lastUsedFileXml )
-			{
-				File savedFile = File( lastUsedFileXml->getStringAttribute( "fullpathname" ) );
-
-				if ( savedFile.exists() )
-					return savedFile;
-			}
-		}
-	}
-	//if all else fails, return an empty file
-	return File();
-}
 
 bool FileHelper::isFileValid( juce::File fileToCheck, bool giveFeedback )
 {

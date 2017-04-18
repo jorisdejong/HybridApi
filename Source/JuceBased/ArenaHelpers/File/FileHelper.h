@@ -27,10 +27,7 @@ public:
 	static File getAssFileAutomagically( bool showDialog );
 
 	static File getArenaCompFile();
-	
-	static File getChaserPreferencesFile();
-	static File getLastUsedChaserFile();
-	
+		
     static bool isFileValid ( File fileToCheck, bool giveFeedback );
 	
 	static void throwLoadError();

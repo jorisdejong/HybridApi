@@ -80,7 +80,7 @@ File FileLess::getLastUsedFileName( App app )
 
 	File prefFile = appFolder.getChildFile( "preferences/preferences.xml" );
 
-	if ( !FileHelper::isFileValid( prefFile ) )
+	if ( !FileHelper::isFileValid( prefFile, false ) )
 		prefFile.create();
 
 	XmlDocument lastUsedFile( prefFile );
@@ -104,9 +104,10 @@ File FileLess::getLastUsedFileName( App app )
 void FileLess::writeLastUsedFileName( App app, File newSavefile )
 {
 	File appFolder = getAppFolder( app );
+
 	File prefFile = appFolder.getChildFile( "preferences/preferences.xml" );
 
-	if ( !FileHelper::isFileValid( prefFile ) )
+	if ( !FileHelper::isFileValid( prefFile, false ) )
 		prefFile.create();
 
 	//try to parse itn
@@ -146,5 +147,8 @@ File FileLess::getAppFolder( App app )
 		appFolder = docDir.getChildFile( "TemplateTool" );
 		break;
 	}
+	if ( !appFolder.exists() )
+		appFolder.createDirectory();
+
 	return appFolder;
 }
