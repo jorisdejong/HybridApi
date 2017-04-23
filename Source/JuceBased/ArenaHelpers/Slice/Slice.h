@@ -42,7 +42,7 @@ public:
 
 	~Slice(){}
 
-	bool enabled;
+	
 
 	/*when a screen is collapsed, the slice should not draw in preview
 	i cannot use the enabled bool for this, because when the screen is uncollapsed
@@ -55,14 +55,15 @@ public:
 
 	//unique id and name of this slice
 	NamedUniqueId sliceId;
+    
+    bool enabled;
 
 	Array<Point<float>> inputRectPoints;
 	Array<Point<float>> maskPoints;
+    //currently the maskRectPoints are not being used for anything
+    //i use the inputRect of the slice to decide which parts of the slice to draw
+    Array<Point<float>> maskRectPoints;
 	float inputRectOrientation;
-
-	//currently the maskRectPoints are not being used for anything
-	//i use the inputRect of the slice to decide which parts of the slice to draw
-	Array<Point<float>> maskRectPoints;
 	float maskRectOrientation;
 
 private:
