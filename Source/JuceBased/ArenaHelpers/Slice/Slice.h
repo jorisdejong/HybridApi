@@ -65,8 +65,7 @@ namespace hybrid
 
 		~Slice() {}
 
-		bool enabled;
-
+		
 		/*when a screen is collapsed, the slice should not draw in preview
 		i cannot use the enabled bool for this, because when the screen is uncollapsed
 		this value should be maintained*/
@@ -75,20 +74,21 @@ namespace hybrid
 		//uniqued id and name of the screen this slice is a part of
 		//this is needed to sort the slice into screens in chaser app
 		int64 screenId = 0;
-
-		//unique id and name of this slice
+        
+        //unique id and name of this slice
 		NamedUniqueId sliceId;
-
+        bool enabled;
+        
 		Array<Point<float>> getPoints();
 
 		Array<Point<float>> inputRectPoints;
 		Array<Point<float>> maskPoints;
-		float inputRectOrientation;
-
-		//currently the maskRectPoints are not being used for anything
-		//i use the inputRect of the slice to decide which parts of the slice to draw
-		Array<Point<float>> maskRectPoints;
-		float maskRectOrientation;
+		
+        //currently the maskRectPoints are not being used for anything
+        //i use the inputRect of the slice to decide which parts of the slice to draw
+        Array<Point<float>> maskRectPoints;
+        float inputRectOrientation;
+        float maskRectOrientation;
 
 		//this is used in TemplateTool to set the fillmode of a slice individually
 		FillMode fillMode;
