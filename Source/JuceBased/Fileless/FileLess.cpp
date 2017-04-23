@@ -91,7 +91,8 @@ File FileLess::getLastUsedFileName( App app )
 		if ( lastUsedFileXml )
 		{
 			File savedFile = File( lastUsedFileXml->getStringAttribute( "fullpathname" ) );
-			return savedFile;
+            if (savedFile != File() )
+                return savedFile;
 		}
 	}
 
