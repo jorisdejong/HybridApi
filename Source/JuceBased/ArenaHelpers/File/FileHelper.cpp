@@ -71,6 +71,8 @@ File FileHelper::getAssFileAutomagically( bool showDialog )
 		}
 
 	}
+
+	/*
 	//if we can't find the advanced.xml file, we're probably dealing with arena 4
 	//so check for the Arena 4 preset
 	else
@@ -90,6 +92,7 @@ File FileHelper::getAssFileAutomagically( bool showDialog )
 		}
 
 	}
+	*/
 	//if everything has failed, we return an empty file
 	return File();
 }

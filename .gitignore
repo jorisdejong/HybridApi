@@ -15,3 +15,5 @@ Builds/VisualStudio2015/HybridApi.v12.suo
 
 HybridApi.VC.db
 .suo
+
+*.opendb
