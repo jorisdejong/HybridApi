@@ -16,6 +16,7 @@
 #include "JuceBased/ArenaHelpers/Xml/ResXmlParser.h"
 #include "JuceBased/ArenaHelpers/Xml/ChaserXmlParser.h"
 #include "JuceBased/Components/DeletableItemListComponent.h"
+#include "JuceBased/Components/SliceButton.h"
 #include "JuceBased/Utilities/Utilities.h"
 
 

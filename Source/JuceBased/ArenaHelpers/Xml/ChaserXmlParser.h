@@ -1,9 +1,9 @@
 /*
   ==============================================================================
 
-    ChaserXmlParser.h
-    Created: 20 Feb 2016 11:51:34pm
-    Author:  Joris de Jong
+	ChaserXmlParser.h
+	Created: 20 Feb 2016 11:51:34pm
+	Author:  Joris de Jong
 
   ==============================================================================
 */
@@ -22,20 +22,25 @@ class ChaserXmlParser
 public:
 	ChaserXmlParser();
 	~ChaserXmlParser();
-    	
-	static void parseSlices ( File chaserFile, OwnedArray<Slice>& slices );
-	static void parseResolution ( File chaserFile, Point<int>& resolution);
-	static void parseSequences ( File chaserFile, std::map<int,std::map<int, Array<int>>>& );
-	
-	static bool canThisAppVersionLoadThisChaser ( String version, File chaserFile );
-    
-    static std::map<int, std::pair<String, int64>> getChaserSequenceNames ( File chaserFile, bool onlyActiveChasers );
+
+	static bool parseAssFile( File chaserFile, File& assFile );
+	static bool parseSlices( File chaserFile, OwnedArray<hybrid::Slice>& slices );
+	static bool parseScreens( File chaserFile, Array<hybrid::Screen>& screens );
+	static bool parseResolution( File chaserFile, Point<int>& resolution );
+	static XmlElement parseSequences( File chaserFile );
+
+	static Time getLastUpdateTimeForActiveAssFile();
+
+	static bool canThisAppVersionLoadThisChaser( File chaserFile, String version );
+
+	static Array<hybrid::NamedUniqueId> getChaserSequenceNames( File chaserFile, bool onlyActiveChasers );
 
 private:
 	static XmlElement* getRoot( File chaserFile );
-	static bool isVersionNewer ( String savedVersion, String thisVersion );
-	static Array<int> subDivideString ( String s);
+	static bool isVersionNewer( String savedVersion, String thisVersion );
+	static Array<int> subDivideString( String s );
 };
+
 
 
 
