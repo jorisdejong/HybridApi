@@ -44,7 +44,7 @@ File FileHelper::getAssFileFromUser()
 File FileHelper::getAssFileAutomagically( bool showDialog )
 {
 	//check for the Arena 5 preset, this is stored in a file called advanced.xml in the res 5 preference directory
-	File advancedFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 5/preferences/screensetup/advanced.xml";
+	File advancedFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 6/preferences/advanced.xml";
 
 	if ( advancedFile.exists() )
 	{
@@ -60,7 +60,7 @@ File FileHelper::getAssFileAutomagically( bool showDialog )
 			//if we get a name, make a File out of it and return it
 			if ( advancedName != String().empty )
 			{
-				File namedPreset = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 5/presets/screensetup/" + advancedName + ".xml";
+				File namedPreset = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 6/presets/screensetup/" + advancedName + ".xml";
 				return namedPreset;
 			}
 			else
