@@ -43,35 +43,24 @@ File FileHelper::getAssFileFromUser()
 
 File FileHelper::getAssFileAutomagically( bool showDialog )
 {
-	//check for the Arena 5 preset, this is stored in a file called advanced.xml in the res 5 preference directory
+	File returnFile;
+	//check for the Arena 6 preset, this is stored in a file called advanced.xml in the res 5 preference directory
 	File advancedFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 6/preferences/advanced.xml";
-
 	if ( advancedFile.exists() )
 	{
-		if ( showDialog ? AlertWindow::showOkCancelBox( AlertWindow::AlertIconType::QuestionIcon,
-			"Res 5 setup file found!",
-			"Would you like to load the current Arena setup file?",
-			"OK", "Cancel" ) : true )
-
-		{
-			//parse the advanced.xml file and see if it contains the file name of the xml that is currently loaded
-			String advancedName = ResXmlParser::getAdvancedPresetNameFromAdvancedXml( advancedFile );
-
-			//if we get a name, make a File out of it and return it
-			if ( advancedName != String().empty )
-			{
-				File namedPreset = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 6/presets/screensetup/" + advancedName + ".xml";
-				return namedPreset;
-			}
-			else
-				//return the advanced file itself
-				//when the user does not save a named preset
-				//this file can also contains ass data
-				return advancedFile;
-		}
-
+		returnFile = getVersionSpecificAssFile( advancedFile, 6, showDialog );
+		if ( returnFile != File() ) //if we didn't press cancel
+			return returnFile;
 	}
-
+	
+	//we pressed cancel, or we couldn't find the res 6 folder
+	advancedFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 5/preferences/screensetup/advanced.xml";
+	if ( advancedFile.exists() )
+	{
+		returnFile = getVersionSpecificAssFile( advancedFile, 5, showDialog );
+		if ( returnFile != File() ) //if we didn't press cancel
+			return returnFile;
+	}
 	/*
 	//if we can't find the advanced.xml file, we're probably dealing with arena 4
 	//so check for the Arena 4 preset
@@ -97,6 +86,7 @@ File FileHelper::getAssFileAutomagically( bool showDialog )
 	return File();
 }
 
+
 File FileHelper::getArenaCompFile()
 {
 	File configFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 5/preferences/config.xml";
@@ -113,6 +103,33 @@ File FileHelper::getArenaCompFile()
 			}
 		}
 	}
+	return File();
+}
+
+File FileHelper::getVersionSpecificAssFile( File advancedFile, int version, bool showDialog )
+{
+	if ( showDialog ? AlertWindow::showOkCancelBox( AlertWindow::AlertIconType::QuestionIcon,
+		"Arena " + String(version)+" setup file found!",
+		"Would you like to load the current Arena setup file?",
+		"OK", "Cancel" ) : true )
+
+	{
+		//parse the advanced.xml file and see if it contains the file name of the xml that is currently loaded
+		String advancedName = ResXmlParser::getAdvancedPresetNameFromAdvancedXml( advancedFile );
+
+		//if we get a name, make a File out of it and return it
+		if ( advancedName != String().empty )
+		{
+			File namedPreset = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena "+String(version)+"/presets/screensetup/" + advancedName + ".xml";
+			return namedPreset;
+		}
+		else
+			//return the advanced file itself
+			//when the user does not save a named preset
+			//this file can also contains ass data
+			return advancedFile;
+	}
+
 	return File();
 }
 

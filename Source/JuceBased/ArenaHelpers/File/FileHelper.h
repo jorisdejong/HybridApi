@@ -27,6 +27,8 @@ public:
 	static File getAssFileAutomagically( bool showDialog );
 
 	static File getArenaCompFile();
+
+	static File getVersionSpecificAssFile( File advancedFile, int version, bool showDialog );
 		
     static bool isFileValid ( File fileToCheck, bool giveFeedback );
 	
