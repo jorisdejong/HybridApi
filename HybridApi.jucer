@@ -2,8 +2,9 @@
 
 <JUCERPROJECT id="Ytjs3y" name="HybridApi" projectType="library" version="1.0.0"
               bundleIdentifier="nl.hybridvisuals.HybridApi" includeBinaryInAppConfig="1"
-              jucerVersion="4.3.0" companyName="Hybrid Visuals" companyWebsite="www.hybridvisuals.nl"
-              companyEmail="joris@hybridvisuals.nl">
+              jucerVersion="5.0.2" companyName="Hybrid Visuals" companyWebsite="www.hybridvisuals.nl"
+              companyEmail="joris@hybridvisuals.nl" displaySplashScreen="0"
+              reportAppUsage="1" splashScreenColour="Dark">
   <MAINGROUP id="Tpfysd" name="HybridApi">
     <GROUP id="{DEF88503-0234-EF40-24CA-11CD44ADB7BE}" name="Source">
       <GROUP id="{E9D8AF3E-3DEC-DA52-CFB2-F321EBBAAA88}" name="JuceBased">

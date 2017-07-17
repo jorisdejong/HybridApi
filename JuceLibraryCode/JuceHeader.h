@@ -10,8 +10,7 @@
 
 */
 
-#ifndef __APPHEADERFILE_YTJS3Y__
-#define __APPHEADERFILE_YTJS3Y__
+#pragma once
 
 #include "AppConfig.h"
 
@@ -37,5 +36,3 @@ namespace ProjectInfo
     const int          versionNumber  = 0x10000;
 }
 #endif
-
-#endif   // __APPHEADERFILE_YTJS3Y__
