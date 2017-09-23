@@ -17,3 +17,5 @@ HybridApi.VC.db
 .suo
 
 *.opendb
+
+.vs/
