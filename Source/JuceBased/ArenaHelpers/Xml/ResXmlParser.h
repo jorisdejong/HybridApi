@@ -27,6 +27,17 @@ public:
 	then it calls the approriate parsing routine, which will then fill
 	the passed in slice and resolution vars */
 	static bool parseAssFile( File f, OwnedArray<hybrid::Slice>& slices, Array<hybrid::Screen>& screens, Point<int>& resolution );
+	
+	/*
+	todo, implement these as seperate functions
+	static OwnedArray<hybrid::Slice>& getSlices(File f);
+	static Array<hybrid::Screen>& getScreens(File f);
+	*/
+
+	/* parses a comp file, scanning for clips that are set to smpte
+	the resulting xml will contain a list of the clips': 
+	name, layer, column, input, offset */
+	static XmlElement* getSmpteData(File f);
 
 	/* parses the res 5 advanced.xml file, and returns which file was used last as the preset*/
 	static String getAdvancedPresetNameFromAdvancedXml( File res5XmlFile );
