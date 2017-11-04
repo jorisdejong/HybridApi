@@ -306,7 +306,7 @@ bool ResXmlParser::parseRes5Xml(juce::XmlElement& screenSetup, OwnedArray<hybrid
 	{
 		forEachXmlChildElement(*screensXml, child)
 		{
-			if (child->hasTagName("Screen"))
+			if (child->hasTagName("Screen") || child->hasTagName("DmxScreen"))
 			{
 				hybrid::Screen newScreen;
 				newScreen.name = child->getStringAttribute("name");
@@ -326,7 +326,7 @@ bool ResXmlParser::parseRes5Xml(juce::XmlElement& screenSetup, OwnedArray<hybrid
 					{
 						forEachXmlChildElement(*layers, layerChild)
 						{
-							if (layerChild->hasTagName("Slice") || layerChild->hasTagName("Polygon"))
+							if (layerChild->hasTagName("Slice") || layerChild->hasTagName("Polygon") || layerChild->hasTagName("DmxSlice"))
 							{
 								hybrid::Slice* newSlice = new hybrid::Slice();
 								String uidString = layerChild->getStringAttribute("uniqueId", "0");
