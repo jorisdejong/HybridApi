@@ -87,23 +87,57 @@ File FileHelper::getAssFileAutomagically( bool showDialog )
 }
 
 
-File FileHelper::getArenaCompFile()
+File FileHelper::getArenaCompFileByVersion( int version )
 {
-	File configFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 5/preferences/config.xml";
-	if ( configFile.existsAsFile() )
+	File configFile;
+	switch (version)
 	{
-		if ( ScopedPointer<XmlElement> configXml = XmlDocument::parse( configFile ) )
+	case( 5 ):
+		configFile = File::getSpecialLocation(File::SpecialLocationType::userDocumentsDirectory).getFullPathName() + "/Resolume Arena 5/preferences/config.xml";
+		if (configFile.existsAsFile())
 		{
-			if ( XmlElement* settings = configXml->getChildByName( "settings" ) )
+			if (ScopedPointer<XmlElement> configXml = XmlDocument::parse(configFile))
 			{
-				if ( XmlElement* composition = settings->getChildByName( "composition" ) )
+				if (XmlElement* settings = configXml->getChildByName("settings"))
 				{
-					return File( composition->getStringAttribute( "startupFileName" ) );
+					if (XmlElement* composition = settings->getChildByName("composition"))
+					{
+						return File(composition->getStringAttribute("startupFileName"));
+					}
 				}
 			}
 		}
+		break;
+	case (6):
+		configFile = File::getSpecialLocation(File::SpecialLocationType::userDocumentsDirectory).getFullPathName() + "/Resolume Arena 6/Preferences/config.xml";
+		if (configFile.existsAsFile())
+		{
+			if (ScopedPointer<XmlElement> arenaXml = XmlDocument::parse(configFile))
+			{
+				if (XmlElement* appXml = arenaXml->getChildByName("Application"))
+				{
+					forEachXmlChildElement(*appXml, paramsXml)
+					{
+						if (paramsXml->getStringAttribute("name") == "Settings")
+						{
+							forEachXmlChildElement(*paramsXml, paramXml)
+							{
+								if (paramXml->getStringAttribute("name") == "CurrentCompositionFile")
+									return File(paramXml->getStringAttribute("value"));
+							}
+
+						}
+
+					}
+				}
+			}
+		}
+		break;
+	default:
+		return File();
+		break;
+		
 	}
-	return File();
 }
 
 File FileHelper::getVersionSpecificAssFile( File advancedFile, int version, bool showDialog )
