@@ -125,9 +125,7 @@ File FileHelper::getArenaCompFileByVersion( int version )
 								if (paramXml->getStringAttribute("name") == "CurrentCompositionFile")
 									return File(paramXml->getStringAttribute("value"));
 							}
-
 						}
-
 					}
 				}
 			}
