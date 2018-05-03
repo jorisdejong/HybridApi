@@ -2,30 +2,13 @@
 
 <JUCERPROJECT id="Ytjs3y" name="HybridApi" projectType="library" version="1.0.0"
               bundleIdentifier="nl.hybridvisuals.HybridApi" includeBinaryInAppConfig="1"
-              jucerVersion="5.0.2" companyName="Hybrid Visuals" companyWebsite="www.hybridvisuals.nl"
+              jucerVersion="5.3.0" companyName="Hybrid Visuals" companyWebsite="www.hybridvisuals.nl"
               companyEmail="joris@hybridvisuals.nl" displaySplashScreen="0"
-              reportAppUsage="1" splashScreenColour="Dark">
+              reportAppUsage="0" splashScreenColour="Dark" cppLanguageStandard="11"
+              companyCopyright="Hybrid Visuals">
   <MAINGROUP id="Tpfysd" name="HybridApi">
     <GROUP id="{DEF88503-0234-EF40-24CA-11CD44ADB7BE}" name="Source">
       <GROUP id="{E9D8AF3E-3DEC-DA52-CFB2-F321EBBAAA88}" name="JuceBased">
-        <GROUP id="{DDF02C0A-1AED-6E94-C7AD-941C11A3BDC8}" name="Fileless">
-          <FILE id="bWSNZG" name="FileLess.cpp" compile="1" resource="0" file="Source/JuceBased/Fileless/FileLess.cpp"/>
-          <FILE id="jqXFJM" name="FileLess.h" compile="0" resource="0" file="Source/JuceBased/Fileless/FileLess.h"/>
-        </GROUP>
-        <GROUP id="{46846064-7016-FDC2-2941-CEA04570583A}" name="Utilities">
-          <FILE id="HXIUF2" name="Utilities.cpp" compile="1" resource="0" file="Source/JuceBased/Utilities/Utilities.cpp"/>
-          <FILE id="tlbSP8" name="Utilities.h" compile="0" resource="0" file="Source/JuceBased/Utilities/Utilities.h"/>
-        </GROUP>
-        <GROUP id="{9992865B-DBD6-9F7A-D3EC-2C13ED0F3864}" name="Components">
-          <FILE id="z2MSwu" name="DeletableItemListComponent.cpp" compile="1"
-                resource="0" file="Source/JuceBased/Components/DeletableItemListComponent.cpp"/>
-          <FILE id="QmKMI5" name="DeletableItemListComponent.h" compile="0" resource="0"
-                file="Source/JuceBased/Components/DeletableItemListComponent.h"/>
-          <FILE id="aENVdh" name="PathButton.cpp" compile="1" resource="0" file="Source/JuceBased/Components/PathButton.cpp"/>
-          <FILE id="fMK2QP" name="PathButton.h" compile="0" resource="0" file="Source/JuceBased/Components/PathButton.h"/>
-          <FILE id="TQIZXx" name="SliceButton.cpp" compile="1" resource="0" file="Source/JuceBased/Components/SliceButton.cpp"/>
-          <FILE id="ph9aaM" name="SliceButton.h" compile="0" resource="0" file="Source/JuceBased/Components/SliceButton.h"/>
-        </GROUP>
         <GROUP id="{646C7023-CF29-7739-6F71-AD8AF464BC96}" name="ArenaHelpers">
           <GROUP id="{F6AB9423-2DD0-7074-8B30-BB43E055081A}" name="File">
             <FILE id="M8h7Hv" name="FileHelper.cpp" compile="1" resource="0" file="Source/JuceBased/ArenaHelpers/File/FileHelper.cpp"/>
@@ -44,6 +27,28 @@
             <FILE id="BSM9YP" name="ResXmlParser.h" compile="0" resource="0" file="Source/JuceBased/ArenaHelpers/Xml/ResXmlParser.h"/>
           </GROUP>
         </GROUP>
+        <GROUP id="{9992865B-DBD6-9F7A-D3EC-2C13ED0F3864}" name="Components">
+          <FILE id="z2MSwu" name="DeletableItemListComponent.cpp" compile="1"
+                resource="0" file="Source/JuceBased/Components/DeletableItemListComponent.cpp"/>
+          <FILE id="QmKMI5" name="DeletableItemListComponent.h" compile="0" resource="0"
+                file="Source/JuceBased/Components/DeletableItemListComponent.h"/>
+          <FILE id="aENVdh" name="PathButton.cpp" compile="1" resource="0" file="Source/JuceBased/Components/PathButton.cpp"/>
+          <FILE id="fMK2QP" name="PathButton.h" compile="0" resource="0" file="Source/JuceBased/Components/PathButton.h"/>
+          <FILE id="TQIZXx" name="SliceButton.cpp" compile="1" resource="0" file="Source/JuceBased/Components/SliceButton.cpp"/>
+          <FILE id="ph9aaM" name="SliceButton.h" compile="0" resource="0" file="Source/JuceBased/Components/SliceButton.h"/>
+        </GROUP>
+        <GROUP id="{DDF02C0A-1AED-6E94-C7AD-941C11A3BDC8}" name="Fileless">
+          <FILE id="bWSNZG" name="FileLess.cpp" compile="1" resource="0" file="Source/JuceBased/Fileless/FileLess.cpp"/>
+          <FILE id="jqXFJM" name="FileLess.h" compile="0" resource="0" file="Source/JuceBased/Fileless/FileLess.h"/>
+        </GROUP>
+        <GROUP id="{73478C47-A299-EFB3-004E-B60FD759FA3B}" name="Osc">
+          <FILE id="OUEeN2" name="OscOutput.cpp" compile="1" resource="0" file="Source/JuceBased/Osc/OscOutput.cpp"/>
+          <FILE id="ois9Qd" name="OscOutput.h" compile="0" resource="0" file="Source/JuceBased/Osc/OscOutput.h"/>
+        </GROUP>
+        <GROUP id="{46846064-7016-FDC2-2941-CEA04570583A}" name="Utilities">
+          <FILE id="HXIUF2" name="Utilities.cpp" compile="1" resource="0" file="Source/JuceBased/Utilities/Utilities.cpp"/>
+          <FILE id="tlbSP8" name="Utilities.h" compile="0" resource="0" file="Source/JuceBased/Utilities/Utilities.h"/>
+        </GROUP>
       </GROUP>
       <FILE id="twcyaQ" name="HybridApi.h" compile="0" resource="0" file="Source/HybridApi.h"/>
     </GROUP>
@@ -51,8 +56,10 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="HybridApi"/>
-        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="HybridApi"/>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="HybridApi"
+                       enablePluginBinaryCopyStep="1"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="HybridApi"
+                       enablePluginBinaryCopyStep="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../JUCE/modules"/>
@@ -61,14 +68,17 @@
         <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
         <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
         <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_osc" path="../JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2015 targetFolder="Builds/VisualStudio2015">
+    <VS2017 targetFolder="Builds/VisualStudio2017" windowsTargetPlatformVersion="10.0.16299.0">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="1" optimisation="1" targetName="HybridApi"/>
+                       isDebug="1" optimisation="1" targetName="HybridApi" debugInformationFormat="ProgramDatabase"
+                       enablePluginBinaryCopyStep="0"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="0" optimisation="3" targetName="HybridApi"/>
+                       isDebug="0" optimisation="3" targetName="HybridApi" debugInformationFormat="ProgramDatabase"
+                       enablePluginBinaryCopyStep="0" linkTimeOptimisation="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
@@ -77,8 +87,9 @@
         <MODULEPATH id="juce_events" path="../JUCE/modules"/>
         <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
         <MODULEPATH id="juce_core" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_osc" path="../JUCE/modules"/>
       </MODULEPATHS>
-    </VS2015>
+    </VS2017>
   </EXPORTFORMATS>
   <MODULES>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
@@ -87,6 +98,7 @@
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
   </MODULES>
   <JUCEOPTIONS/>
   <LIVE_SETTINGS>
