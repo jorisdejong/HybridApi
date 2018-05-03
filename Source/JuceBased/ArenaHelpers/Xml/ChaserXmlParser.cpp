@@ -38,17 +38,13 @@ Array<hybrid::NamedUniqueId> ChaserXmlParser::getChaserSequenceNames( juce::File
 			int count = 0;
 			forEachXmlChildElement( *sequences, sequence )
 			{
-				//check if it has any filled steps, otherwise it's pointless to add it
-				forEachXmlChildElement( *sequence, step )
+				while ( count != sequence->getIntAttribute( "nr" ) ) //fill with empty sequences
 				{
-					//so if the step has any children, add it and then break out of the loop
-					if ( step->getNumChildElements() > 0 || onlyActiveChasers == false )
-					{
-						chasers.add (std::make_pair( sequence->getStringAttribute( "name" ), count ));
-						count++;
-						break;
-					}
+					chasers.add( std::make_pair( "Sequence " + String(count), count ) );
+					count++;
 				}
+				chasers.add( std::make_pair( sequence->getStringAttribute("name"), count ) );
+				count++;
 			}
 		}
 	}
