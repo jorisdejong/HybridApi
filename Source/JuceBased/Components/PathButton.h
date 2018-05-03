@@ -36,6 +36,8 @@ public:
 	void mouseUp( const MouseEvent& ) override;
 	void mouseDrag( const MouseEvent& ) override;
 
+	void setColors( Colour primary, Colour background, Colour outline );
+
 private:
 	Array<Point<float>> pathPoints;
 	Path path;

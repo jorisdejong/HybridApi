@@ -135,6 +135,15 @@ void PathButton::mouseDrag( const MouseEvent& event )
 	}
 }
 
+void PathButton::setColors( Colour primary, Colour background, Colour outline )
+{
+	primaryColour = primary;
+	backgroundColour = background;
+	outlineColour = outline;
+}
+
+
+
 
 
 
