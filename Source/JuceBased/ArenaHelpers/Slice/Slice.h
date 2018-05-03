@@ -93,6 +93,8 @@ namespace hybrid
 		//this is used in TemplateTool to set the fillmode of a slice individually
 		FillMode fillMode;
 
+		XmlElement* toXml();
+
 	private:
 
 	};
