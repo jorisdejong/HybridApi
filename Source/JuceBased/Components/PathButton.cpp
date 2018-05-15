@@ -62,7 +62,7 @@ void PathButton::paintButton( juce::Graphics &g, bool isMouseOverButton, bool is
 {
 	if ( isVisible() )
 	{
-		Rectangle<float> r = getLocalBounds().toFloat().reduced( 0.5f );
+		Rectangle<float> r = path.getBounds().toFloat().reduced( 0.5f );
 
 		if ( isButtonDown )
 		{
@@ -82,7 +82,7 @@ void PathButton::paintButton( juce::Graphics &g, bool isMouseOverButton, bool is
 
 		//draw the name because DJAktion is a little bitch
 		g.setColour( outlineColour );
-		g.drawFittedText( getName(), r.toType<int>(), Justification::centred, 1 );
+		g.drawFittedText( getName(), r.toNearestInt(), Justification::centred, 1 );
 
 		g.strokePath( path, PathStrokeType( 1.0 ), trans );
 	}
@@ -92,7 +92,8 @@ void PathButton::resized()
 {
 	makePath( pathPoints );
 
-	Rectangle<int> bounds = path.getBounds().toType<int>();
+	//the path points will be absolute, so set the bounds to cover the entire parent
+	Rectangle<int> bounds = getParentComponent()->getLocalBounds();
 	setBounds( bounds );
 }
 
