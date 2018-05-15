@@ -82,12 +82,12 @@ namespace hybrid
 		Array<Point<float>> getPoints();
 
 		Array<Point<float>> inputRectPoints;
+		float inputRectOrientation;
 		Array<Point<float>> maskPoints;
 		
         //currently the maskRectPoints are not being used for anything
-        //i use the inputRect of the slice to decide which parts of the slice to draw
+        //i use the inputRect and optionally the maskpoints of the slice to decide which parts of the slice to draw
         Array<Point<float>> maskRectPoints;
-        float inputRectOrientation;
         float maskRectOrientation;
 
 		//this is used in TemplateTool to set the fillmode of a slice individually
