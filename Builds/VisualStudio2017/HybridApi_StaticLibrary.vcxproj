@@ -152,8 +152,6 @@
     <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ChaserXmlParser.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ResXmlParser.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\Components\DeletableItemListComponent.cpp"/>
-    <ClCompile Include="..\..\Source\JuceBased\Components\PathButton.cpp"/>
-    <ClCompile Include="..\..\Source\JuceBased\Components\SliceButton.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\Fileless\FileLess.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\Osc\OscOutput.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\Utilities\Utilities.cpp"/>
@@ -170,6 +168,9 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\containers\juce_PropertySet.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_core\containers\juce_SparseSet.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\containers\juce_Variant.cpp">
@@ -1138,6 +1139,9 @@
     <ClCompile Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_ChoicePropertyComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_MultiChoicePropertyComponent.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_PropertyComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1343,12 +1347,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.h"/>
-    <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Slice\Slice.h"/>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ChaserXmlParser.h"/>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ResXmlParser.h"/>
     <ClInclude Include="..\..\Source\JuceBased\Components\DeletableItemListComponent.h"/>
-    <ClInclude Include="..\..\Source\JuceBased\Components\PathButton.h"/>
-    <ClInclude Include="..\..\Source\JuceBased\Components\SliceButton.h"/>
     <ClInclude Include="..\..\Source\JuceBased\Fileless\FileLess.h"/>
     <ClInclude Include="..\..\Source\JuceBased\Osc\OscOutput.h"/>
     <ClInclude Include="..\..\Source\JuceBased\Utilities\Utilities.h"/>
@@ -1686,6 +1687,7 @@
     <ClInclude Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_BooleanPropertyComponent.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_ButtonPropertyComponent.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_ChoicePropertyComponent.h"/>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_MultiChoicePropertyComponent.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_PropertyComponent.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_PropertyPanel.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_SliderPropertyComponent.h"/>

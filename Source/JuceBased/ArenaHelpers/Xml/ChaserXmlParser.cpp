@@ -22,7 +22,7 @@ ChaserXmlParser::~ChaserXmlParser()
 
 }
 
-Array<hybrid::NamedUniqueId> ChaserXmlParser::getChaserSequenceNames( juce::File chaserFile, bool onlyActiveChasers )
+Array<hybrid::NamedUniqueId> ChaserXmlParser::getChaserSequenceNames( juce::File chaserFile, bool /*onlyActiveChasers*/ )
 {
 	Array<hybrid::NamedUniqueId> chasers;
 
@@ -67,7 +67,7 @@ bool ChaserXmlParser::parseAssFile( File chaserFile, juce::File& assFile )
 		XmlElement* slicesXml = chaserData->getChildByName( "slices" );
 		if ( slicesXml )
 		{
-			assFile = File( slicesXml->getStringAttribute( "assFile", String().empty ) );
+			assFile = File( slicesXml->getStringAttribute( "assFile", String() ) );
 			return true;
 		}
 	}

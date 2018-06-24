@@ -21,33 +21,25 @@ PathButton create a button based on a set of points
 It can then resize its path based on the resolution of the view it's living in
 */
 
-class PathButton    : public ShapeButton
+
+
+class PathButton 
 {
 public:
-	PathButton ( String name, Array<Point<float>> points );
+	PathButton ( Array<Point<float>> points );
     ~PathButton();
-    
-	//overridden functions for ShapeButton
-	bool hitTest(int x, int y) override;
-	void paintButton (Graphics& g, bool isMouseOverButton, bool isButtonDown) override;
-	void resized() override;
 
-	void mouseDown( const MouseEvent& ) override;
-	void mouseUp( const MouseEvent& ) override;
-	void mouseDrag( const MouseEvent& ) override;
+	void updatePath( Point<int> resolution );
+	Path path;
 
-	void setColors( Colour primary, Colour background, Colour outline );
+	Array<Point<float>> pathPoints;
 
 private:
-	Array<Point<float>> pathPoints;
-	Path path;
-	void makePath( Array<Point<float>> points );
+	
+	
+	
 
-	PathButton* lastDraggedButton;
-
-	Colour primaryColour = Colours::aquamarine;
-	Colour backgroundColour = Colours::crimson;
-	Colour outlineColour = Colours::antiquewhite;
+	
 	
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PathButton)
 };

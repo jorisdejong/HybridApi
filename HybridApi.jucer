@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="Ytjs3y" name="HybridApi" projectType="library" version="1.0.0"
               bundleIdentifier="nl.hybridvisuals.HybridApi" includeBinaryInAppConfig="1"
-              jucerVersion="5.3.0" companyName="Hybrid Visuals" companyWebsite="www.hybridvisuals.nl"
+              jucerVersion="5.3.2" companyName="Hybrid Visuals" companyWebsite="www.hybridvisuals.nl"
               companyEmail="joris@hybridvisuals.nl" displaySplashScreen="0"
               reportAppUsage="0" splashScreenColour="Dark" cppLanguageStandard="11"
               companyCopyright="Hybrid Visuals">
@@ -14,9 +14,7 @@
             <FILE id="M8h7Hv" name="FileHelper.cpp" compile="1" resource="0" file="Source/JuceBased/ArenaHelpers/File/FileHelper.cpp"/>
             <FILE id="RKPYeL" name="FileHelper.h" compile="0" resource="0" file="Source/JuceBased/ArenaHelpers/File/FileHelper.h"/>
           </GROUP>
-          <GROUP id="{1F8D33DB-5059-02E2-0EE7-5E25E39EC629}" name="Slice">
-            <FILE id="oRIdxl" name="Slice.h" compile="0" resource="0" file="Source/JuceBased/ArenaHelpers/Slice/Slice.h"/>
-          </GROUP>
+          <GROUP id="{1F8D33DB-5059-02E2-0EE7-5E25E39EC629}" name="Slice"/>
           <GROUP id="{C63C2066-5887-7842-D33C-25E6AA542141}" name="Xml">
             <FILE id="tPr807" name="ChaserXmlParser.cpp" compile="1" resource="0"
                   file="Source/JuceBased/ArenaHelpers/Xml/ChaserXmlParser.cpp"/>
@@ -32,10 +30,6 @@
                 resource="0" file="Source/JuceBased/Components/DeletableItemListComponent.cpp"/>
           <FILE id="QmKMI5" name="DeletableItemListComponent.h" compile="0" resource="0"
                 file="Source/JuceBased/Components/DeletableItemListComponent.h"/>
-          <FILE id="aENVdh" name="PathButton.cpp" compile="1" resource="0" file="Source/JuceBased/Components/PathButton.cpp"/>
-          <FILE id="fMK2QP" name="PathButton.h" compile="0" resource="0" file="Source/JuceBased/Components/PathButton.h"/>
-          <FILE id="TQIZXx" name="SliceButton.cpp" compile="1" resource="0" file="Source/JuceBased/Components/SliceButton.cpp"/>
-          <FILE id="ph9aaM" name="SliceButton.h" compile="0" resource="0" file="Source/JuceBased/Components/SliceButton.h"/>
         </GROUP>
         <GROUP id="{DDF02C0A-1AED-6E94-C7AD-941C11A3BDC8}" name="Fileless">
           <FILE id="bWSNZG" name="FileLess.cpp" compile="1" resource="0" file="Source/JuceBased/Fileless/FileLess.cpp"/>

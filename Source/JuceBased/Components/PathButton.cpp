@@ -11,34 +11,27 @@
 #include "PathButton.h"
 
 
-PathButton::PathButton( String name, Array<Point<float>> points ) : ShapeButton( name, Colours::transparentBlack, Colours::transparentBlack, Colours::transparentBlack )
+PathButton::PathButton( Array<Point<float>> points )
 {
-	setName( name );
-	
 	pathPoints = points;
-	setClickingTogglesState( true );
-	setToggleState( false, sendNotification );
 }
 
 PathButton::~PathButton()
 {
-	lastDraggedButton = nullptr;
+	
 }
 
-void PathButton::makePath( Array<Point<float>> points )
-{
-	if ( !getParentComponent() )
-		return;
 
+void PathButton::updatePath( Point<int> resolution )
+{
 	path.clear();
 
-	Point<int> scale = Point<int>{ getParentWidth(), getParentHeight() };
-	for ( int i = 0; i < points.size(); i++ )
+	for ( int i = 0; i < pathPoints.size(); i++ )
 	{
-		Point<float> p = points[i];
+		Point<float> p = pathPoints[i];
 		//points are stored normalized in 0...1 range
 		//here points are transformed to fit within the window they live in
-		p *= scale;
+		p *= resolution;
 		if ( i == 0 )
 			path.startNewSubPath( p );
 		else
@@ -49,99 +42,9 @@ void PathButton::makePath( Array<Point<float>> points )
 
 
 
-bool PathButton::hitTest( int x, int y )
-{
-	//the path points are absolute, while the hitTest x and y points are relative to the bounds
-	//that's why I'm adding getPosition to get the correct result
-	if ( path.contains( float( x + getPosition().x ), float( y + getPosition().y ) ) )
-		return true;
-	return false;
-}
-
-void PathButton::paintButton( juce::Graphics &g, bool isMouseOverButton, bool isButtonDown )
-{
-	if ( isVisible() )
-	{
-		Rectangle<float> r = path.getBounds().toFloat().reduced( 0.5f );
-
-		if ( isButtonDown )
-		{
-			const float sizeReductionWhenPressed = 0.01f;
-
-			r = r.reduced( sizeReductionWhenPressed * r.getWidth(),
-				sizeReductionWhenPressed * r.getHeight() );
-		}
-		const AffineTransform trans( path.getTransformToScaleToFit( r, false ) );
-
-		Colour col = getToggleState() ? primaryColour : backgroundColour;
-		if ( isMouseOverButton )
-			col = col.brighter( 0.2f );
-		g.setColour( col );
-
-		g.fillPath( path, trans );
-
-		//draw the name because DJAktion is a little bitch
-		g.setColour( outlineColour );
-		g.drawFittedText( getName(), r.toNearestInt(), Justification::centred, 1 );
-
-		g.strokePath( path, PathStrokeType( 1.0 ), trans );
-	}
-}
-
-void PathButton::resized()
-{
-	makePath( pathPoints );
-
-	//the path points will be absolute, so set the bounds to cover the entire parent
-	Rectangle<int> bounds = getParentComponent()->getLocalBounds();
-	setBounds( bounds );
-}
 
 
-void PathButton::mouseDown( const MouseEvent& event )
-{
-	Button::mouseDown( event );
 
-	lastDraggedButton = nullptr;
-}
-
-void PathButton::mouseUp( const MouseEvent& event )
-{
-	//if this button was part of the last drag action,
-	//don't do anything, the state will already have been toggled
-	if ( lastDraggedButton == this )
-	{
-		lastDraggedButton = nullptr;
-		return;
-	}
-
-	//otherwise do the regular mouse up action
-	Button::mouseUp( event );
-	lastDraggedButton = nullptr;
-}
-
-void PathButton::mouseDrag( const MouseEvent& event )
-{
-	Button::mouseDrag( event );
-
-	Component* parent = getParentComponent();
-	PathButton* button = dynamic_cast<PathButton*>(parent->getComponentAt( event.getPosition() + getPosition() ));
-
-	//if we're actually over a slicebutton and it wasn't the last button we toggled
-	if ( button && button != lastDraggedButton )
-	{
-		bool state = button->getToggleState();
-		button->setToggleState( !state, sendNotification );
-		lastDraggedButton = button;
-	}
-}
-
-void PathButton::setColors( Colour primary, Colour background, Colour outline )
-{
-	primaryColour = primary;
-	backgroundColour = background;
-	outlineColour = outline;
-}
 
 
 
