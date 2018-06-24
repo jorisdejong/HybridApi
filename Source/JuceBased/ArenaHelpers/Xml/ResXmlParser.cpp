@@ -13,7 +13,8 @@
 
 ResXmlParser::ResXmlParser()
 {
-
+	setCompXml();
+	setAssXml();
 }
 
 ResXmlParser::~ResXmlParser()
@@ -21,104 +22,110 @@ ResXmlParser::~ResXmlParser()
 
 }
 
-
-
-bool ResXmlParser::parseAssFile(File f, OwnedArray<hybrid::Slice>& slices, Array<hybrid::Screen>& screens, Point<int>& resolution)
+File ResXmlParser::getAssFile()
 {
-	if (!f.exists())
+	return assFile;
+}
+
+
+/**
+bool ResXmlParser::parseAssFile( File f, OwnedArray<hybrid::Slice>& slices, Array<hybrid::Screen>& screens, Point<int>& resolution )
+{
+	if ( !f.exists() )
 	{
 		return false;
 	}
 	else
 	{
-		DBG("Trying to parse: " + f.getFullPathName());
+		DBG( "Trying to parse: " + f.getFullPathName() );
 
 		ScopedPointer<XmlElement> xmlRoot;
-		xmlRoot = (XmlDocument::parse(f));
+		xmlRoot = ( XmlDocument::parse( f ) );
 
 		//see if we're dealing with a res 4 or res 5 ass file
 		//then try to parse it
 		bool succesfulParse = false;
 
-		ScopedPointer<XmlElement> mainPreset = getMainPresetElement(f);
-		if (mainPreset)
-			succesfulParse = parseRes5Xml(*mainPreset, slices, screens, resolution);
+		ScopedPointer<XmlElement> mainPreset = getMainPresetElement( f );
+		if ( mainPreset )
+			succesfulParse = parseRes5Xml( *mainPreset, slices, screens, resolution );
 
 		return succesfulParse;
 	}
 }
+*/
 
 
-XmlElement * ResXmlParser::getSmpteData(File f)
+XmlElement * ResXmlParser::getSmpteData( File f )
 {
-	if (!f.exists())
+	if ( !f.exists() )
 		return nullptr;
 	else
 	{
-		DBG("Trying to parse: " + f.getFullPathName());
+		DBG( "Trying to parse: " + f.getFullPathName() );
 
-		ScopedPointer<XmlElement> avc = XmlDocument::parse(f);
-		if (avc)
+		ScopedPointer<XmlElement> avc = XmlDocument::parse( f );
+		if ( avc )
 		{
-			if (avc->hasTagName("Composition"))
+			if ( avc->hasTagName( "Composition" ) )
 			{
-				XmlElement* returnElement = new XmlElement("SmpteClips");
-				returnElement->setAttribute("name", avc->getStringAttribute("name"));
-				forEachXmlChildElement(*avc, deck)
+				XmlElement* returnElement = new XmlElement( "SmpteClips" );
+				returnElement->setAttribute( "name", avc->getStringAttribute( "name" ) );
+				forEachXmlChildElement( *avc, deck )
 				{
-					if (deck->hasTagName("Deck"))
+					if ( deck->hasTagName( "Deck" ) )
 					{
 						String deckName;
-						forEachXmlChildElement(*deck, deckChild)
+						forEachXmlChildElement( *deck, deckChild )
 						{
-							if (deckChild->hasTagName("Params"))
+							if ( deckChild->hasTagName( "Params" ) )
 							{
-								forEachXmlChildElement(*deckChild, param)
+								forEachXmlChildElement( *deckChild, param )
 								{
-									if (param->getStringAttribute("name") == "Name")
-										deckName = param->getStringAttribute("value");
+									if ( param->getStringAttribute( "name" ) == "Name" )
+										deckName = param->getStringAttribute( "value" );
 								}
 							}
-							else if (deckChild->hasTagName("Clip"))
+							else if ( deckChild->hasTagName( "Clip" ) )
 							{
-								int column = deckChild->getIntAttribute("columnIndex");
-								int layer = deckChild->getIntAttribute("layerIndex");
+								int column = deckChild->getIntAttribute( "columnIndex" );
+								int layer = deckChild->getIntAttribute( "layerIndex" );
 								String clipName;
 								int transportType = 0;
 								int offset = 0;
-								forEachXmlChildElement(*deckChild, clipChild)
+								forEachXmlChildElement( *deckChild, clipChild )
 								{
-									if (clipChild->hasTagName("Params"))
+									if ( clipChild->hasTagName( "Params" ) )
 									{
-										forEachXmlChildElement(*clipChild, param)
+										forEachXmlChildElement( *clipChild, param )
 										{
-											if (param->getStringAttribute("name") == "Name")
-												clipName = param->getStringAttribute("value");
-											else if (param->getStringAttribute("name") == "TransportType")
-												transportType = param->getIntAttribute("value");
+											if ( param->getStringAttribute( "name" ) == "Name" )
+												clipName = param->getStringAttribute( "value" );
+											else if ( param->getStringAttribute( "name" ) == "TransportType" )
+												transportType = param->getIntAttribute( "value" );
 										}
 									}
-									else if (clipChild->hasTagName("Transport"))
+									else if ( clipChild->hasTagName( "Transport" ) )
 									{
-										if (XmlElement* params = clipChild->getChildByName("Params"))
-											if (XmlElement* position = params->getChildByAttribute("name", "Position"))
-												if (XmlElement* bDouble = position->getChildByAttribute("name", "BehaviourDouble"))
-													if (XmlElement* pSourceSmpte = bDouble->getChildByAttribute("name", "PhaseSourceSMPTE"))
-														if (XmlElement* moreParams = pSourceSmpte->getChildByAttribute("name", "Params"))
-															if (XmlElement* offsetNode = moreParams->getChildByAttribute("name", "Offset"))
-																offset = offsetNode->getIntAttribute("value");
+										if ( XmlElement* params = clipChild->getChildByName( "Params" ) )
+											if ( XmlElement* position = params->getChildByAttribute( "name", "Position" ) )
+												if ( XmlElement* bDouble = position->getChildByAttribute( "name", "BehaviourDouble" ) )
+													if ( XmlElement* pSourceSmpte = bDouble->getChildByAttribute( "name", "PhaseSourceSMPTE" ) )
+														if ( XmlElement* moreParams = pSourceSmpte->getChildByAttribute( "name", "Params" ) )
+															if ( XmlElement* offsetNode = moreParams->getChildByAttribute( "name", "Offset" ) )
+																offset = offsetNode->getIntAttribute( "value" );
 									}
 								}
-								if (transportType == 2 || transportType == 3)
+								if ( transportType == 2 || transportType == 3 )
 								{
-									XmlElement* clip = new XmlElement("Clip");
-									clip->setAttribute("name", clipName);
-									clip->setAttribute("layer", layer);
-									clip->setAttribute("column", column);
-									clip->setAttribute("line", transportType - 2);
-									clip->setAttribute("offset", offset);
-									clip->setAttribute("deck", deckName);
-									returnElement->addChildElement(clip);
+									XmlElement* clip = new XmlElement( "Clip" );
+									clip->setAttribute( "name", clipName );
+									clip->setAttribute( "layer", layer );
+									clip->setAttribute( "column", column );
+									clip->setAttribute( "line", transportType - 2 );
+									clip->setAttribute( "offset", offset );
+									clip->setAttribute( "deck", deckName );
+									returnElement->addChildElement( clip );
 								}
 							}
 						}
@@ -133,130 +140,124 @@ XmlElement * ResXmlParser::getSmpteData(File f)
 			return nullptr;
 	}
 }
-	/*
-	<Composition name="">
-		<Deck name="Deck" uniqueId="1504783438820" closed="0" numLayers="3" numColumns="8" deckIndex="0">
+/*
+<Composition name="">
+	<Deck name="Deck" uniqueId="1504783438820" closed="0" numLayers="3" numColumns="8" deckIndex="0">
+		<Params name="Params">
+			<Param name="Name" default="empty" value="Desktop"/>
+		<Clip name="Clip" uniqueId="1504783438824" layerIndex="0" columnIndex="1">
 			<Params name="Params">
-				<Param name="Name" default="empty" value="Desktop"/>
-			<Clip name="Clip" uniqueId="1504783438824" layerIndex="0" columnIndex="1">
+				<Param storage="3" name="Name" default="Resolume Testcard" value="Resolume Testcard"/>
+				<ParamChoice storage="3" name="TransportType" default="0" value="2" storeChoices="0"/>
+			<Transport name="Transport">
 				<Params name="Params">
-					<Param storage="3" name="Name" default="Resolume Testcard" value="Resolume Testcard"/>
-					<ParamChoice storage="3" name="TransportType" default="0" value="2" storeChoices="0"/>
-				<Transport name="Transport">
-					<Params name="Params">
-						<ParamRange name="Position" default="0" value="0">
-							<BehaviourDouble name="BehaviourDouble">
-								<PhaseSourceSMPTE name="PhaseSourceSMPTE">
-									<Params name="Params">
-										<Param name="Offset" default="0" value="4985000"/> stored in frames, so we'll need to do some parsing based on the fps set in prefs
-									</Params>
-	*/
+					<ParamRange name="Position" default="0" value="0">
+						<BehaviourDouble name="BehaviourDouble">
+							<PhaseSourceSMPTE name="PhaseSourceSMPTE">
+								<Params name="Params">
+									<Param name="Offset" default="0" value="4985000"/> stored in frames, so we'll need to do some parsing based on the fps set in prefs
+								</Params>
+*/
 
-String ResXmlParser::getAdvancedPresetNameFromAdvancedXml(File res5XmlFile)
+/*
+String ResXmlParser::getAdvancedPresetNameFromAdvancedXml( File res5XmlFile )
 {
 	String fileNameToReturn = String().empty;
 
-	if (!FileHelper::isFileValid(res5XmlFile, false))
+	if ( !FileHelper::isFileValid( res5XmlFile, false ) )
 		return fileNameToReturn;
 
-	ScopedPointer<XmlElement> mainXmlElement = XmlDocument::parse(res5XmlFile);
+	ScopedPointer<XmlElement> mainXmlElement = XmlDocument::parse( res5XmlFile );
 
-	if (mainXmlElement->hasAttribute("presetFile"))
-		fileNameToReturn = mainXmlElement->getStringAttribute("presetFile", String().empty);
+	if ( mainXmlElement->hasAttribute( "presetFile" ) )
+		fileNameToReturn = mainXmlElement->getStringAttribute( "presetFile", String().empty );
 
 	return fileNameToReturn;
 }
 
 
-juce::XmlElement* ResXmlParser::getMainPresetElement(File assFile)
+juce::XmlElement* ResXmlParser::getMainPresetElement( File assFile )
 {
-	if (!FileHelper::isFileValid(assFile, false))
+	if ( !FileHelper::isFileValid( assFile, false ) )
 		return nullptr;
 
-	DBG("Trying to parse: " + assFile.getFullPathName());
+	DBG( "Trying to parse: " + assFile.getFullPathName() );
 	int64 startTime = Time::getHighResolutionTicks();
 	int64 totalTime = Time::getHighResolutionTicks();
 
 
-	XmlElement* mainXmlElement = XmlDocument::parse(assFile);
+	XmlElement* mainXmlElement = XmlDocument::parse( assFile );
 	//deletion of the returned xmlelement will happen in the function that uses the data
 
-	DBG("Main parsing took " + String(Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks() - startTime)) + " seconds");
+	DBG( "Main parsing took " + String( Time::highResolutionTicksToSeconds( Time::getHighResolutionTicks() - startTime ) ) + " seconds" );
 	startTime = Time::getHighResolutionTicks();
 
 	//a little sleight of hand so we can work both with the internal res pref file as well as a saved preset file
 	XmlElement* returnElement = nullptr;
 
 	//if the assfile starts with the tag screensetup, we got the advanced.xml file itself, so just return that
-	if (mainXmlElement->hasTagName("ScreenSetup"))
+	if ( mainXmlElement->hasTagName( "ScreenSetup" ) )
 	{
 		returnElement = mainXmlElement;
-		DBG("advanced.xml parsing took " + String(Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks() - startTime)) + " seconds");
+		DBG( "advanced.xml parsing took " + String( Time::highResolutionTicksToSeconds( Time::getHighResolutionTicks() - startTime ) ) + " seconds" );
 		startTime = Time::getHighResolutionTicks();
 	}
 
 	//else we got a named and seperately saved preset file, so we first need to extract the screensetup element
-	else if (mainXmlElement->getChildByName("ScreenSetup") != nullptr)
+	else if ( mainXmlElement->getChildByName( "ScreenSetup" ) != nullptr )
 	{
 		//create a new element, so we don't delete the child with the parent
-		returnElement = new XmlElement(*mainXmlElement->getChildByName("ScreenSetup"));
+		returnElement = new XmlElement( *mainXmlElement->getChildByName( "ScreenSetup" ) );
 		//delete the parent
 		delete mainXmlElement;
-		DBG("preset parsing took " + String(Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks() - startTime)) + " seconds");
+		DBG( "preset parsing took " + String( Time::highResolutionTicksToSeconds( Time::getHighResolutionTicks() - startTime ) ) + " seconds" );
 		startTime = Time::getHighResolutionTicks();
 	}
 
-	DBG("Total parsing took " + String(Time::highResolutionTicksToSeconds(Time::getHighResolutionTicks() - totalTime)) + " seconds");
+	DBG( "Total parsing took " + String( Time::highResolutionTicksToSeconds( Time::getHighResolutionTicks() - totalTime ) ) + " seconds" );
 	return returnElement;
 }
+*/
 
 
-Array< hybrid::NamedUniqueId > ResXmlParser::getScreenNames(File assFile)
+Array< hybrid::NamedUniqueId > ResXmlParser::getScreenNames()
 {
 	Array< hybrid::NamedUniqueId > names;
 
-	//if the file isn't valid, just return an empty array
-	//the component will catch this
-	if (!FileHelper::isFileValid(assFile, false))
-		return names;
-
-	XmlElement* mainPreset = getMainPresetElement(assFile);
-	if (mainPreset != nullptr)
+	if ( assXml != nullptr )
 	{
-		XmlElement* screens = mainPreset->getChildByName("screens");
-		if (screens != nullptr)
+		XmlElement* screens = assXml->getChildByName( "screens" );
+		if ( screens != nullptr )
 		{
-			forEachXmlChildElement(*screens, child)
+			forEachXmlChildElement( *screens, child )
 			{
 				//keep track of how many scaling screens we have
 
-				if (child->hasTagName("Screen"))
+				if ( child->hasTagName( "Screen" ) )
 				{
-					String screenName = child->getStringAttribute("name");
+					String screenName = child->getStringAttribute( "name" );
 
 					//only add screens that are called scaling
-					if (screenName.containsIgnoreCase("scaling"))
+					if ( screenName.containsIgnoreCase( "scaling" ) )
 					{
 						//remove the word scaling from the name
-						screenName = screenName.fromFirstOccurrenceOf("scaling", false, true);
+						screenName = screenName.fromFirstOccurrenceOf( "scaling", false, true );
 
 						//remove beginning white spaces
-						while (screenName.startsWith(" "))
+						while ( screenName.startsWith( " " ) )
 							screenName = screenName.trimStart();
 
 						//if that doesn't leave any actual name, just give it a default name
-						if (screenName == String())
+						if ( screenName == String() )
 							screenName = "Unnamed Scaling";
 
-						String screenUniqueIdString = child->getStringAttribute("uniqueId", "0");
+						String screenUniqueIdString = child->getStringAttribute( "uniqueId", "0" );
 						int64 uId = screenUniqueIdString.getLargeIntValue();
-						names.add(std::make_pair(screenName, uId));
+						names.add( std::make_pair( screenName, uId ) );
 					}
 				}
 			}
 		}
-
-		delete mainPreset;
 	}
 	return names;
 }
@@ -268,23 +269,23 @@ Array< hybrid::NamedUniqueId > ResXmlParser::getScreenNames(File assFile)
 
 
 
-bool ResXmlParser::parseRes5Xml(juce::XmlElement& screenSetup, OwnedArray<hybrid::Slice>& slices, Array<hybrid::Screen>& screens, Point<int>& resolution)
+bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybrid::Slice>& slices, Array<hybrid::Screen>& screens, Point<int>& resolution )
 {
 	//get the resolution from the "sizing" element
 	//we later need the resolution to store the slices in the 0...1 range
-	XmlElement* sizing = screenSetup.getChildByName("sizing");
-	if (sizing != nullptr)
+	XmlElement* sizing = screenSetup.getChildByName( "sizing" );
+	if ( sizing != nullptr )
 	{
-		forEachXmlChildElement(*sizing, inputs)
+		forEachXmlChildElement( *sizing, inputs )
 		{
-			if (inputs->hasTagName("inputs"))
+			if ( inputs->hasTagName( "inputs" ) )
 			{
-				forEachXmlChildElement(*inputs, InputSize)
+				forEachXmlChildElement( *inputs, InputSize )
 				{
-					if (InputSize->getStringAttribute("name") == "0:1")
+					if ( InputSize->getStringAttribute( "name" ) == "0:1" )
 					{
-						resolution.x = InputSize->getIntAttribute("width", 1920);
-						resolution.y = InputSize->getIntAttribute("height", 1080);
+						resolution.x = InputSize->getIntAttribute( "width", 1920 );
+						resolution.y = InputSize->getIntAttribute( "height", 1080 );
 					}
 				}
 			}
@@ -296,99 +297,99 @@ bool ResXmlParser::parseRes5Xml(juce::XmlElement& screenSetup, OwnedArray<hybrid
 	//i can't clear the screens array completely, because i need to restore the folded value
 	//make a list of screennames that are folded
 	Array<int64> foldedScreens;
-	for (auto screen : screens)
-		if (screen.folded)
-			foldedScreens.add(screen.uid);
+	for ( auto screen : screens )
+		if ( screen.folded )
+			foldedScreens.add( screen.uid );
 	screens.clear();
 
-	XmlElement* screensXml = screenSetup.getChildByName("screens");
-	if (screensXml != nullptr)
+	XmlElement* screensXml = screenSetup.getChildByName( "screens" );
+	if ( screensXml != nullptr )
 	{
-		forEachXmlChildElement(*screensXml, child)
+		forEachXmlChildElement( *screensXml, child )
 		{
-			if (child->hasTagName("Screen") || child->hasTagName("DmxScreen"))
+			if ( child->hasTagName( "Screen" ) || child->hasTagName( "DmxScreen" ) )
 			{
 				hybrid::Screen newScreen;
-				newScreen.name = child->getStringAttribute("name");
-				newScreen.uid = child->getStringAttribute("uniqueId", "0").getLargeIntValue();
+				newScreen.name = child->getStringAttribute( "name" );
+				newScreen.uid = child->getStringAttribute( "uniqueId", "0" ).getLargeIntValue();
 				//check if the uid is part of the folded list
-				for (auto id : foldedScreens)
-					if (id == newScreen.uid)
+				for ( auto id : foldedScreens )
+					if ( id == newScreen.uid )
 						newScreen.folded = true;
-				screens.add(newScreen);
+				screens.add( newScreen );
 
 
 				//ignore files with the name scaling to help KBK setups
-				if (!child->getStringAttribute("name").containsIgnoreCase("scaling"))
+				if ( !child->getStringAttribute( "name" ).containsIgnoreCase( "scaling" ) )
 				{
-					XmlElement* layers = child->getChildByName("layers");
-					if (layers != nullptr)
+					XmlElement* layers = child->getChildByName( "layers" );
+					if ( layers != nullptr )
 					{
-						forEachXmlChildElement(*layers, layerChild)
+						forEachXmlChildElement( *layers, layerChild )
 						{
-							if (layerChild->hasTagName("Slice") || layerChild->hasTagName("Polygon") || layerChild->hasTagName("DmxSlice"))
+							if ( layerChild->hasTagName( "Slice" ) || layerChild->hasTagName( "Polygon" ) || layerChild->hasTagName( "DmxSlice" ) )
 							{
 								hybrid::Slice* newSlice = new hybrid::Slice();
-								String uidString = layerChild->getStringAttribute("uniqueId", "0");
+								String uidString = layerChild->getStringAttribute( "uniqueId", "0" );
 								int64 uid = uidString.getLargeIntValue();
 								String name = "Slice";
 								newSlice->enabled = true;
 
-								XmlElement* params = layerChild->getChildByName("Params");
-								if (params != nullptr)
+								XmlElement* params = layerChild->getChildByName( "Params" );
+								if ( params != nullptr )
 								{
-									forEachXmlChildElement(*params, paramChild)
+									forEachXmlChildElement( *params, paramChild )
 									{
-										if (paramChild->hasTagName("Param") && paramChild->getStringAttribute("name") == "Name")
-											name = paramChild->getStringAttribute("value", "Slice");
+										if ( paramChild->hasTagName( "Param" ) && paramChild->getStringAttribute( "name" ) == "Name" )
+											name = paramChild->getStringAttribute( "value", "Slice" );
 
-										if (paramChild->hasTagName("Param") && paramChild->getStringAttribute("name") == "Enabled")
-											newSlice->enabled = paramChild->getStringAttribute("value", "1").getIntValue() != 0;
+										if ( paramChild->hasTagName( "Param" ) && paramChild->getStringAttribute( "name" ) == "Enabled" )
+											newSlice->enabled = paramChild->getStringAttribute( "value", "1" ).getIntValue() != 0;
 									}
 								}
 
 								//store the name and the uniqueId
-								newSlice->sliceId = std::make_pair(name, uid);
+								newSlice->sliceId = std::make_pair( name, uid );
 
-								XmlElement* inputRect = layerChild->getChildByName("InputRect");
-								if (inputRect != nullptr)
+								XmlElement* inputRect = layerChild->getChildByName( "InputRect" );
+								if ( inputRect != nullptr )
 								{
-									newSlice->inputRectOrientation = inputRect->getStringAttribute("orientation", "0").getFloatValue();
-									forEachXmlChildElement(*inputRect, vertex)
+									newSlice->inputRectOrientation = inputRect->getStringAttribute( "orientation", "0" ).getFloatValue();
+									forEachXmlChildElement( *inputRect, vertex )
 									{
-										if (vertex->hasTagName("v"))
-											addPointToSlice(vertex, newSlice->inputRectPoints, resolution);
+										if ( vertex->hasTagName( "v" ) )
+											addPointToSlice( vertex, newSlice->inputRectPoints, resolution );
 									}
 								}
-								XmlElement* sliceMask = layerChild->getChildByName("SliceMask");
-								if (sliceMask != nullptr)
+								XmlElement* sliceMask = layerChild->getChildByName( "SliceMask" );
+								if ( sliceMask != nullptr )
 								{
-									XmlElement* shapeObject = sliceMask->getChildByName("ShapeObject");
-									if (shapeObject != nullptr)
+									XmlElement* shapeObject = sliceMask->getChildByName( "ShapeObject" );
+									if ( shapeObject != nullptr )
 									{
-										XmlElement* maskRect = shapeObject->getChildByName("Rect");
-										if (maskRect != nullptr)
+										XmlElement* maskRect = shapeObject->getChildByName( "Rect" );
+										if ( maskRect != nullptr )
 										{
-											newSlice->maskRectOrientation = maskRect->getStringAttribute("orientation", "0").getFloatValue();
-											forEachXmlChildElement(*maskRect, vertex)
+											newSlice->maskRectOrientation = maskRect->getStringAttribute( "orientation", "0" ).getFloatValue();
+											forEachXmlChildElement( *maskRect, vertex )
 											{
-												if (vertex->hasTagName("v"))
-													addPointToSlice(vertex, newSlice->maskRectPoints, resolution);
+												if ( vertex->hasTagName( "v" ) )
+													addPointToSlice( vertex, newSlice->maskRectPoints, resolution );
 											}
 										}
-										XmlElement* shape = shapeObject->getChildByName("Shape");
-										if (shape != nullptr)
+										XmlElement* shape = shapeObject->getChildByName( "Shape" );
+										if ( shape != nullptr )
 										{
-											XmlElement* contour = shape->getChildByName("Contour");
-											if (contour != nullptr)
+											XmlElement* contour = shape->getChildByName( "Contour" );
+											if ( contour != nullptr )
 											{
-												XmlElement* points = contour->getChildByName("points");
-												if (points != nullptr)
+												XmlElement* points = contour->getChildByName( "points" );
+												if ( points != nullptr )
 												{
-													forEachXmlChildElement(*points, vertex)
+													forEachXmlChildElement( *points, vertex )
 													{
-														if (vertex->hasTagName("v"))
-															addPointToSlice(vertex, newSlice->maskPoints, resolution);
+														if ( vertex->hasTagName( "v" ) )
+															addPointToSlice( vertex, newSlice->maskPoints, resolution );
 													}
 												}
 											}
@@ -396,23 +397,23 @@ bool ResXmlParser::parseRes5Xml(juce::XmlElement& screenSetup, OwnedArray<hybrid
 									}
 								}
 
-								XmlElement* contour = layerChild->getChildByName("InputContour");
-								if (contour != nullptr)
+								XmlElement* contour = layerChild->getChildByName( "InputContour" );
+								if ( contour != nullptr )
 								{
-									XmlElement* points = contour->getChildByName("points");
-									if (points != nullptr)
+									XmlElement* points = contour->getChildByName( "points" );
+									if ( points != nullptr )
 									{
-										forEachXmlChildElement(*points, vertex)
+										forEachXmlChildElement( *points, vertex )
 										{
-											if (vertex->hasTagName("v"))
-												addPointToSlice(vertex, newSlice->maskPoints, resolution);
+											if ( vertex->hasTagName( "v" ) )
+												addPointToSlice( vertex, newSlice->maskPoints, resolution );
 										}
 									}
 								}
 								newSlice->screenId = newScreen.uid;
 
 								//insert at the beginning to keep everything in order
-								slices.insert(0, newSlice);
+								slices.insert( 0, newSlice );
 							}
 						}
 					}
@@ -427,14 +428,14 @@ bool ResXmlParser::parseRes5Xml(juce::XmlElement& screenSetup, OwnedArray<hybrid
 
 
 
-	if (slices.size() == 0)
+	if ( slices.size() == 0 )
 	{
-		DBG("Not able to parse any slice data");
+		DBG( "Not able to parse any slice data" );
 		return false;
 	}
 	else
 	{
-		DBG("Slice data parsed succesfully");
+		DBG( "Slice data parsed succesfully" );
 		return true;
 	}
 }
@@ -442,12 +443,73 @@ bool ResXmlParser::parseRes5Xml(juce::XmlElement& screenSetup, OwnedArray<hybrid
 
 
 
-void ResXmlParser::addPointToSlice(juce::XmlElement *element, Array<Point<float>>& pointType, Point<int> resolution)
+void ResXmlParser::addPointToSlice( juce::XmlElement *element, Array<Point<float>>& pointType, Point<int> resolution )
 {
 	Point<float> newPoint;
-	newPoint.x = element->getStringAttribute("x", "0.0").getFloatValue() / float(resolution.x);
-	newPoint.y = element->getStringAttribute("y", "0.0").getFloatValue() / float(resolution.y);
-	pointType.add(newPoint);
+	newPoint.x = element->getStringAttribute( "x", "0.0" ).getFloatValue() / float( resolution.x );
+	newPoint.y = element->getStringAttribute( "y", "0.0" ).getFloatValue() / float( resolution.y );
+	pointType.add( newPoint );
+}
+
+File ResXmlParser::getAppFolder()
+{
+	return File( File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 6" );
+}
+
+File ResXmlParser::getPrefsFolder()
+{
+	return File( getAppFolder().getFullPathName() + "/Preferences" );
+}
+
+XmlElement* ResXmlParser::getConfigXml()
+{
+	//get the current comp file
+	File prefsFile = File( getPrefsFolder().getFullPathName() + "/config.xml" );
+	return XmlDocument::parse( prefsFile );
+}
+
+void ResXmlParser::setCompXml()
+{
+	if ( XmlElement* configXml = getConfigXml() )
+	{
+		String fileName;
+		if ( XmlElement* appXml = configXml->getChildByAttribute( "Name", "Application" ) )
+			if ( XmlElement* settingsXml = appXml->getChildByAttribute( "Name", "Settings" ) )
+				if ( XmlElement* currentCompXml = settingsXml->getChildByAttribute( "Name", "CurrentCompositionFile" ) )
+					fileName = currentCompXml->getStringAttribute( "value" );
+
+		if ( File( fileName ).existsAsFile() )
+			compXml = XmlDocument::parse( File( fileName ) );
+
+		delete configXml;
+	}
+}
+
+void ResXmlParser::setAssXml()
+{
+	File presetFileConfig = FileHelper::getAssFileAutomagically( false );
+	//File presetFileConfig = File( getPrefsFolder().getFullPathName() + "/AdvancedOutput.xml" );
+	if ( presetFileConfig.existsAsFile() )
+	{
+		if ( XmlElement* screenSetupXml = XmlDocument::parse( presetFileConfig ) )
+		{
+			String presetFile = screenSetupXml->getStringAttribute( "presetFile" );
+			if ( presetFile.isEmpty() ) // no seperate preset file saved, so the data is stored in this xmlelement itself
+			{
+				assXml = screenSetupXml; //assXml is scopedpointer, so we become owner
+				assFile = presetFileConfig;
+			}
+			else
+			{
+				assFile = presetFile;
+				if ( ScopedPointer<XmlElement> presetFileXml = XmlDocument::parse( File( getAppFolder().getFullPathName() + "/Presets/Advanced Output/" + presetFile + ".xml" ) ) )
+				{
+					assXml = new XmlElement(*presetFileXml->getChildByName( "ScreenSetup" ));
+					delete screenSetupXml;
+				}
+			}
+		}
+	}
 }
 
 /*

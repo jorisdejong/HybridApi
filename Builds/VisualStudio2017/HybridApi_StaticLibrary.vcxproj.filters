@@ -5,9 +5,6 @@
     <Filter Include="HybridApi\Source\JuceBased\ArenaHelpers\File">
       <UniqueIdentifier>{704FC24B-910E-618B-0A11-00DB8D7FBD37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HybridApi\Source\JuceBased\ArenaHelpers\Slice">
-      <UniqueIdentifier>{4F38CC1D-EC55-2E82-C6EB-F8A47DF91B4F}</UniqueIdentifier>
-    </Filter>
     <Filter Include="HybridApi\Source\JuceBased\ArenaHelpers\Xml">
       <UniqueIdentifier>{9B616A83-8BF0-2647-A6A8-611EFD85F2CB}</UniqueIdentifier>
     </Filter>
@@ -250,16 +247,7 @@
     <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ChaserXmlParser.cpp">
       <Filter>HybridApi\Source\JuceBased\ArenaHelpers\Xml</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ResXmlParser.cpp">
-      <Filter>HybridApi\Source\JuceBased\ArenaHelpers\Xml</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\JuceBased\Components\DeletableItemListComponent.cpp">
-      <Filter>HybridApi\Source\JuceBased\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\JuceBased\Components\PathButton.cpp">
-      <Filter>HybridApi\Source\JuceBased\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\JuceBased\Components\SliceButton.cpp">
       <Filter>HybridApi\Source\JuceBased\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\JuceBased\Fileless\FileLess.cpp">
@@ -284,6 +272,9 @@
       <Filter>JUCE Modules\juce_core\containers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\containers\juce_PropertySet.cpp">
+      <Filter>JUCE Modules\juce_core\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_core\containers\juce_SparseSet.cpp">
       <Filter>JUCE Modules\juce_core\containers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\containers\juce_Variant.cpp">
@@ -1315,6 +1306,9 @@
     <ClCompile Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_ChoicePropertyComponent.cpp">
       <Filter>JUCE Modules\juce_gui_basics\properties</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_MultiChoicePropertyComponent.cpp">
+      <Filter>JUCE Modules\juce_gui_basics\properties</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_PropertyComponent.cpp">
       <Filter>JUCE Modules\juce_gui_basics\properties</Filter>
     </ClCompile>
@@ -1554,22 +1548,10 @@
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.h">
       <Filter>HybridApi\Source\JuceBased\ArenaHelpers\File</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Slice\Slice.h">
-      <Filter>HybridApi\Source\JuceBased\ArenaHelpers\Slice</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ChaserXmlParser.h">
       <Filter>HybridApi\Source\JuceBased\ArenaHelpers\Xml</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ResXmlParser.h">
-      <Filter>HybridApi\Source\JuceBased\ArenaHelpers\Xml</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\JuceBased\Components\DeletableItemListComponent.h">
-      <Filter>HybridApi\Source\JuceBased\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\JuceBased\Components\PathButton.h">
-      <Filter>HybridApi\Source\JuceBased\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\JuceBased\Components\SliceButton.h">
       <Filter>HybridApi\Source\JuceBased\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\JuceBased\Fileless\FileLess.h">
@@ -2581,6 +2563,9 @@
       <Filter>JUCE Modules\juce_gui_basics\properties</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_ChoicePropertyComponent.h">
+      <Filter>JUCE Modules\juce_gui_basics\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_MultiChoicePropertyComponent.h">
       <Filter>JUCE Modules\juce_gui_basics\properties</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\JUCE\modules\juce_gui_basics\properties\juce_PropertyComponent.h">

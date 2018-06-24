@@ -150,7 +150,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ChaserXmlParser.cpp"/>
-    <ClCompile Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ResXmlParser.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\Components\DeletableItemListComponent.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\Fileless\FileLess.cpp"/>
     <ClCompile Include="..\..\Source\JuceBased\Osc\OscOutput.cpp"/>
@@ -1348,7 +1347,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\File\FileHelper.h"/>
     <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ChaserXmlParser.h"/>
-    <ClInclude Include="..\..\Source\JuceBased\ArenaHelpers\Xml\ResXmlParser.h"/>
     <ClInclude Include="..\..\Source\JuceBased\Components\DeletableItemListComponent.h"/>
     <ClInclude Include="..\..\Source\JuceBased\Fileless\FileLess.h"/>
     <ClInclude Include="..\..\Source\JuceBased\Osc\OscOutput.h"/>

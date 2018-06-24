@@ -20,9 +20,6 @@
                   file="Source/JuceBased/ArenaHelpers/Xml/ChaserXmlParser.cpp"/>
             <FILE id="r2rOEB" name="ChaserXmlParser.h" compile="0" resource="0"
                   file="Source/JuceBased/ArenaHelpers/Xml/ChaserXmlParser.h"/>
-            <FILE id="gpDjSu" name="ResXmlParser.cpp" compile="1" resource="0"
-                  file="Source/JuceBased/ArenaHelpers/Xml/ResXmlParser.cpp"/>
-            <FILE id="BSM9YP" name="ResXmlParser.h" compile="0" resource="0" file="Source/JuceBased/ArenaHelpers/Xml/ResXmlParser.h"/>
           </GROUP>
         </GROUP>
         <GROUP id="{9992865B-DBD6-9F7A-D3EC-2C13ED0F3864}" name="Components">

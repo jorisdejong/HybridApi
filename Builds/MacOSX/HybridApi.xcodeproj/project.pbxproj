@@ -10,10 +10,7 @@
 		9D5B77CB9A3821EA7B343C63 = {isa = PBXBuildFile; fileRef = FE033981774BC22F20299C94; };
 		83F5788F3C3EB7AA6FC33ACD = {isa = PBXBuildFile; fileRef = 7D1697DA0C79FC9D268D6C6F; };
 		F31E09AE6FAC38F82CD78504 = {isa = PBXBuildFile; fileRef = 6B7098F279CDF62A7D9EC502; };
-		24437B071743D9C48C5043C0 = {isa = PBXBuildFile; fileRef = 5BDF6E8BAA06F986E93B7C9C; };
 		986F56B920A1113CB3833C41 = {isa = PBXBuildFile; fileRef = 15C255FC9CB0A7B4C722315E; };
-		011DB09486E4A85030281342 = {isa = PBXBuildFile; fileRef = 3A7BE1D0A0D671147C72DB9A; };
-		6C5715D76160505D3C09C33E = {isa = PBXBuildFile; fileRef = 4A729129EF5CEFB382F28B25; };
 		9AE643BBB0C094A8B70C59EC = {isa = PBXBuildFile; fileRef = 3850E4650FCB88E4FAB21AB0; };
 		73EC81B5501676609391162E = {isa = PBXBuildFile; fileRef = 34122A65B45AB6DFC460629C; };
 		2053CD63142756F8190FB761 = {isa = PBXBuildFile; fileRef = D890A10CE476B72D0D2480ED; };
@@ -26,7 +23,6 @@
 		017DF8037C7221EB07D73017 = {isa = PBXBuildFile; fileRef = DBB10A66362C3B31D3569818; };
 		14855D448C643D9D1273F510 = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHybridApi.a; sourceTree = "BUILT_PRODUCTS_DIR"; };
 		15C255FC9CB0A7B4C722315E = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DeletableItemListComponent.cpp; path = ../../Source/JuceBased/Components/DeletableItemListComponent.cpp; sourceTree = "SOURCE_ROOT"; };
-		1FAF8F3ECCA6B85CCB1A5A57 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ResXmlParser.h; path = ../../Source/JuceBased/ArenaHelpers/Xml/ResXmlParser.h; sourceTree = "SOURCE_ROOT"; };
 		2E5395B01D82D8015B662456 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_data_structures.mm"; path = "../../JuceLibraryCode/include_juce_data_structures.mm"; sourceTree = "SOURCE_ROOT"; };
 		329A9E96A1DB3D236D1DDF75 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = ../../Source/JuceBased/Utilities/Utilities.h; sourceTree = "SOURCE_ROOT"; };
 		34122A65B45AB6DFC460629C = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OscOutput.cpp; path = ../../Source/JuceBased/Osc/OscOutput.cpp; sourceTree = "SOURCE_ROOT"; };
@@ -36,7 +32,6 @@
 		3B000C7AD488923B2639086A = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_gui_basics.mm"; path = "../../JuceLibraryCode/include_juce_gui_basics.mm"; sourceTree = "SOURCE_ROOT"; };
 		3F469C72758F6389844C682B = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HybridApi.h; path = ../../Source/HybridApi.h; sourceTree = "SOURCE_ROOT"; };
 		4E7403E5B674BA246D5F223D = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_osc"; path = "../../../JUCE/modules/juce_osc"; sourceTree = "SOURCE_ROOT"; };
-		5BDF6E8BAA06F986E93B7C9C = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ResXmlParser.cpp; path = ../../Source/JuceBased/ArenaHelpers/Xml/ResXmlParser.cpp; sourceTree = "SOURCE_ROOT"; };
 		5E4A79A349F0B83389FF553B = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_core.mm"; path = "../../JuceLibraryCode/include_juce_core.mm"; sourceTree = "SOURCE_ROOT"; };
 		6B7098F279CDF62A7D9EC502 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ChaserXmlParser.cpp; path = ../../Source/JuceBased/ArenaHelpers/Xml/ChaserXmlParser.cpp; sourceTree = "SOURCE_ROOT"; };
 		6C374DC0519CB2AD2A9F07C1 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FileLess.h; path = ../../Source/JuceBased/Fileless/FileLess.h; sourceTree = "SOURCE_ROOT"; };
@@ -265,10 +260,7 @@
 		DC273627609C3CF02023387B = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
 					83F5788F3C3EB7AA6FC33ACD,
 					F31E09AE6FAC38F82CD78504,
-					24437B071743D9C48C5043C0,
 					986F56B920A1113CB3833C41,
-					011DB09486E4A85030281342,
-					6C5715D76160505D3C09C33E,
 					9AE643BBB0C094A8B70C59EC,
 					73EC81B5501676609391162E,
 					2053CD63142756F8190FB761,
