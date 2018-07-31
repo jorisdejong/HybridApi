@@ -149,7 +149,7 @@ File FileHelper::getVersionSpecificAssFile( File advancedFile, int version, bool
 		String advancedName;
 		if ( ScopedPointer<XmlElement> mainXmlElement = XmlDocument::parse( advancedFile ) )
 			if ( mainXmlElement->hasAttribute( "presetFile" ) )
-				advancedName = mainXmlElement->getStringAttribute( "presetFile", String().empty );
+				advancedName = mainXmlElement->getStringAttribute( "presetFile", String() );
 
 		//if we get a name, make a File out of it and return it
 		if ( advancedName != String().empty )
