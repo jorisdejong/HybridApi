@@ -558,9 +558,9 @@ void ResXmlParser::setCompXml()
 	if ( XmlElement* configXml = getConfigXml() )
 	{
 		String fileName;
-		if ( XmlElement* appXml = configXml->getChildByAttribute( "Name", "Application" ) )
-			if ( XmlElement* settingsXml = appXml->getChildByAttribute( "Name", "Settings" ) )
-				if ( XmlElement* currentCompXml = settingsXml->getChildByAttribute( "Name", "CurrentCompositionFile" ) )
+		if ( XmlElement* appXml = configXml->getChildByAttribute( "name", "Application" ) )
+			if ( XmlElement* settingsXml = appXml->getChildByAttribute( "name", "Settings" ) )
+				if ( XmlElement* currentCompXml = settingsXml->getChildByAttribute( "name", "CurrentCompositionFile" ) )
 					fileName = currentCompXml->getStringAttribute( "value" );
 
 		if ( File( fileName ).existsAsFile() )
@@ -572,8 +572,7 @@ void ResXmlParser::setCompXml()
 
 void ResXmlParser::setAssXml()
 {
-	File presetFileConfig = FileHelper::getAssFileAutomagically( false );
-	//File presetFileConfig = File( getPrefsFolder().getFullPathName() + "/AdvancedOutput.xml" );
+	File presetFileConfig = File( getPrefsFolder().getFullPathName() + "/AdvancedOutput.xml" );
 	if ( presetFileConfig.existsAsFile() )
 	{
 		if ( XmlElement* screenSetupXml = XmlDocument::parse( presetFileConfig ) )
@@ -586,8 +585,8 @@ void ResXmlParser::setAssXml()
 			}
 			else
 			{
-				assFile = presetFile;
-				if ( ScopedPointer<XmlElement> presetFileXml = XmlDocument::parse( File( getAppFolder().getFullPathName() + "/Presets/Advanced Output/" + presetFile + ".xml" ) ) )
+				assFile = File(getAppFolder().getFullPathName() + "/Presets/Advanced Output/" + presetFile + ".xml");
+				if ( ScopedPointer<XmlElement> presetFileXml = XmlDocument::parse( assFile ) )
 				{
 					assXml = new XmlElement(*presetFileXml->getChildByName( "ScreenSetup" ));
 					delete screenSetupXml;
