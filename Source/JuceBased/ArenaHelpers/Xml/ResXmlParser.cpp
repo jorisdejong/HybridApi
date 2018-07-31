@@ -154,7 +154,7 @@ XmlElement * ResXmlParser::getSmpteData(File f)
 
 String ResXmlParser::getAdvancedPresetNameFromAdvancedXml(File res5XmlFile)
 {
-	String fileNameToReturn = String().empty;
+	String fileNameToReturn = String();
 
 	if (!FileHelper::isFileValid(res5XmlFile, false))
 		return fileNameToReturn;
@@ -162,7 +162,7 @@ String ResXmlParser::getAdvancedPresetNameFromAdvancedXml(File res5XmlFile)
 	ScopedPointer<XmlElement> mainXmlElement = XmlDocument::parse(res5XmlFile);
 
 	if (mainXmlElement->hasAttribute("presetFile"))
-		fileNameToReturn = mainXmlElement->getStringAttribute("presetFile", String().empty);
+		fileNameToReturn = mainXmlElement->getStringAttribute("presetFile", String() );
 
 	return fileNameToReturn;
 }
@@ -272,6 +272,7 @@ bool ResXmlParser::parseRes5Xml(juce::XmlElement& screenSetup, OwnedArray<hybrid
 {
 	//get the resolution from the "sizing" element
 	//we later need the resolution to store the slices in the 0...1 range
+	//res 5 still writes the sizing element, so we leave this in
 	XmlElement* sizing = screenSetup.getChildByName("sizing");
 	if (sizing != nullptr)
 	{
@@ -286,6 +287,23 @@ bool ResXmlParser::parseRes5Xml(juce::XmlElement& screenSetup, OwnedArray<hybrid
 						resolution.x = InputSize->getIntAttribute("width", 1920);
 						resolution.y = InputSize->getIntAttribute("height", 1080);
 					}
+				}
+			}
+		}
+	}
+	else //Menno removed the sizing element from the ass file, so I need to get it from somewhere else
+	{
+		//the comp size is not in the ass file (why would it be), so I'll check the config.xml for the current comp
+		File compFile = FileHelper::getArenaCompFileByVersion( 6 );
+		if ( compFile.existsAsFile() )
+		{
+			ScopedPointer<XmlElement> compXml = XmlDocument::parse( compFile );
+			if ( compXml ) //then I get the resolution from the CompostionInfo element
+			{
+				if ( XmlElement* compInfoXml = compXml->getChildByName( "CompositionInfo" ) )
+				{
+					resolution.x = compInfoXml->getIntAttribute( "width", 1920 );
+					resolution.y = compInfoXml->getIntAttribute( "height", 1080 );
 				}
 			}
 		}

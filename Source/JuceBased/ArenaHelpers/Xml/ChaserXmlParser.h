@@ -29,7 +29,7 @@ public:
 	static bool parseResolution( File chaserFile, Point<int>& resolution );
 	static XmlElement parseSequences( File chaserFile );
 
-	static Time getLastUpdateTimeForActiveAssFile();
+	static Time getLastUpdateTime();
 
 	static bool canThisAppVersionLoadThisChaser( File chaserFile, String version );
 
