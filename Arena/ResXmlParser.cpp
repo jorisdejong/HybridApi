@@ -22,12 +22,95 @@ ResXmlParser::~ResXmlParser()
 
 }
 
+void ResXmlParser::setCompXml()
+{
+	if ( XmlElement* configXml = getConfigXml() )
+	{
+		String fileName;
+		if ( XmlElement* appXml = configXml->getChildByAttribute( "name", "Application" ) )
+			if ( XmlElement* settingsXml = appXml->getChildByAttribute( "name", "Settings" ) )
+				if ( XmlElement* currentCompXml = settingsXml->getChildByAttribute( "name", "CurrentCompositionFile" ) )
+					fileName = currentCompXml->getStringAttribute( "value" );
+
+		if ( File( fileName ).existsAsFile() )
+			compXml = XmlDocument::parse( File( fileName ) );
+
+		delete configXml;
+	}
+}
+
+void ResXmlParser::setAssXml()
+{
+	File presetFileConfig = File( getPrefsFolder().getFullPathName() + "/AdvancedOutput.xml" );
+	if ( presetFileConfig.existsAsFile() )
+	{
+		if ( XmlElement* screenSetupXml = XmlDocument::parse( presetFileConfig ) )
+		{
+			String presetFile = screenSetupXml->getStringAttribute( "presetFile" );
+			if ( presetFile.isEmpty() ) // no seperate preset file saved, so the data is stored in this xmlelement itself
+			{
+				assXml = screenSetupXml; //assXml is scopedpointer, so we become owner
+				assFile = presetFileConfig;
+			}
+			else
+			{
+				assFile = File( getAppFolder().getFullPathName() + "/Presets/Advanced Output/" + presetFile + ".xml" );
+				if ( ScopedPointer<XmlElement> presetFileXml = XmlDocument::parse( assFile ) )
+				{
+					assXml = new XmlElement( *presetFileXml->getChildByName( "ScreenSetup" ) );
+					delete screenSetupXml;
+				}
+			}
+		}
+	}
+}
+
 File ResXmlParser::getAssFile()
 {
 	return assFile;
 }
 
-Array<hybrid::Slice> ResXmlParser::getSlices()
+Point<int> ResXmlParser::getCompSize()
+{
+	if ( XmlElement* compositionInfoXml = compXml->getChildByName( "CompositionInfo" ) )
+		return Point<int>( compositionInfoXml->getIntAttribute( "width", 1920 ), compositionInfoXml->getIntAttribute( "height", 1080 ) );
+	return Point<int>( 1920, 1080 );
+}
+
+String  ResXmlParser::getCompName()
+{
+	if ( XmlElement* compositionInfoXml = compXml->getChildByName( "CompositionInfo" ) )
+		return compositionInfoXml->getStringAttribute( "name" );
+	return String();
+}
+
+XmlElement * ResXmlParser::getXml()
+{
+	//parse the required xml
+	resData = new XmlElement( "ResolumeData" );
+
+	if ( XmlElement* compositionInfoXml = compXml->getChildByName( "CompositionInfo" ) )
+	{
+		XmlElement* composition = XmlStorable{ "composition", "array", "" }.toXml();
+		resData->addChildElement( composition );
+		composition->addChildElement( XmlStorable{ "name", "s", compositionInfoXml->getStringAttribute( "name" ) }.toXml() );
+		composition->addChildElement( XmlStorable{ "width", "i", compositionInfoXml->getStringAttribute( "width" ) }.toXml() );
+		composition->addChildElement( XmlStorable{ "height", "i", compositionInfoXml->getStringAttribute( "height" ) }.toXml() );
+		
+		for ( int i = 0; i < 3; i++ )
+		{
+			XmlElement* layer = XmlStorable{ "layer", "array", "" }.toXml();
+			composition->addChildElement( layer );
+			layer->addChildElement( XmlStorable{ "name", "s", "layer " + String(i) }.toXml() );
+			layer->addChildElement( XmlStorable{ "width", "i", "1920" }.toXml() );
+			layer->addChildElement( XmlStorable{ "height", "i", "1080" }.toXml() );
+		}
+		
+	}
+	return resData;
+}
+
+/*Array<hybrid::Slice> ResXmlParser::getSlices()
 {
 	//get the resolution from the "sizing" element
 	//we later need the resolution to store the slices in the 0...1 range
@@ -160,15 +243,14 @@ Array<hybrid::Slice> ResXmlParser::getSlices()
 			}
 		}
 	}
-	
+
 	if ( slices.size() == 0 )
 		DBG( "Not able to parse any slice data" );
 	else
 		DBG( "Slice data parsed succesfully" );
-	
-	return slices;
-}
 
+	return slices;
+}*/
 
 /**
 bool ResXmlParser::parseAssFile( File f, OwnedArray<hybrid::Slice>& slices, Array<hybrid::Screen>& screens, Point<int>& resolution )
@@ -196,7 +278,6 @@ bool ResXmlParser::parseAssFile( File f, OwnedArray<hybrid::Slice>& slices, Arra
 	}
 }
 */
-
 /*
 XmlElement * ResXmlParser::getSmpteData( File f )
 {
@@ -300,9 +381,6 @@ XmlElement * ResXmlParser::getSmpteData( File f )
 									<Param name="Offset" default="0" value="4985000"/> stored in frames, so we'll need to do some parsing based on the fps set in prefs
 								</Params>
 */
-
-
-
 /*
 Array< hybrid::NamedUniqueId > ResXmlParser::getScreenNames()
 {
@@ -346,12 +424,6 @@ Array< hybrid::NamedUniqueId > ResXmlParser::getScreenNames()
 	return names;
 }
 */
-
-
-
-
-
-
 /*
 bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybrid::Slice>& slices, Array<hybrid::Screen>& screens, Point<int>& resolution )
 {
@@ -525,9 +597,6 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybri
 }
 */
 
-
-
-
 void ResXmlParser::addPointToSlice( juce::XmlElement *element, Array<Point<float>>& pointType, Point<int> resolution )
 {
 	Point<float> newPoint;
@@ -551,49 +620,6 @@ XmlElement* ResXmlParser::getConfigXml()
 	//get the current comp file
 	File prefsFile = File( getPrefsFolder().getFullPathName() + "/config.xml" );
 	return XmlDocument::parse( prefsFile );
-}
-
-void ResXmlParser::setCompXml()
-{
-	if ( XmlElement* configXml = getConfigXml() )
-	{
-		String fileName;
-		if ( XmlElement* appXml = configXml->getChildByAttribute( "name", "Application" ) )
-			if ( XmlElement* settingsXml = appXml->getChildByAttribute( "name", "Settings" ) )
-				if ( XmlElement* currentCompXml = settingsXml->getChildByAttribute( "name", "CurrentCompositionFile" ) )
-					fileName = currentCompXml->getStringAttribute( "value" );
-
-		if ( File( fileName ).existsAsFile() )
-			compXml = XmlDocument::parse( File( fileName ) );
-
-		delete configXml;
-	}
-}
-
-void ResXmlParser::setAssXml()
-{
-	File presetFileConfig = File( getPrefsFolder().getFullPathName() + "/AdvancedOutput.xml" );
-	if ( presetFileConfig.existsAsFile() )
-	{
-		if ( XmlElement* screenSetupXml = XmlDocument::parse( presetFileConfig ) )
-		{
-			String presetFile = screenSetupXml->getStringAttribute( "presetFile" );
-			if ( presetFile.isEmpty() ) // no seperate preset file saved, so the data is stored in this xmlelement itself
-			{
-				assXml = screenSetupXml; //assXml is scopedpointer, so we become owner
-				assFile = presetFileConfig;
-			}
-			else
-			{
-				assFile = File(getAppFolder().getFullPathName() + "/Presets/Advanced Output/" + presetFile + ".xml");
-				if ( ScopedPointer<XmlElement> presetFileXml = XmlDocument::parse( assFile ) )
-				{
-					assXml = new XmlElement(*presetFileXml->getChildByName( "ScreenSetup" ));
-					delete screenSetupXml;
-				}
-			}
-		}
-	}
 }
 
 /*

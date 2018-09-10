@@ -20,26 +20,6 @@ FileHelper::~FileHelper()
 
 }
 
-File FileHelper::getAssFileFromUser()
-{
-	//give the user a nice place to start looking
-	//first try Arena 5's screensetup location
-	File presetsLocation = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 5/presets/screensetup/";
-	////if it doesn't exist, then check Arena 4's screensetup location
-	if ( !presetsLocation.exists() )
-		presetsLocation = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 4/presets/screensetup/";
-	//if neither of those exist, start at the documents folder
-	if ( !presetsLocation.exists() )
-		presetsLocation = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName();
-
-	//ask the user to pick a file
-	FileChooser fc( "Pick an Arena setup file...", presetsLocation, "*.xml", true );
-	if ( fc.browseForFileToOpen() )
-		return fc.getResult();
-	else
-		return File();
-}
-
 File FileHelper::getAssFileAutomagically( bool showDialog )
 {
 	File returnFile;
@@ -47,7 +27,7 @@ File FileHelper::getAssFileAutomagically( bool showDialog )
 	File advancedFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 6/Preferences/AdvancedOutput.xml";
 	if ( advancedFile.exists() )
 	{
-		returnFile = getVersionSpecificAssFile( advancedFile, 6, showDialog );
+		returnFile = getAssFileByVersion( advancedFile, 6, showDialog );
 		if ( returnFile != File() ) //if we didn't press cancel
 			return returnFile;
 	}
@@ -56,31 +36,10 @@ File FileHelper::getAssFileAutomagically( bool showDialog )
 	advancedFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 5/preferences/screensetup/advanced.xml";
 	if ( advancedFile.exists() )
 	{
-		returnFile = getVersionSpecificAssFile( advancedFile, 5, showDialog );
+		returnFile = getAssFileByVersion( advancedFile, 5, showDialog );
 		if ( returnFile != File() ) //if we didn't press cancel
 			return returnFile;
 	}
-	/*
-	//if we can't find the advanced.xml file, we're probably dealing with arena 4
-	//so check for the Arena 4 preset
-	else
-	{
-		advancedFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 4/preferences/config.xml";
-		if ( advancedFile.exists() )
-		{
-
-			if ( showDialog ? AlertWindow::showOkCancelBox( AlertWindow::AlertIconType::QuestionIcon,
-				"Res 4 setup file found!",
-				"Would you like to load the current Arena setup file?",
-				"OK", "Cancel" ) : true )
-			{
-				//in Arena 4, the entire current ass preset is stored inside the config xml
-				return advancedFile;
-			}
-		}
-
-	}
-	*/
 	//if everything has failed, we return an empty file
 	return File();
 }
@@ -129,6 +88,7 @@ File FileHelper::getArenaCompFileByVersion( int version )
 				}
 			}
 		}
+		return File();
 		break;
 	default:
 		return File();
@@ -137,7 +97,7 @@ File FileHelper::getArenaCompFileByVersion( int version )
 	}
 }
 
-File FileHelper::getVersionSpecificAssFile( File advancedFile, int version, bool showDialog )
+File FileHelper::getAssFileByVersion( File advancedFile, int version, bool showDialog )
 {
 	if ( showDialog ? AlertWindow::showOkCancelBox( AlertWindow::AlertIconType::QuestionIcon,
 		"Arena " + String( version ) + " setup file found!",
@@ -152,7 +112,7 @@ File FileHelper::getVersionSpecificAssFile( File advancedFile, int version, bool
 				advancedName = mainXmlElement->getStringAttribute( "presetFile", String() );
 
 		//if we get a name, make a File out of it and return it
-		if ( advancedName != String().empty )
+		if ( advancedName != String() )
 		{
 			String namedPreset = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName();// 
 			switch ( version )
@@ -176,9 +136,6 @@ File FileHelper::getVersionSpecificAssFile( File advancedFile, int version, bool
 	return File();
 }
 
-
-
-
 bool FileHelper::isFileValid( juce::File fileToCheck, bool giveFeedback )
 {
 	if ( fileToCheck.existsAsFile() && fileToCheck != File() )
@@ -191,7 +148,6 @@ bool FileHelper::isFileValid( juce::File fileToCheck, bool giveFeedback )
 			"That file can't be read! It looks like it's an invalid file!",
 			"Ok" );
 	}
-
 	return false;
 }
 
@@ -216,7 +172,7 @@ void FileHelper::throwVersionError()
 {
 	AlertWindow::showMessageBoxAsync( AlertWindow::AlertIconType::WarningIcon,
 		"Sorry!",
-		"This Chaser file can't be loaded, because it was created using a different version of Chaser.",
+		"This file can't be loaded, because it was created using a different version.",
 		"Ok" );
 	DBG( "Error loading file..." );
 }

@@ -20,18 +20,17 @@ class FileHelper
 public:
 	FileHelper();
 	~FileHelper();
-	
-	static File getAssFileFromUser();
 
+	static bool isFileValid( File fileToCheck, bool giveFeedback );
+	
 	/*this will return either the Arena 5 or Arena 4 ass file*/
 	static File getAssFileAutomagically( bool showDialog );
-
 	static File getArenaCompFileByVersion( int version );
 
-	static File getVersionSpecificAssFile( File advancedFile, int version, bool showDialog );
-		
-    static bool isFileValid ( File fileToCheck, bool giveFeedback );
-	
+private:
+
+	static File getAssFileByVersion( File advancedFile, int version, bool showDialog );
+			
 	static void throwLoadError();
 	static void throwSaveError();
 	static void throwVersionError();
