@@ -56,20 +56,24 @@ Time ChaserXmlParser::getLastUpdateTime()
 {
 	//first check the assfile
 	File assFile;
-	parseAssFile( FileLess::getLastUsedFileName(FileLess::Chaser), assFile );
-	Time lastTime = assFile.getLastModificationTime();
-
-	//then check the compfile
-	File compFile = FileHelper::getArenaCompFileByVersion( 6 );
-	if ( compFile.existsAsFile() ) //confirms we're on 6
+	if ( parseAssFile( FileLess::getLastUsedFileName( FileLess::Chaser ), assFile ) )
 	{
-		if ( compFile.getLastModificationTime() > lastTime )
+		Time lastTime = assFile.getLastModificationTime();
+
+		//then check the compfile
+		File compFile = FileHelper::getArenaCompFileByVersion( 6 );
+		if ( compFile.existsAsFile() ) //confirms we're on 6
 		{
-			lastTime = compFile.getLastModificationTime();
+			if ( compFile.getLastModificationTime() > lastTime )
+			{
+				lastTime = compFile.getLastModificationTime();
+			}
 		}
+
+		return lastTime;
 	}
 
-	return lastTime;
+	return Time();
 }
 
 bool ChaserXmlParser::parseAssFile( File chaserFile, juce::File& assFile )
