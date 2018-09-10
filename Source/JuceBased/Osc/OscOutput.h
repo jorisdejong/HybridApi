@@ -11,7 +11,7 @@
 #ifndef OSCOUTPUT_H_INCLUDED
 #define OSCOUTPUT_H_INCLUDED
 
-#include "../../../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 
 class OscOutput : private OSCSender
 {

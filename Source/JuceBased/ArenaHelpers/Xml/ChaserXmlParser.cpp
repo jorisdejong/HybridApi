@@ -52,11 +52,28 @@ Array<hybrid::NamedUniqueId> ChaserXmlParser::getChaserSequenceNames( juce::File
 	return chasers;
 }
 
-Time ChaserXmlParser::getLastUpdateTimeForActiveAssFile()
+Time ChaserXmlParser::getLastUpdateTime()
 {
+	//first check the assfile
 	File assFile;
-	parseAssFile( FileLess::getLastUsedFileName(FileLess::Chaser), assFile );
-	return assFile.getLastModificationTime();
+	if ( parseAssFile( FileLess::getLastUsedFileName( FileLess::Chaser ), assFile ) )
+	{
+		Time lastTime = assFile.getLastModificationTime();
+
+		//then check the compfile
+		File compFile = FileHelper::getArenaCompFileByVersion( 6 );
+		if ( compFile.existsAsFile() ) //confirms we're on 6
+		{
+			if ( compFile.getLastModificationTime() > lastTime )
+			{
+				lastTime = compFile.getLastModificationTime();
+			}
+		}
+
+		return lastTime;
+	}
+
+	return Time();
 }
 
 bool ChaserXmlParser::parseAssFile( File chaserFile, juce::File& assFile )
