@@ -110,11 +110,11 @@ XmlElement * ResXmlParser::getXml()
 	return resData;
 }
 
-/*Array<hybrid::Slice> ResXmlParser::getSlices()
+Array<hybrid::Slice> ResXmlParser::getSlices()
 {
 	//get the resolution from the "sizing" element
 	//we later need the resolution to store the slices in the 0...1 range
-	Point<int> resolution;
+	Point<int> resolution = Point<int>{0,0};
 	XmlElement* sizing = assXml->getChildByName( "sizing" );
 	if ( sizing != nullptr )
 	{
@@ -132,6 +132,10 @@ XmlElement * ResXmlParser::getXml()
 				}
 			}
 		}
+	}
+	if ( resolution == Point<int>{ 0, 0 } )
+	{
+		resolution = getCompSize();
 	}
 
 	Array<hybrid::Slice> slices;
@@ -250,8 +254,7 @@ XmlElement * ResXmlParser::getXml()
 		DBG( "Slice data parsed succesfully" );
 
 	return slices;
-}*/
-
+}
 /**
 bool ResXmlParser::parseAssFile( File f, OwnedArray<hybrid::Slice>& slices, Array<hybrid::Screen>& screens, Point<int>& resolution )
 {

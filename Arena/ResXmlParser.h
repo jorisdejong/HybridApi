@@ -29,7 +29,11 @@ public:
 	Point<int> getCompSize();
 	String getCompName();
 
+	Array<hybrid::Slice> getSlices();
+
 	XmlElement* getXml();
+
+	
 	
 private:	
 	ScopedPointer<XmlElement> resData;
