@@ -65,6 +65,7 @@ File FileHelper::getArenaCompFileByVersion( int version )
 				}
 			}
 		}
+		return File();
 		break;
 	case ( 6 ):
 		configFile = File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 6/Preferences/config.xml";
@@ -93,7 +94,6 @@ File FileHelper::getArenaCompFileByVersion( int version )
 	default:
 		return File();
 		break;
-
 	}
 }
 
