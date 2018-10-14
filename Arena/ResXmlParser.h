@@ -29,9 +29,28 @@ public:
 	Point<int> getCompSize();
 	String getCompName();
 
+	/*get all the slices from the ass*/
 	Array<hybrid::Slice> getSlices();
 
+	/*neatly arrange the relevant data into an xmlelement*/
 	XmlElement* getXml();
+
+	struct Clip
+	{
+		int64 uniqueId;
+		int column;
+		int layer;
+		int deck;
+		String name;
+		//to reconstruct the thumbfile name: filename for files, uid for generators
+		String thumbFileData; 
+		//the actual pixels as base64
+		String thumbData; 
+	};
+	/*
+	Scrape the comp for all the clips
+	*/
+	Array<Clip> getClips();
 
 	
 	
@@ -64,6 +83,10 @@ private:
 			return r;
 		}
 	};
+
+	String getElementName( XmlElement* element );
+
+	
 };
 
 

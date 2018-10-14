@@ -39,6 +39,19 @@ void ResXmlParser::setCompXml()
 	}
 }
 
+String ResXmlParser::getElementName( XmlElement * element )
+{
+	forEachXmlChildElementWithTagName( *element, paramsXml, "Params" )
+	{
+		forEachXmlChildElementWithTagName( *paramsXml, paramXml, "Param" )
+		{
+			if ( paramXml->getStringAttribute( "name" ) == "Name" )
+				return paramXml->getStringAttribute( "value" );
+		}
+	}
+	return String();
+}
+
 void ResXmlParser::setAssXml()
 {
 	File presetFileConfig = File( getPrefsFolder().getFullPathName() + "/AdvancedOutput.xml" );
@@ -96,16 +109,16 @@ XmlElement * ResXmlParser::getXml()
 		composition->addChildElement( XmlStorable{ "name", "s", compositionInfoXml->getStringAttribute( "name" ) }.toXml() );
 		composition->addChildElement( XmlStorable{ "width", "i", compositionInfoXml->getStringAttribute( "width" ) }.toXml() );
 		composition->addChildElement( XmlStorable{ "height", "i", compositionInfoXml->getStringAttribute( "height" ) }.toXml() );
-		
+
 		for ( int i = 0; i < 3; i++ )
 		{
 			XmlElement* layer = XmlStorable{ "layer", "array", "" }.toXml();
 			composition->addChildElement( layer );
-			layer->addChildElement( XmlStorable{ "name", "s", "layer " + String(i) }.toXml() );
+			layer->addChildElement( XmlStorable{ "name", "s", "layer " + String( i ) }.toXml() );
 			layer->addChildElement( XmlStorable{ "width", "i", "1920" }.toXml() );
 			layer->addChildElement( XmlStorable{ "height", "i", "1080" }.toXml() );
 		}
-		
+
 	}
 	return resData;
 }
@@ -114,7 +127,7 @@ Array<hybrid::Slice> ResXmlParser::getSlices()
 {
 	//get the resolution from the "sizing" element
 	//we later need the resolution to store the slices in the 0...1 range
-	Point<int> resolution = Point<int>{0,0};
+	Point<int> resolution = Point<int>{ 0,0 };
 	XmlElement* sizing = assXml->getChildByName( "sizing" );
 	if ( sizing != nullptr )
 	{
@@ -255,6 +268,7 @@ Array<hybrid::Slice> ResXmlParser::getSlices()
 
 	return slices;
 }
+
 /**
 bool ResXmlParser::parseAssFile( File f, OwnedArray<hybrid::Slice>& slices, Array<hybrid::Screen>& screens, Point<int>& resolution )
 {
@@ -599,6 +613,29 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybri
 	}
 }
 */
+
+Array<ResXmlParser::Clip> ResXmlParser::getClips()
+{
+	Array<Clip> returnArray;
+	forEachXmlChildElementWithTagName( *compXml, deckXml, "Deck" )
+	{
+		forEachXmlChildElementWithTagName( *deckXml, clipXml, "Clip" )
+		{
+			Clip clip;
+			clip.deck = deckXml->getIntAttribute( "deckIndex" );
+			clip.uniqueId = clipXml->getStringAttribute( "uniqueId" ).getLargeIntValue();
+			clip.column = clipXml->getIntAttribute( "columnIndex" );
+			clip.layer = clipXml->getIntAttribute( "layerIndex" );
+			if ( XmlElement* preloadDataXml = clipXml->getChildByName( "PreloadData" ) ) 
+				//this means we're dealing with a file
+				clip.thumbFileData = preloadDataXml->getChildElement( 0 )->getStringAttribute( "value" );
+			clip.name = getElementName( clipXml );
+			
+			returnArray.add( clip );
+		}
+	}
+	return returnArray;
+}
 
 void ResXmlParser::addPointToSlice( juce::XmlElement *element, Array<Point<float>>& pointType, Point<int> resolution )
 {
