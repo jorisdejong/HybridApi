@@ -21,13 +21,13 @@ PathButton create a button based on a set of points
 It can then resize its path based on the resolution of the view it's living in
 */
 
-
-
 class PathButton 
 {
 public:
+	PathButton();
 	PathButton ( Array<Point<float>> points );
     ~PathButton();
+	
 
 	void updatePath( Point<int> resolution );
 	Path path;
@@ -35,12 +35,7 @@ public:
 	Array<Point<float>> pathPoints;
 
 private:
-	
-	
-	
 
-	
-	
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PathButton)
 };
 

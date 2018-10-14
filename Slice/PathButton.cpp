@@ -11,6 +11,11 @@
 #include "PathButton.h"
 
 
+PathButton::PathButton()
+{
+
+}
+
 PathButton::PathButton( Array<Point<float>> points )
 {
 	pathPoints = points;
