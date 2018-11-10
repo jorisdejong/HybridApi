@@ -85,9 +85,12 @@ File ResXmlParser::getAssFile()
 
 Point<int> ResXmlParser::getCompSize()
 {
-	if ( XmlElement* compositionInfoXml = compXml->getChildByName( "CompositionInfo" ) )
+	if ( !compXml )
+		return Point<int>( 1920, 1080 );
+	else if ( XmlElement* compositionInfoXml = compXml->getChildByName( "CompositionInfo" ) )
 		return Point<int>( compositionInfoXml->getIntAttribute( "width", 1920 ), compositionInfoXml->getIntAttribute( "height", 1080 ) );
-	return Point<int>( 1920, 1080 );
+	else 
+		return Point<int>( 1920, 1080 );
 }
 
 String  ResXmlParser::getCompName()
@@ -125,6 +128,7 @@ XmlElement * ResXmlParser::getXml()
 
 Array<hybrid::Slice> ResXmlParser::getSlices()
 {
+	/*
 	//get the resolution from the "sizing" element
 	//we later need the resolution to store the slices in the 0...1 range
 	Point<int> resolution = Point<int>{ 0,0 };
@@ -150,6 +154,7 @@ Array<hybrid::Slice> ResXmlParser::getSlices()
 	{
 		resolution = getCompSize();
 	}
+	*/
 
 	Array<hybrid::Slice> slices;
 
@@ -199,7 +204,7 @@ Array<hybrid::Slice> ResXmlParser::getSlices()
 									forEachXmlChildElement( *inputRect, vertex )
 									{
 										if ( vertex->hasTagName( "v" ) )
-											addPointToSlice( vertex, newSlice.inputRectPoints, resolution );
+											addPointToSlice( vertex, newSlice.inputRectPoints );
 									}
 								}
 								XmlElement* sliceMask = layerChild->getChildByName( "SliceMask" );
@@ -215,7 +220,7 @@ Array<hybrid::Slice> ResXmlParser::getSlices()
 											forEachXmlChildElement( *maskRect, vertex )
 											{
 												if ( vertex->hasTagName( "v" ) )
-													addPointToSlice( vertex, newSlice.maskRectPoints, resolution );
+													addPointToSlice( vertex, newSlice.maskRectPoints );
 											}
 										}
 										XmlElement* shape = shapeObject->getChildByName( "Shape" );
@@ -230,7 +235,7 @@ Array<hybrid::Slice> ResXmlParser::getSlices()
 													forEachXmlChildElement( *points, vertex )
 													{
 														if ( vertex->hasTagName( "v" ) )
-															addPointToSlice( vertex, newSlice.maskPoints, resolution );
+															addPointToSlice( vertex, newSlice.maskPoints );
 													}
 												}
 											}
@@ -247,7 +252,7 @@ Array<hybrid::Slice> ResXmlParser::getSlices()
 										forEachXmlChildElement( *points, vertex )
 										{
 											if ( vertex->hasTagName( "v" ) )
-												addPointToSlice( vertex, newSlice.maskPoints, resolution );
+												addPointToSlice( vertex, newSlice.maskPoints );
 										}
 									}
 								}
@@ -637,11 +642,11 @@ Array<ResXmlParser::Clip> ResXmlParser::getClips()
 	return returnArray;
 }
 
-void ResXmlParser::addPointToSlice( juce::XmlElement *element, Array<Point<float>>& pointType, Point<int> resolution )
+void ResXmlParser::addPointToSlice( juce::XmlElement *element, Array<Point<float>>& pointType )
 {
 	Point<float> newPoint;
-	newPoint.x = element->getStringAttribute( "x", "0.0" ).getFloatValue() / float( resolution.x );
-	newPoint.y = element->getStringAttribute( "y", "0.0" ).getFloatValue() / float( resolution.y );
+	newPoint.x = element->getStringAttribute( "x", "0.0" ).getFloatValue();
+	newPoint.y = element->getStringAttribute( "y", "0.0" ).getFloatValue();
 	pointType.add( newPoint );
 }
 

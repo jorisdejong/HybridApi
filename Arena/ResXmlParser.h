@@ -56,7 +56,7 @@ public:
 	
 private:	
 	ScopedPointer<XmlElement> resData;
-	static void addPointToSlice( XmlElement* sliceElement, Array<Point<float>>& pointType, Point<int> resolution );
+	static void addPointToSlice( XmlElement* sliceElement, Array<Point<float>>& pointType );
 
 	File getAppFolder();
 	File getPrefsFolder();
