@@ -34,6 +34,8 @@ void ResXmlParser::setCompXml()
 
 		if ( File( fileName ).existsAsFile() )
 			compXml = XmlDocument::parse( File( fileName ) );
+		else
+			DBG( "Couldn't find current comp file" );
 
 		delete configXml;
 	}
