@@ -102,32 +102,6 @@ String  ResXmlParser::getCompName()
 	return String();
 }
 
-XmlElement * ResXmlParser::getXml()
-{
-	//parse the required xml
-	resData = new XmlElement( "ResolumeData" );
-
-	if ( XmlElement* compositionInfoXml = compXml->getChildByName( "CompositionInfo" ) )
-	{
-		XmlElement* composition = XmlStorable{ "composition", "array", "" }.toXml();
-		resData->addChildElement( composition );
-		composition->addChildElement( XmlStorable{ "name", "s", compositionInfoXml->getStringAttribute( "name" ) }.toXml() );
-		composition->addChildElement( XmlStorable{ "width", "i", compositionInfoXml->getStringAttribute( "width" ) }.toXml() );
-		composition->addChildElement( XmlStorable{ "height", "i", compositionInfoXml->getStringAttribute( "height" ) }.toXml() );
-
-		for ( int i = 0; i < 3; i++ )
-		{
-			XmlElement* layer = XmlStorable{ "layer", "array", "" }.toXml();
-			composition->addChildElement( layer );
-			layer->addChildElement( XmlStorable{ "name", "s", "layer " + String( i ) }.toXml() );
-			layer->addChildElement( XmlStorable{ "width", "i", "1920" }.toXml() );
-			layer->addChildElement( XmlStorable{ "height", "i", "1080" }.toXml() );
-		}
-
-	}
-	return resData;
-}
-
 Array<hybrid::Slice> ResXmlParser::getSlices()
 {
 	/*
@@ -637,6 +611,14 @@ Array<ResXmlParser::Clip> ResXmlParser::getClips()
 				//this means we're dealing with a file
 				clip.thumbFileData = preloadDataXml->getChildElement( 0 )->getStringAttribute( "value" );
 			clip.name = getElementName( clipXml );
+			forEachXmlChildElementWithTagName( *clipXml, paramsXml, "Params" )
+			{
+				forEachXmlChildElementWithTagName( *paramsXml, paramXml, "Param" )
+				{
+					if ( paramXml->getStringAttribute( "name" ) == "Name" )
+						clip.defaultName = paramXml->getStringAttribute( "default" );
+				}
+			}
 			
 			returnArray.add( clip );
 		}
