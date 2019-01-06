@@ -17,8 +17,8 @@ PopupMenu FileLess::getMenu()
 	menu.addItem( 1, "New" );
 	menu.addSeparator();
 
-	menu.addItem( 2, "Load", false );
-	menu.addItem( 3, "Save as...", false );
+	menu.addItem( 2, "Load" );
+	menu.addItem( 3, "Save as..." );
 	return menu;
 }
 
@@ -33,8 +33,11 @@ File FileLess::saveAs()
 	String dialog = "Save file as...";
 	juce::FileChooser saver( dialog, getAppFolder(), "*.xml" );
 	if ( saver.browseForFileToSave( true ) )
+	{
+		if ( !saver.getResult().existsAsFile() )
+			saver.getResult().create();
 		return saver.getResult();
-
+	}
 	return File();
 }
 
