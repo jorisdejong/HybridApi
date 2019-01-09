@@ -19,19 +19,39 @@
 - keeping track of the preferences file
 - keeping track of the savefile */
 
-namespace FileLess
+class FileLess
 {
+public:
+	FileLess();
+	~FileLess();
+
 	PopupMenu getMenu();
 
-	File getNewFile();
-	File saveAs();
-	File load();
+	/**will return true when the file was loaded and parsed succesfully*/
+	bool loadExistingFile();
+	void saveAsFile();
+	void createNewFile();
 
-	File getLastUsedFileName();
-	void writeLastUsedFileName( File file );
+	/**will replace the ValueTree if it already exists*/
+	void addTree( ValueTree tree );
+	void removeTree( Identifier toRemove );
+	ValueTree loadTree( Identifier id );
+
+	void saveToFile();
+
+private:
+	ValueTree mainTree;
+	File saveFile;
+
+	/*File getNewFile();
+	File getSaveAsFile();
+	File getLoadFile();*/
+
+	void setLastUsedFile();
+	void writeLastUsedFileName();
 
 	File getAppFolder();
-}
+};
 
 
 

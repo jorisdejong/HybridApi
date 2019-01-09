@@ -11,6 +11,25 @@
 #include "FileLess.h"
 #include "FileHelper.h"
 
+FileLess::FileLess()
+{
+	mainTree = ValueTree( Identifier( ProjectInfo::projectName ) );
+	
+	setLastUsedFile();
+
+	//try to load the previous file
+	if ( ScopedPointer<XmlElement> mainXml = XmlDocument::parse( saveFile ) )
+		if ( mainXml->getTagName() == ProjectInfo::projectName )
+			mainTree = ValueTree::fromXml( *mainXml );
+
+	writeLastUsedFileName();
+}
+
+FileLess::~FileLess()
+{
+
+}
+
 PopupMenu FileLess::getMenu()
 {
 	PopupMenu menu;
@@ -22,36 +41,122 @@ PopupMenu FileLess::getMenu()
 	return menu;
 }
 
-File FileLess::getNewFile()
+bool FileLess::loadExistingFile()
 {
-	File folder = getAppFolder();
-	return folder.getChildFile( "New" + String( ProjectInfo::projectName ) + "Document.xml" );
+	juce::FileChooser loader( "Load new...", getAppFolder(), "*.xml" );
+	if ( loader.browseForFileToOpen() )
+	{
+		File result = loader.getResult();
+		if ( result == File() )
+		{
+			FileHelper::throwEmptyError();
+			return false;
+		}
+		else
+		{
+			ScopedPointer<XmlElement> mainXml = XmlDocument::parse( result );
+			if ( !mainXml )
+			{
+				FileHelper::throwLoadError();
+				return false;
+			}
+			else
+			{
+				if ( mainXml->getTagName() == ProjectInfo::projectName )
+				{
+					mainTree = ValueTree::fromXml( *mainXml );
+					return true;
+				}
+				else
+				{
+					FileHelper::throwLoadError();
+					return false;
+				}
+			}
+		}
+	}
+	else
+		return false;
 }
 
-File FileLess::saveAs()
+void FileLess::saveAsFile()
 {
 	String dialog = "Save file as...";
 	juce::FileChooser saver( dialog, getAppFolder(), "*.xml" );
 	if ( saver.browseForFileToSave( true ) )
 	{
-		if ( !saver.getResult().existsAsFile() )
-			saver.getResult().create();
-		return saver.getResult();
+		File result = saver.getResult();
+		if ( !result.existsAsFile() )
+			result.create();
+
+		saveFile = result;
+		writeLastUsedFileName();
 	}
-	return File();
 }
 
-File FileLess::load()
+void FileLess::createNewFile()
 {
-	juce::FileChooser loader( "Load new...", getAppFolder(), "*.xml" );
-	if ( loader.browseForFileToOpen() )
-		return loader.getResult();
+	mainTree.removeAllChildren( nullptr );
 
-	return File();
+	File folder = getAppFolder();
+	saveFile = folder.getChildFile( "New" + String( ProjectInfo::projectName ) + "Document.xml" );
+
+	if ( !saveFile.exists() )
+		saveFile.create();
+
+	writeLastUsedFileName();
+}
+
+//File FileLess::getNewFile()
+//{
+//	
+//	return 
+//}
+
+//File FileLess::getSaveAsFile()
+//{
+//	String dialog = "Save file as...";
+//	juce::FileChooser saver( dialog, getAppFolder(), "*.xml" );
+//	if ( saver.browseForFileToSave( true ) )
+//	{
+//		if ( !saver.getResult().existsAsFile() )
+//			saver.getResult().create();
+//		return saver.getResult();
+//	}
+//	return File();
+//}
+
+//File FileLess::getLoadFile()
+//{
+//
+//}
+
+void FileLess::addTree( ValueTree newTree )
+{
+	mainTree.removeChild( mainTree.getChildWithName( newTree.getType() ), nullptr );
+	mainTree.addChild( newTree, -1, nullptr );
+}
+
+void FileLess::removeTree( Identifier toRemove )
+{
+	ValueTree deleteMe = mainTree.getChildWithName( toRemove );
+	mainTree.removeChild( deleteMe, nullptr );
+}
+
+ValueTree FileLess::loadTree( Identifier id )
+{
+	return mainTree.getChildWithName( id );
+}
+
+void FileLess::saveToFile()
+{
+	ScopedPointer<XmlElement> mainXml = mainTree.createXml();
+	mainXml->writeToFile( saveFile, "" );
+	writeLastUsedFileName();
 }
 
 
-File FileLess::getLastUsedFileName()
+void FileLess::setLastUsedFile()
 {
 	File appFolder = getAppFolder();
 	if ( !appFolder.exists() )
@@ -70,20 +175,22 @@ File FileLess::getLastUsedFileName()
 		if ( lastUsedFileXml )
 		{
 			File savedFile = File( lastUsedFileXml->getStringAttribute( "fullpathname" ) );
-            if (savedFile != File() )
-                return savedFile;
+			if ( savedFile.existsAsFile() && savedFile != File() )
+			{
+				saveFile = savedFile;
+				return;
+			}
 		}
 	}
 
-	//if all else fails, return a default file
-	File newFile = getNewFile();
-	writeLastUsedFileName( newFile );
-	return newFile;
+	//if all else fails, make a default file and save it
+	createNewFile();
+	saveToFile();
 }
 
-void FileLess::writeLastUsedFileName(File newSavefile )
+void FileLess::writeLastUsedFileName()
 {
-	File appFolder = getAppFolder( );
+	File appFolder = getAppFolder();
 
 	File prefFile = appFolder.getChildFile( "preferences/preferences.xml" );
 
@@ -104,7 +211,7 @@ void FileLess::writeLastUsedFileName(File newSavefile )
 		lastUsedFileData->addChildElement( lastUsedFile );
 	}
 
-	lastUsedFile->setAttribute( "fullpathname", newSavefile.getFullPathName() );
+	lastUsedFile->setAttribute( "fullpathname", saveFile.getFullPathName() );
 
 	lastUsedFileData->writeToFile( prefFile, "" );
 }

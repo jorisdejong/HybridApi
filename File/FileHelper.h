@@ -27,14 +27,14 @@ public:
 	static File getAssFileAutomagically( bool showDialog );
 	static File getArenaCompFileByVersion( int version );
 
-private:
-
-	static File getAssFileByVersion( File advancedFile, int version, bool showDialog );
-			
 	static void throwLoadError();
 	static void throwSaveError();
 	static void throwVersionError();
 	static void throwEmptyError();
+
+private:
+
+	static File getAssFileByVersion( File advancedFile, int version, bool showDialog );
 };
 
 
