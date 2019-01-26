@@ -22,25 +22,19 @@ public:
 
 	struct Thumbnail
 	{
-		int64 uniqueId;
-		String thumbFileData; //to reconstruct the thumbfile name: filename for files, uid for generators
-		String thumbData; //the actual pixels as base64
+		int64 uniqueId = 0;
+		String thumbFileData = String(); //to reconstruct the thumbfile name: filename for files, uid for generators
+		String thumbData = String(); //the actual pixels as base64
 	};
 
 	//*loops throught the array passed in and sets the corresponding Image*/
 	static void buildCollection( Array<Thumbnail>& thumbs );
-	
-	//struct Thumb //convenience struct to hold these two together
-	//{
-	//	ResXmlParser::Clip clip;
-	//	Image image;
-	//};
-	//Array<Thumb> getThumbs() const;
-	//void addThumb( Thumb thumb );
-	//void clearThumbs();
+
+	Image getImageFromBase64( String base64 ); //get an image from base64
 
 private:
-	Image getThumbForFile( String thumbData );
-	//Array<Thumb> thumbs;
+	String getBase64ForFile( String thumbData );
+	MemoryBlock toStream( const Thumbnail& thumb );
+	Thumbnail toThumb( const MemoryBlock& block );
 	
 };
