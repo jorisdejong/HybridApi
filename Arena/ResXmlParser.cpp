@@ -15,6 +15,8 @@ ResXmlParser::ResXmlParser()
 {
 	setCompXml();
 	setAssXml();
+
+	parseClips();
 }
 
 ResXmlParser::~ResXmlParser()
@@ -595,21 +597,24 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybri
 }
 */
 
-Array<ResXmlParser::Clip> ResXmlParser::getClips()
+void ResXmlParser::parseClips()
 {
-	Array<Clip> returnArray;
+	clips.clear();
+	thumbs.clear();
 	forEachXmlChildElementWithTagName( *compXml, deckXml, "Deck" )
 	{
 		forEachXmlChildElementWithTagName( *deckXml, clipXml, "Clip" )
 		{
 			Clip clip;
+			ThumbReader::Thumbnail thumb;
 			clip.deck = deckXml->getIntAttribute( "deckIndex" );
 			clip.uniqueId = clipXml->getStringAttribute( "uniqueId" ).getLargeIntValue();
+			thumb.uniqueId = clip.uniqueId;
 			clip.column = clipXml->getIntAttribute( "columnIndex" );
 			clip.layer = clipXml->getIntAttribute( "layerIndex" );
-			if ( XmlElement* preloadDataXml = clipXml->getChildByName( "PreloadData" ) ) 
+			if ( XmlElement* preloadDataXml = clipXml->getChildByName( "PreloadData" ) )
 				//this means we're dealing with a file
-				clip.thumbFileData = preloadDataXml->getChildElement( 0 )->getStringAttribute( "value" );
+				thumb.thumbFileData = preloadDataXml->getChildElement( 0 )->getStringAttribute( "value" );
 			clip.name = getElementName( clipXml );
 			forEachXmlChildElementWithTagName( *clipXml, paramsXml, "Params" )
 			{
@@ -619,11 +624,22 @@ Array<ResXmlParser::Clip> ResXmlParser::getClips()
 						clip.defaultName = paramXml->getStringAttribute( "default" );
 				}
 			}
-			
-			returnArray.add( clip );
+
+			clips.add( clip );
+			thumbs.add( thumb );
 		}
 	}
-	return returnArray;
+}
+
+Array<ResXmlParser::Clip> ResXmlParser::getClips()
+{
+	return clips;
+}
+
+Array<ThumbReader::Thumbnail> ResXmlParser::getThumbs()
+{
+	ThumbReader::buildCollection( thumbs );
+	return thumbs;
 }
 
 void ResXmlParser::addPointToSlice( juce::XmlElement *element, Array<Point<float>>& pointType )

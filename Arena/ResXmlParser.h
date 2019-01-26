@@ -13,14 +13,16 @@
 
 #include "JuceHeader.h"
 #include "../Slice/Slice.h"
+#include "ThumbReader.h"
+
 #include <map>
 
-//helper class to parse xml data in the various resolume files
+//*helper class to parse xml data in the various resolume files */
 class ResXmlParser
 {
 public:
-	//automatically fetches the files needed to get the data
-	//and tries to parse them
+	/*finds the files needed to get the data
+	and parses them */
 	ResXmlParser();
 	~ResXmlParser();
 
@@ -32,22 +34,20 @@ public:
 	/**get all the slices from the ass*/
 	Array<hybrid::Slice> getSlices();
 
-	struct Clip
+	struct Clip //basic info about the clip
 	{
-		int64 uniqueId;
-		int column;
-		int layer;
-		int deck;
-		String name;
-		String defaultName;
-		//to reconstruct the thumbfile name: filename for files, uid for generators
-		String thumbFileData; 
-		//the actual pixels as base64
-		String thumbData; 
+		int64 uniqueId = 0;
+		int column = -1;
+		int layer = -1;
+		int deck = -1;
+		String name = String();
+		String defaultName = String();
 	};
 
 	/**	Scrape the comp for all the clips	*/
 	Array<Clip> getClips();
+	/** Scrape the comp for thumbnails */
+	Array<ThumbReader::Thumbnail> getThumbs();
 
 private:	
 	ScopedPointer<XmlElement> resData;
@@ -59,26 +59,15 @@ private:
 	void setAssXml();
 	void setCompXml();
 
+	void parseClips();
+	Array<Clip> clips;
+	Array<ThumbReader::Thumbnail> thumbs;
+
 	ScopedPointer<XmlElement> compXml;
 	ScopedPointer<XmlElement> assXml;
 	File assFile;
 
-	struct XmlStorable
-	{ 
-		String name;
-		String type;
-		String value;
-
-		XmlElement* toXml() 
-		{ 
-			XmlElement* r = new XmlElement( "Property" );
-			r->setAttribute( "name", name );
-			r->setAttribute( "type", type );
-			r->setAttribute( "value", value );
-			return r;
-		}
-	};
-
+	/** helper function to get the value of an xmlelement's "name" attribute */
 	String getElementName( XmlElement* element );
 };
 
