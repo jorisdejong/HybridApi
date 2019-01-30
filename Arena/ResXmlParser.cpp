@@ -10,13 +10,12 @@
 
 #include "ResXmlParser.h"
 #include "../File/FileHelper.h"
+#include "Clip\Clip.h"
 
 ResXmlParser::ResXmlParser()
 {
 	setCompXml();
 	setAssXml();
-
-	parseClips();
 }
 
 ResXmlParser::~ResXmlParser()
@@ -597,50 +596,7 @@ bool ResXmlParser::parseRes5Xml( juce::XmlElement& screenSetup, OwnedArray<hybri
 }
 */
 
-void ResXmlParser::parseClips()
-{
-	clips.clear();
-	thumbs.clear();
-	forEachXmlChildElementWithTagName( *compXml, deckXml, "Deck" )
-	{
-		forEachXmlChildElementWithTagName( *deckXml, clipXml, "Clip" )
-		{
-			Clip clip;
-			ThumbReader::Thumbnail thumb;
-			clip.deck = deckXml->getIntAttribute( "deckIndex" );
-			clip.uniqueId = clipXml->getStringAttribute( "uniqueId" ).getLargeIntValue();
-			thumb.uniqueId = clip.uniqueId;
-			clip.column = clipXml->getIntAttribute( "columnIndex" );
-			clip.layer = clipXml->getIntAttribute( "layerIndex" );
-			if ( XmlElement* preloadDataXml = clipXml->getChildByName( "PreloadData" ) )
-				//this means we're dealing with a file
-				thumb.thumbFileData = preloadDataXml->getChildElement( 0 )->getStringAttribute( "value" );
-			clip.name = getElementName( clipXml );
-			forEachXmlChildElementWithTagName( *clipXml, paramsXml, "Params" )
-			{
-				forEachXmlChildElementWithTagName( *paramsXml, paramXml, "Param" )
-				{
-					if ( paramXml->getStringAttribute( "name" ) == "Name" )
-						clip.defaultName = paramXml->getStringAttribute( "default" );
-				}
-			}
 
-			clips.add( clip );
-			thumbs.add( thumb );
-		}
-	}
-}
-
-Array<ResXmlParser::Clip> ResXmlParser::getClips()
-{
-	return clips;
-}
-
-Array<ThumbReader::Thumbnail> ResXmlParser::getThumbs()
-{
-	ThumbReader::buildCollection( thumbs );
-	return thumbs;
-}
 
 void ResXmlParser::addPointToSlice( juce::XmlElement *element, Array<Point<float>>& pointType )
 {
@@ -666,6 +622,8 @@ XmlElement* ResXmlParser::getConfigXml()
 	File prefsFile = File( getPrefsFolder().getFullPathName() + "/config.xml" );
 	return XmlDocument::parse( prefsFile );
 }
+
+
 
 /*
 bool ResXmlParser::parseRes4ConfigXml( juce::XmlElement &xmlTreeToParse, OwnedArray<Slice>& slices, Point<int> &resolution )
