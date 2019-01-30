@@ -66,16 +66,16 @@ namespace hybrid
 		~Slice() {}
 
 		
-		/*when a screen is collapsed, the slice should not draw in preview
+		/**when a screen is collapsed, the slice should not draw in preview
 		i cannot use the enabled bool for this, because when the screen is uncollapsed
 		this value should be maintained*/
 		bool screenIsCollapsed = false;
 
-		//uniqued id and name of the screen this slice is a part of
-		//this is needed to sort the slice into screens in chaser app
+		/**uniqued id and name of the screen this slice is a part of
+		this is needed to sort the slice into screens in chaser app*/
 		int64 screenId = 0;
         
-        //unique id and name of this slice
+        /**unique id and name of this slice*/
 		NamedUniqueId sliceId;
         bool enabled;
         
