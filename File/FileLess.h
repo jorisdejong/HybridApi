@@ -43,10 +43,6 @@ private:
 	ValueTree mainTree;
 	File saveFile;
 
-	/*File getNewFile();
-	File getSaveAsFile();
-	File getLoadFile();*/
-
 	void setLastUsedFile();
 	void writeLastUsedFileName();
 

@@ -107,30 +107,6 @@ void FileLess::createNewFile()
 	writeLastUsedFileName();
 }
 
-//File FileLess::getNewFile()
-//{
-//	
-//	return 
-//}
-
-//File FileLess::getSaveAsFile()
-//{
-//	String dialog = "Save file as...";
-//	juce::FileChooser saver( dialog, getAppFolder(), "*.xml" );
-//	if ( saver.browseForFileToSave( true ) )
-//	{
-//		if ( !saver.getResult().existsAsFile() )
-//			saver.getResult().create();
-//		return saver.getResult();
-//	}
-//	return File();
-//}
-
-//File FileLess::getLoadFile()
-//{
-//
-//}
-
 void FileLess::addTree( ValueTree newTree )
 {
 	mainTree.removeChild( mainTree.getChildWithName( newTree.getType() ), nullptr );
