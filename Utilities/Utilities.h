@@ -15,7 +15,7 @@
 
 namespace utils
 {
-	/*  this will return a unique name based on the input name
+	/** this will return a unique name based on the input name
 	if the name already exists, it will return that name with a "2" appended
 	if the name already ends in a number, it will return that name with that number
 	raised to the first available free number
