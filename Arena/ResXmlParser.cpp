@@ -88,12 +88,21 @@ File ResXmlParser::getAssFile()
 
 Point<int> ResXmlParser::getCompSize()
 {
-	if ( !compXml )
-		return Point<int>( 1920, 1080 );
-	else if ( XmlElement* compositionInfoXml = compXml->getChildByName( "CompositionInfo" ) )
-		return Point<int>( compositionInfoXml->getIntAttribute( "width", 1920 ), compositionInfoXml->getIntAttribute( "height", 1080 ) );
-	else 
-		return Point<int>( 1920, 1080 );
+	if ( assXml )
+		if ( XmlElement* curCompTexSize = assXml->getChildByName( "CurrentCompositionTextureSize" ) ) // method for > 6.1.2
+			return Point<int>( curCompTexSize->getIntAttribute( "width", 1920 ), curCompTexSize->getIntAttribute( "height", 1080 ) );
+
+		else if ( XmlElement* sizing = assXml->getChildByName( "sizing" ) ) //method for < 6.0.11
+			forEachXmlChildElementWithTagName( *sizing, inputs, "inputs" )
+				forEachXmlChildElement( *inputs, inputSize )
+					if ( inputSize->getStringAttribute( "name" ) == "0:1" )
+						return Point<int>( inputSize->getIntAttribute( "width", 1920 ), inputSize->getIntAttribute( "height", 1080 ) );
+
+	if ( compXml ) //patch for 6.0.11, 6.1.0 and 6.1.1
+		if ( XmlElement* compositionInfoXml = compXml->getChildByName( "CompositionInfo" ) )
+			return Point<int>( compositionInfoXml->getIntAttribute( "width", 1920 ), compositionInfoXml->getIntAttribute( "height", 1080 ) );
+
+	return Point<int>( 1920, 1080 );
 }
 
 String  ResXmlParser::getCompName()
