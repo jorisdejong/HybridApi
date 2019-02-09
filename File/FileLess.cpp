@@ -90,7 +90,7 @@ void FileLess::saveAsFile()
 			result.create();
 
 		saveFile = result;
-		writeLastUsedFileName();
+		saveToFile();
 	}
 }
 
