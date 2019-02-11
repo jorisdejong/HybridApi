@@ -10,7 +10,7 @@
 
 #include "ResXmlParser.h"
 #include "../File/FileHelper.h"
-#include "Clip\Clip.h"
+#include "Clip/Clip.h"
 
 ResXmlParser::ResXmlParser()
 {
