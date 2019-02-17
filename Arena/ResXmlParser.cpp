@@ -55,6 +55,12 @@ String ResXmlParser::getElementName( XmlElement * element )
 	return String();
 }
 
+XmlElement * ResXmlParser::getOscXml()
+{
+	File xmlFile = File( getPrefsFolder().getFullPathName() + "/osc.xml" );
+	return XmlDocument::parse( xmlFile );
+}
+
 void ResXmlParser::setAssXml()
 {
 	File presetFileConfig = File( getPrefsFolder().getFullPathName() + "/AdvancedOutput.xml" );
@@ -110,6 +116,38 @@ String  ResXmlParser::getCompName()
 	if ( XmlElement* compositionInfoXml = compXml->getChildByName( "CompositionInfo" ) )
 		return compositionInfoXml->getStringAttribute( "name" );
 	return String();
+}
+
+OscIpAndPort ResXmlParser::getIpAndPort()
+{
+	OscIpAndPort ipPort;
+	//Resolume binds the OSC port on the first available port that's not localhost
+	//so get all the addresses
+	auto ips = IPAddress::getAllAddresses();
+	for ( auto ip : ips )
+	{
+		//try to open each port
+		DatagramSocket socket;
+		if ( socket.bindToPort( 0, ip.toString() ) && ip != IPAddress::local() )
+		{
+			DBG( "found " + ip.toString() );
+			ipPort.ip = ip;
+			break; //stop when we've found the first one
+		}
+	}
+
+	jassert( !ipPort.ip.isNull() );//strange, we couldn't find an ip address
+
+	//dig out the osc port from the osc preferences
+	if ( XmlElement* oscXml = getOscXml() )
+	{
+		//<Input Enabled="1" Port="7000"/>
+		if ( XmlElement* inputXml = oscXml->getChildByName( "Input" ) )
+			if ( inputXml->getBoolAttribute( "Enabled" ) )
+				ipPort.port = inputXml->getIntAttribute( "Port" );
+		delete oscXml;
+	}
+	return ipPort;
 }
 
 Array<hybrid::Slice> ResXmlParser::getSlices()

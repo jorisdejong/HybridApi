@@ -13,6 +13,8 @@
 
 #include "JuceHeader.h"
 #include "../Slice/Slice.h"
+#include "Osc/OscIpAndPort.h"
+
 
 /** base helper class to parse xml data in the various resolume files */
 class ResXmlParser
@@ -30,6 +32,8 @@ public:
 
 	/**get all the slices from the ass*/
 	Array<hybrid::Slice> getSlices();
+
+	OscIpAndPort getIpAndPort();
 
 protected:
 	/** the resolume comp file as xml
@@ -50,6 +54,8 @@ private:
 	File getAppFolder();
 	File getPrefsFolder();
 	XmlElement* getConfigXml();
+	XmlElement* getOscXml();
+
 	void setAssXml();
 	void setCompXml();
 
