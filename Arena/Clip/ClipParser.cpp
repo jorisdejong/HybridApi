@@ -27,6 +27,10 @@ Array<Clip> ClipParser::getClips()
 
 void ClipParser::parseClips()
 {
+	jassert( compXml );
+	if ( !compXml )
+		return;
+
 	clips.clear();
 	forEachXmlChildElementWithTagName( *compXml, deckXml, "Deck" )
 	{
