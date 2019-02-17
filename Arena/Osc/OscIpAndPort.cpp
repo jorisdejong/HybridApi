@@ -31,7 +31,7 @@ ValueTree OscIpAndPort::toValueTree()
 OscIpAndPort OscIpAndPort::createFromValueTree( ValueTree oscIpPortTree )
 {
 	OscIpAndPort ipPort;
-	ipPort.ip = IPAddress( oscIpPortTree.getProperty( "ip" ) );
+	ipPort.ip = IPAddress( oscIpPortTree.getProperty( "ip" ).toString() );
 	ipPort.port = oscIpPortTree.getProperty( "port" );
 	return ipPort;
 }
