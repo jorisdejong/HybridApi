@@ -27,6 +27,12 @@ Array<Clip> ClipParser::getClips()
 
 void ClipParser::parseClips()
 {
+	/**
+	* oh noes... we haven't been able to parse the composition xml file
+	* the most likely cause is that there is no resolume folder in documents
+	* or that the current composition file doesn't actually exist
+	* either way, we're not going to find any clips like this
+	*/
 	jassert( compXml );
 	if ( !compXml )
 		return;
