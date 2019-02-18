@@ -59,7 +59,14 @@ namespace hybrid
 			fillMode = FillMode::Fit;
 		}
 
-		Slice( const Slice& slice ) : sliceId( slice.sliceId ), enabled( slice.enabled ), inputRectPoints( slice.inputRectPoints ), maskPoints( slice.maskPoints ), maskRectPoints( slice.maskRectPoints ), inputRectOrientation( slice.inputRectOrientation ), maskRectOrientation( slice.maskRectOrientation ) {	}
+		Slice( const Slice& slice ) :
+        sliceId( slice.sliceId ),
+        enabled( slice.enabled ),
+        inputRectPoints( slice.inputRectPoints ),
+        inputRectOrientation( slice.inputRectOrientation ),
+        maskPoints( slice.maskPoints ),
+        maskRectPoints( slice.maskRectPoints ),
+        maskRectOrientation( slice.maskRectOrientation ) {	}
 
 		Slice() : Slice( std::make_pair( String( "New Slice" ), 0 ), false ) {}
 
