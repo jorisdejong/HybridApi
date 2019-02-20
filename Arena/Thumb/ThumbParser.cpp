@@ -60,7 +60,16 @@ String ThumbParser::getBase64ForFile( String thumbFileData )
 				+ "_video.png";
 		}
 
-		File thumbFile = File::getSpecialLocation( File::SpecialLocationType::userApplicationDataDirectory ).getParentDirectory().getChildFile( "Local/Resolume Arena 6/previews/" + thumbname );
+		// Mac: /Users/[username]/Library/Application Support/Resolume Avenue 6/
+		// Windows: C:\Users\[ username ]\AppData\Local\Resolume Avenue 6\
+		
+		File thumbFile;
+		if ( SystemStats::getOperatingSystemType() == SystemStats::Windows )
+			thumbFile = File::getSpecialLocation( File::SpecialLocationType::userApplicationDataDirectory ).getParentDirectory().getChildFile( "Local/Resolume Arena 6/previews/" + thumbname );
+		else if ( SystemStats::getOperatingSystemType() == SystemStats::MacOSX )
+			thumbFile = File::getSpecialLocation( File::SpecialLocationType::userApplicationDataDirectory ).getChildFile( "Application Support/Resolume Arena 6/previews/" + thumbname );
+		//else we're running on a system that Resolume can't run on so we have no point being here
+		
 		if ( thumbFile.existsAsFile() )
 		{
 			Image img = ImageFileFormat::loadFrom( thumbFile );
@@ -70,7 +79,7 @@ String ThumbParser::getBase64ForFile( String thumbFileData )
 			base64 = Base64::toBase64( imgStream.getData(), imgStream.getDataSize() );
 		}
 	}
-	
+	//todo return some basic thumbnail displaying an error
 	return base64;
 }
 
