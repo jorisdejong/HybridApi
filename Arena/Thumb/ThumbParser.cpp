@@ -68,7 +68,12 @@ String ThumbParser::getBase64ForFile( String thumbFileData )
 			thumbFile = File::getSpecialLocation( File::SpecialLocationType::userApplicationDataDirectory ).getParentDirectory().getChildFile( "Local/Resolume Arena 6/previews/" + thumbname );
 		else if ( SystemStats::getOperatingSystemType() == SystemStats::MacOSX )
 			thumbFile = File::getSpecialLocation( File::SpecialLocationType::userApplicationDataDirectory ).getChildFile( "Application Support/Resolume Arena 6/previews/" + thumbname );
-		//else we're running on a system that Resolume can't run on so we have no point being here
+		
+		/** we're running on a system that Resolume can't run on 
+		  * so we have no point being here
+		  * I don't know how we got here in the first place, 
+		  * because ClipParser should't have found any clips to find thumbs for */
+		jassert( thumbFile.existsAsFile() );
 		
 		if ( thumbFile.existsAsFile() )
 		{
@@ -79,7 +84,9 @@ String ThumbParser::getBase64ForFile( String thumbFileData )
 			base64 = Base64::toBase64( imgStream.getData(), imgStream.getDataSize() );
 		}
 	}
-	//todo return some basic thumbnail displaying an error
+	//todo 
+	//when we get here, it means Resolume has a clip that we want a thumbnail for
+	//if base64 is empty at this point, we should return some basic thumbnail to use as a placeholder
 	return base64;
 }
 
