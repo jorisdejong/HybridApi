@@ -63,18 +63,19 @@ String ThumbParser::getBase64ForFile( String thumbFileData )
 		// Mac: /Users/[username]/Library/Application Support/Resolume Avenue 6/
 		// Windows: C:\Users\[ username ]\AppData\Local\Resolume Avenue 6\
 		
-		File thumbFile;
-		if ( SystemStats::getOperatingSystemType() == SystemStats::Windows )
-			thumbFile = File::getSpecialLocation( File::SpecialLocationType::userApplicationDataDirectory ).getParentDirectory().getChildFile( "Local/Resolume Arena 6/previews/" + thumbname );
-		else if ( SystemStats::getOperatingSystemType() == SystemStats::MacOSX )
-			thumbFile = File::getSpecialLocation( File::SpecialLocationType::userApplicationDataDirectory ).getChildFile( "Application Support/Resolume Arena 6/previews/" + thumbname );
+		File thumbDir;
+		if ( ( SystemStats::getOperatingSystemType() & SystemStats::Windows ) != 0 )
+			thumbDir = File::getSpecialLocation( File::SpecialLocationType::userApplicationDataDirectory ).getParentDirectory().getChildFile( "Local/Resolume Arena 6/previews/" );
+		else if (  ( SystemStats::getOperatingSystemType() & SystemStats::MacOSX ) != 0  )
+			thumbDir = File::getSpecialLocation( File::SpecialLocationType::userApplicationDataDirectory ).getChildFile( "Application Support/Resolume Arena 6/previews/" );
 		
 		/** we're running on a system that Resolume can't run on 
 		  * so we have no point being here
 		  * I don't know how we got here in the first place, 
 		  * because ClipParser should't have found any clips to find thumbs for */
-		jassert( thumbFile.existsAsFile() );
+		jassert( thumbDir != File() );
 		
+		File thumbFile = thumbDir.getChildFile( thumbname );
 		if ( thumbFile.existsAsFile() )
 		{
 			Image img = ImageFileFormat::loadFrom( thumbFile );
