@@ -30,10 +30,10 @@ public:
 	Point<int> getCompSize();
 	String getCompName();
 
+	XmlElement* getOscXml();
+
 	/**get all the slices from the ass*/
 	Array<hybrid::Slice> getSlices();
-
-	OscIpAndPort getIpAndPort();
 
 protected:
 	/** the resolume comp file as xml
@@ -54,8 +54,7 @@ private:
 	File getAppFolder();
 	File getPrefsFolder();
 	XmlElement* getConfigXml();
-	XmlElement* getOscXml();
-
+	
 	void setAssXml();
 	void setCompXml();
 

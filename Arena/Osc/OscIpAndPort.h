@@ -26,6 +26,8 @@ public:
 	static Identifier OscIpAndPortIdentifier;
 	ValueTree toValueTree();
 	static OscIpAndPort createFromValueTree( ValueTree oscIpPortTree );
+
+	static OscIpAndPort parseFromXml( XmlElement* oscXml );
 };
 
 
