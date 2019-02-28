@@ -44,7 +44,7 @@ String ThumbParser::getBase64ForFile( String thumbFileData )
 	{
 		String thumbname;
 		File file = File( thumbFileData );
-		if ( file.existsAsFile() )
+		if ( file != File() ) //todo, here we could catch that the file needs to be relocated
 		{
 			thumbname = file.getFileNameWithoutExtension();
 			Time time = file.getLastModificationTime();
