@@ -14,7 +14,7 @@
 FileLess::FileLess()
 {
 	mainTree = ValueTree( Identifier( ProjectInfo::projectName ) );
-	
+
 	setLastUsedFile();
 
 	//try to load the previous file
@@ -34,10 +34,15 @@ PopupMenu FileLess::getMenu()
 {
 	PopupMenu menu;
 	menu.addItem( 1, "New" );
+
 	menu.addSeparator();
 
 	menu.addItem( 2, "Load" );
 	menu.addItem( 3, "Save as..." );
+
+	menu.addSeparator();
+
+	menu.addItem( 4, "v" + String( ProjectInfo::versionString ), false );
 	return menu;
 }
 
