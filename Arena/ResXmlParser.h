@@ -12,9 +12,6 @@
 #define RESXMLPARSER_H_INCLUDED
 
 #include "JuceHeader.h"
-#include "../Slice/Slice.h"
-#include "Osc/OscIpAndPort.h"
-
 
 /** base helper class to parse xml data in the various resolume files */
 class ResXmlParser
@@ -32,9 +29,6 @@ public:
 
 	XmlElement* getOscXml();
 
-	/**get all the slices from the ass*/
-	Array<hybrid::Slice> getSlices();
-
 protected:
 	/** the resolume comp file as xml
 	can be accessed by other parser implementations */
@@ -48,7 +42,6 @@ protected:
 	String getElementName( XmlElement* element );
 
 private:	
-	static void addPointToSlice( XmlElement* sliceElement, Array<Point<float>>& pointType );
 
 	/** functions that quickly get the correct file based on Res' folder structure */
 	File getAppFolder();

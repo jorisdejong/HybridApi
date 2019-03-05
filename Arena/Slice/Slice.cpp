@@ -1,6 +1,35 @@
 #include "Slice.h"
 
-Array<Point<float>> hybrid::Slice::getPoints()
+Slice::Slice() : Slice( "New Slice", 0, false )
+{
+}
+
+Slice::~Slice()
+{
+}
+
+Slice::Slice( String name, int64 uid, bool enable ) :
+	name( name ),
+	uniqueId( uid ),
+	enabled( enable ),
+	inputRectOrientation( 0.0f )
+{
+	inputRectPoints.clear();
+	maskPoints.clear();
+}
+
+Slice::Slice( const Slice & slice ) :
+	name( slice.name ),
+	uniqueId( slice.uniqueId ),
+	enabled( slice.enabled ),
+	inputRectPoints( slice.inputRectPoints ),
+	inputRectOrientation( slice.inputRectOrientation ),
+	maskPoints( slice.maskPoints )
+{
+
+}
+
+Array<Point<float>> Slice::getPoints()
 {
 	if ( !maskPoints.isEmpty() )
 		return maskPoints;
@@ -8,15 +37,13 @@ Array<Point<float>> hybrid::Slice::getPoints()
 		return inputRectPoints;
 }
 
-XmlElement * hybrid::Slice::toXml()
+XmlElement * Slice::toXml()
 {
-	//for every slice, create an xmlelement and its id, and which screen it belongs to
+	//for every slice, create an xmlelement and its id
 	XmlElement* sliceXml = new XmlElement( "slice" );
-	sliceXml->setAttribute( "name", sliceId.first );
-	sliceXml->setAttribute( "uniqueId", String( sliceId.second ) );
+	sliceXml->setAttribute( "name", name );
+	sliceXml->setAttribute( "uniqueId", String( uniqueId ) );
 	sliceXml->setAttribute( "enable", enabled );
-	sliceXml->setAttribute( "screenId", String( screenId ) );
-	
 
 	//then create an xmlelement to store its rects and points
 	XmlElement* inputRectXml = new XmlElement( "inputRect" );
