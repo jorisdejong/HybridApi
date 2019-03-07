@@ -16,6 +16,14 @@ ResXmlParser::ResXmlParser()
 {
 	setCompXml();
 	setAssXml();
+
+	/**
+	* oh noes... we haven't been able to parse the composition or ass xml files
+	* the most likely cause is that there is no resolume folder in documents
+	* or that the current composition or ass file doesn't actually exist
+	* either way, something is seriously wrong if we come here
+	*/
+	jassert( compXml && assXml );
 }
 
 ResXmlParser::~ResXmlParser()
@@ -117,6 +125,19 @@ String  ResXmlParser::getCompName()
 	if ( XmlElement* compositionInfoXml = compXml->getChildByName( "CompositionInfo" ) )
 		return compositionInfoXml->getStringAttribute( "name" );
 	return String();
+}
+
+void ResXmlParser::getVersionInfo( String& appName, int& majorVersion, int& minorVersion, int& microVersion, int& revision )
+{
+	//<versionInfo name="Resolume Arena" majorVersion="6" minorVersion="1" microVersion="1" revision="61321"/>
+	if ( XmlElement* versionXml = compXml->getChildByName( "versionInfo" ) )
+	{
+		appName = versionXml->getStringAttribute( "name" );
+		majorVersion = versionXml->getIntAttribute( "majorVersion" );
+		minorVersion = versionXml->getIntAttribute( "minorVersion" );
+		microVersion = versionXml->getIntAttribute( "microVersion" );
+		revision = versionXml->getIntAttribute( "revision" );
+	}
 }
 
 File ResXmlParser::getAppFolder()

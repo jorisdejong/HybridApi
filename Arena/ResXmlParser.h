@@ -13,7 +13,7 @@
 
 #include "JuceHeader.h"
 
-/** base helper class to parse xml data in the various resolume files */
+  /** base helper class to parse xml data in the various resolume files */
 class ResXmlParser
 {
 public:
@@ -26,6 +26,7 @@ public:
 
 	Point<int> getCompSize();
 	String getCompName();
+	void getVersionInfo( String& appName, int& majorVersion, int& minorVersion, int& microVersion, int& revision );
 
 	XmlElement* getOscXml();
 
@@ -37,17 +38,17 @@ protected:
 	/** the resolume ass file as xml
 	can be accessed by other parsers implementations */
 	ScopedPointer<XmlElement> assXml;
-	
+
 	/** helper function to get the value of an xmlelement's "name" attribute */
 	String getElementName( XmlElement* element );
 
-private:	
+private:
 
 	/** functions that quickly get the correct file based on Res' folder structure */
 	File getAppFolder();
 	File getPrefsFolder();
 	XmlElement* getConfigXml();
-	
+
 	void setAssXml();
 	void setCompXml();
 

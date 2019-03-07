@@ -14,7 +14,7 @@
 #include "Clip.h"
 
 class ClipParser : 
-	private ResXmlParser
+	public ResXmlParser
 {
 public:
 	ClipParser();
