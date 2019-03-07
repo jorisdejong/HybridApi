@@ -42,39 +42,60 @@ String ThumbParser::getBase64ForFile( String thumbFileData )
 	String base64 = String();
 	if ( thumbFileData.isNotEmpty() )
 	{
+		String appName;
+		int majorVersion;
+		int minorVersion;
+		int microVersion;
+		int revision;
+		getVersionInfo( appName, majorVersion, minorVersion, microVersion, revision );
+
 		String thumbname;
-		File file = File( thumbFileData );
-		if ( file != File() ) //todo, here we could catch that the file needs to be relocated
+
+		//if we have a seperator char, we're probably dealing with a video file
+		if ( thumbFileData.contains( "\\" ) || thumbFileData.contains("/") ) 
 		{
-			thumbname = file.getFileNameWithoutExtension();
-			Time time = file.getLastModificationTime();
-			thumbname += String( time.getYear() )
-				+ String( time.getMonth() )
-				+ String( time.getDayOfMonth() )
-				+ String( time.getHours() )
-				+ String( time.getMinutes() )
-				+ String( time.getSeconds() )
-				+ String( time.getMilliseconds() )
-				+ String( file.getSize() )
-				+ file.getFileExtension().substring( 1 )
-				+ "_video.png";
+			File file = File( thumbFileData );
+			if ( file != File() ) //??? could we catch a relocated file here
+			{
+				thumbname = file.getFileNameWithoutExtension();
+				Time time = file.getLastModificationTime();
+				thumbname += String( time.getYear() )
+					+ String( time.getMonth() )
+					+ String( time.getDayOfMonth() )
+					+ String( time.getHours() )
+					+ String( time.getMinutes() )
+					+ String( time.getSeconds() )
+					+ String( time.getMilliseconds() )
+					+ String( file.getSize() )
+					+ file.getFileExtension().substring( 1 )
+					+ "_video.png";
+			}
+		}
+		else //we're probably dealing with a generator?
+		{
+			thumbname = thumbFileData + "_"
+				+ String( majorVersion ) + "."
+				+ String( minorVersion ) + "."
+				+ String( microVersion ) + " "
+				+ String( revision )
+				+ ".png";
 		}
 
 		// Mac: /Users/[username]/Library/Application Support/Resolume Avenue 6/
 		// Windows: C:\Users\[ username ]\AppData\Local\Resolume Avenue 6\
-		
+			
 		File thumbDir;
 		if ( ( SystemStats::getOperatingSystemType() & SystemStats::Windows ) != 0 )
-			thumbDir = File::getSpecialLocation( File::SpecialLocationType::userApplicationDataDirectory ).getParentDirectory().getChildFile( "Local/Resolume Arena 6/previews/" );
-		else if (  ( SystemStats::getOperatingSystemType() & SystemStats::MacOSX ) != 0  )
-			thumbDir = File::getSpecialLocation( File::SpecialLocationType::userApplicationDataDirectory ).getChildFile( "Application Support/Resolume Arena 6/previews/" );
-		
-		/** we're running on a system that Resolume can't run on 
+			thumbDir = File::getSpecialLocation( File::SpecialLocationType::userApplicationDataDirectory ).getParentDirectory().getChildFile( "Local/" + appName + " " + String( majorVersion ) + "/previews/" );
+		else if ( ( SystemStats::getOperatingSystemType() & SystemStats::MacOSX ) != 0 )
+			thumbDir = File::getSpecialLocation( File::SpecialLocationType::userApplicationDataDirectory ).getChildFile( "Application Support/" + appName + " " + String( majorVersion ) + "/previews/" );
+
+		/** we're running on a system that Resolume can't run on
 		  * so we have no point being here
-		  * I don't know how we got here in the first place, 
+		  * I don't know how we got here in the first place,
 		  * because ClipParser should't have found any clips to find thumbs for */
 		jassert( thumbDir != File() );
-		
+
 		File thumbFile = thumbDir.getChildFile( thumbname );
 		if ( thumbFile.existsAsFile() )
 		{

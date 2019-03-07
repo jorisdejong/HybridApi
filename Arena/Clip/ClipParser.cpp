@@ -27,13 +27,6 @@ Array<Clip> ClipParser::getClips()
 
 void ClipParser::parseClips()
 {
-	/**
-	* oh noes... we haven't been able to parse the composition xml file
-	* the most likely cause is that there is no resolume folder in documents
-	* or that the current composition file doesn't actually exist
-	* either way, we're not going to find any clips like this
-	*/
-	jassert( compXml );
 	if ( !compXml )
 		return;
 
@@ -45,12 +38,36 @@ void ClipParser::parseClips()
 			Clip clip;
 			clip.deck = deckXml->getIntAttribute( "deckIndex" );
 			clip.uniqueId = clipXml->getStringAttribute( "uniqueId" ).getLargeIntValue();
-			
+
 			clip.column = clipXml->getIntAttribute( "columnIndex" );
 			clip.layer = clipXml->getIntAttribute( "layerIndex" );
 			if ( XmlElement* preloadDataXml = clipXml->getChildByName( "PreloadData" ) )
 				//this means we're dealing with a file
 				clip.thumbFileData = preloadDataXml->getChildElement( 0 )->getStringAttribute( "value" );
+			else
+				//we're dealing with a generator // not 100% sure if this is full proof
+			{
+				/*<PrimarySource>
+					<VideoSource storage="0" name="VideoSource" width="1920" height="1088" type="GeneratorVideoSource">
+						<RenderPass name="RenderPassChain" type="RenderPassChain" uniqueId="RenderPassChain" baseType="RenderPassChain"/>
+						<RenderPass name="Checkered" type="Checkered" uniqueId="736772465707583394" baseType="Generator">
+							<Params name="Params">
+								<ParamColor name="Color 1" channelmode="2" paletteEnabled="0" color="4278190080"/>
+								<ParamColor name="Color 2" channelmode="2" paletteEnabled="0" color="4294967295"/>
+							</Params>
+						</RenderPass>
+					</VideoSource>*/
+				if ( XmlElement* videoTrackXml = clipXml->getChildByName( "VideoTrack" ) )
+					if ( XmlElement* primarySourceXml = videoTrackXml->getChildByName( "PrimarySource" ) )
+						if ( XmlElement* videoSourceXml = primarySourceXml->getChildByName( "VideoSource" ) )
+						{
+							forEachXmlChildElementWithTagName( *videoSourceXml, renderPassXml, "RenderPass" )
+							{
+								if ( renderPassXml->getStringAttribute( "baseType" ) == "Generator" )
+									clip.thumbFileData = renderPassXml->getStringAttribute( "uniqueId" );
+							}
+						}
+			}
 			clip.name = getElementName( clipXml );
 			forEachXmlChildElementWithTagName( *clipXml, paramsXml, "Params" )
 			{
