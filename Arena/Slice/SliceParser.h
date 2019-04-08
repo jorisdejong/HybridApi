@@ -20,10 +20,12 @@ public:
 	~SliceParser();
 
 	Array<Slice> getSlices();
-
+	Array<Screen> getScreens();
+	
 private:
 	Array<Slice> slices;
-	void parseSlices();
+	Array<Screen> screens;
+	void parse();
 
 	static void addPointToSlice( XmlElement* sliceElement, Array<Point<float>>& pointType );
 };

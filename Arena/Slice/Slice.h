@@ -52,6 +52,7 @@ struct Screen
 	int64 uid;
 	String name;
 	Array<int64> slices;
+	bool enabled;
 };
 
 

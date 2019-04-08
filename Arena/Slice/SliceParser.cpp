@@ -12,7 +12,7 @@
 
 SliceParser::SliceParser()
 {
-	parseSlices();
+	parse();
 }
 
 SliceParser::~SliceParser()
@@ -24,7 +24,12 @@ Array<Slice> SliceParser::getSlices()
 	return slices;
 }
 
-void SliceParser::parseSlices()
+Array<Screen> SliceParser::getScreens()
+{
+	return screens;
+}
+
+void SliceParser::parse()
 {
 	/**
 	* oh noes... we haven't been able to parse the ass xml file
@@ -37,6 +42,7 @@ void SliceParser::parseSlices()
 		return;
 
 	slices.clear();
+	screens.clear();
 
 	XmlElement* screensXml = assXml->getChildByName( "screens" );
 	if ( screensXml != nullptr )
@@ -45,6 +51,13 @@ void SliceParser::parseSlices()
 		{
 			if ( child->hasTagName( "Screen" ) || child->hasTagName( "DmxScreen" ) )
 			{
+				Screen newScreen;
+				newScreen.name = child->getStringAttribute( "name" );
+				newScreen.uid = child->getStringAttribute( "uniqueId" ).getLargeIntValue();
+				if ( XmlElement* paramsXml = child->getChildByName( "Params" ) )
+					if ( XmlElement* enabledXml = paramsXml->getChildByName( "Enabled" ) )
+						newScreen.enabled = enabledXml->getBoolAttribute( "value" );
+
 				//ignore files with the name scaling to help KBK setups
 				if ( !child->getStringAttribute( "name" ).containsIgnoreCase( "scaling" ) )
 				{
@@ -58,7 +71,8 @@ void SliceParser::parseSlices()
 								Slice newSlice;
 								String uidString = layerChild->getStringAttribute( "uniqueId", "0" );
 								newSlice.uniqueId = uidString.getLargeIntValue();
-								
+								newScreen.slices.add( newSlice.uniqueId );
+
 								XmlElement* params = layerChild->getChildByName( "Params" );
 								if ( params != nullptr )
 								{
@@ -127,6 +141,7 @@ void SliceParser::parseSlices()
 						}
 					}
 				}
+				screens.add( newScreen );
 			}
 		}
 	}
@@ -136,7 +151,6 @@ void SliceParser::parseSlices()
 	else
 		DBG( "Slice data parsed succesfully" );
 }
-
 
 void SliceParser::addPointToSlice( juce::XmlElement *element, Array<Point<float>>& pointType )
 {
