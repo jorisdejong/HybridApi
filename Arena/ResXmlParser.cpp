@@ -23,7 +23,7 @@ ResXmlParser::ResXmlParser()
 	* or that the current composition or ass file doesn't actually exist
 	* either way, something is seriously wrong if we come here
 	*/
-	jassert( compXml && assXml );
+	//jassert( compXml && assXml );
 }
 
 ResXmlParser::~ResXmlParser()

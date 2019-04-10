@@ -19,10 +19,10 @@ SliceParser::~SliceParser()
 {
 }
 
-Array<Slice> SliceParser::getSlices()
-{
-	return slices;
-}
+//Array<Slice> SliceParser::getSlices()
+//{
+//	return slices;
+//}
 
 Array<Screen> SliceParser::getScreens()
 {
@@ -41,7 +41,7 @@ void SliceParser::parse()
 	if ( !assXml )
 		return;
 
-	slices.clear();
+	//slices.clear();
 	screens.clear();
 
 	XmlElement* screensXml = assXml->getChildByName( "screens" );
@@ -71,7 +71,7 @@ void SliceParser::parse()
 								Slice newSlice;
 								String uidString = layerChild->getStringAttribute( "uniqueId", "0" );
 								newSlice.uniqueId = uidString.getLargeIntValue();
-								newScreen.slices.add( newSlice.uniqueId );
+								
 
 								XmlElement* params = layerChild->getChildByName( "Params" );
 								if ( params != nullptr )
@@ -135,8 +135,9 @@ void SliceParser::parse()
 										}
 									}
 								}
-								//insert at the beginning to keep everything in order
-								slices.insert( 0, newSlice );
+								newScreen.slices.insert( 0, newSlice );
+								////insert at the beginning to keep everything in order
+								//slices.insert( 0, newSlice );
 							}
 						}
 					}
@@ -146,7 +147,7 @@ void SliceParser::parse()
 		}
 	}
 
-	if ( slices.size() == 0 )
+	if ( screens.size() == 0 )
 		DBG( "Not able to parse any slice data" );
 	else
 		DBG( "Slice data parsed succesfully" );

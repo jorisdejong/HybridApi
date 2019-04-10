@@ -19,11 +19,11 @@ public:
 	SliceParser();
 	~SliceParser();
 
-	Array<Slice> getSlices();
+	/*Array<Slice> getSlices();*/
 	Array<Screen> getScreens();
 	
 private:
-	Array<Slice> slices;
+	//Array<Slice> slices;
 	Array<Screen> screens;
 	void parse();
 

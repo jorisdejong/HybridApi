@@ -51,7 +51,7 @@ struct Screen
 {
 	int64 uid;
 	String name;
-	Array<int64> slices;
+	Array<Slice> slices;
 	bool enabled;
 };
 
