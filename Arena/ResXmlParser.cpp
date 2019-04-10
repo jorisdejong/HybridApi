@@ -69,6 +69,11 @@ XmlElement * ResXmlParser::getOscXml()
 	return XmlDocument::parse( xmlFile );
 }
 
+XmlElement * ResXmlParser::getCompXml()
+{
+	return compXml;
+}
+
 void ResXmlParser::setAssXml()
 {
 	File presetFileConfig = File( getPrefsFolder().getFullPathName() + "/AdvancedOutput.xml" );

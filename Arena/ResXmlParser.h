@@ -30,6 +30,8 @@ public:
 
 	XmlElement* getOscXml();
 
+	XmlElement* getCompXml();
+
 protected:
 	/** the resolume comp file as xml
 	can be accessed by other parser implementations */
