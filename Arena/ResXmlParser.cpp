@@ -69,9 +69,9 @@ XmlElement * ResXmlParser::getOscXml()
 	return XmlDocument::parse( xmlFile );
 }
 
-XmlElement * ResXmlParser::getCompXml()
+XmlElement ResXmlParser::getCompXml()
 {
-	return compXml;
+	return *compXml;
 }
 
 void ResXmlParser::setAssXml()

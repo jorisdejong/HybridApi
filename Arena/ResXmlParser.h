@@ -30,7 +30,7 @@ public:
 
 	XmlElement* getOscXml();
 
-	XmlElement* getCompXml();
+	XmlElement getCompXml();
 
 protected:
 	/** the resolume comp file as xml
