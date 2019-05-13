@@ -48,7 +48,7 @@ PopupMenu FileLess::getMenu()
 
 bool FileLess::loadExistingFile()
 {
-	juce::FileChooser loader( "Load new...", getAppFolder(), "*.xml" );
+	juce::FileChooser loader( "Load " + String( ProjectInfo::projectName ) + " document...", getAppFolder(), "*.xml" );
 	if ( loader.browseForFileToOpen() )
 	{
 		File result = loader.getResult();
