@@ -54,6 +54,7 @@ void SliceParser::parse()
 				Screen newScreen;
 				newScreen.name = child->getStringAttribute( "name" );
 				newScreen.uid = child->getStringAttribute( "uniqueId" ).getLargeIntValue();
+				newScreen.enabled = true;
 				if ( XmlElement* paramsXml = child->getChildByName( "Params" ) )
 					if ( XmlElement* enabledXml = paramsXml->getChildByName( "Enabled" ) )
 						newScreen.enabled = enabledXml->getBoolAttribute( "value" );
