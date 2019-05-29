@@ -70,6 +70,8 @@ bool FileLess::loadExistingFile()
 				if ( mainXml->getTagName() == ProjectInfo::projectName )
 				{
 					mainTree = ValueTree::fromXml( *mainXml );
+					saveFile = result;
+					writeLastUsedFileName();
 					return true;
 				}
 				else
@@ -132,7 +134,8 @@ ValueTree FileLess::loadTree( Identifier id )
 void FileLess::saveToFile()
 {
 	ScopedPointer<XmlElement> mainXml = mainTree.createXml();
-	mainXml->writeToFile( saveFile, "" );
+	if ( mainXml->writeToFile( saveFile, "" ) )
+		DBG( saveFile.getFullPathName() + " save succesful" );
 	writeLastUsedFileName();
 }
 
