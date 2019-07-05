@@ -134,8 +134,7 @@ ValueTree FileLess::loadTree( Identifier id )
 void FileLess::saveToFile()
 {
 	ScopedPointer<XmlElement> mainXml = mainTree.createXml();
-	if ( mainXml->writeToFile( saveFile, "" ) )
-		DBG( saveFile.getFullPathName() + " save succesful" );
+	mainXml->writeToFile( saveFile, "" );
 	writeLastUsedFileName();
 }
 
