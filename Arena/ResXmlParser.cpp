@@ -143,7 +143,7 @@ void ResXmlParser::getVersionInfo( String& appName, int& majorVersion, int& mino
 
 File ResXmlParser::getAppFolder()
 {
-	return File( File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena 6" );
+	return File( File::getSpecialLocation( File::SpecialLocationType::userDocumentsDirectory ).getFullPathName() + "/Resolume Arena" );
 }
 
 File ResXmlParser::getPrefsFolder()
