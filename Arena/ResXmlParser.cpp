@@ -33,7 +33,7 @@ ResXmlParser::~ResXmlParser()
 
 void ResXmlParser::setCompXml()
 {
-	if ( XmlElement* configXml = getConfigXml() )
+	if ( std::unique_ptr<XmlElement> configXml = getConfigXml() )
 	{
 		String fileName;
 		if ( XmlElement* appXml = configXml->getChildByAttribute( "name", "Application" ) )
@@ -45,8 +45,6 @@ void ResXmlParser::setCompXml()
 			compXml = XmlDocument::parse( File( fileName ) );
 		else
 			DBG( "Couldn't find current comp file" );
-
-		delete configXml;
 	}
 }
 
@@ -63,7 +61,7 @@ String ResXmlParser::getElementName( XmlElement * element )
 	return String();
 }
 
-XmlElement * ResXmlParser::getOscXml()
+std::unique_ptr<XmlElement> ResXmlParser::getOscXml()
 {
 	File xmlFile = File( getPrefsFolder().getFullPathName() + "/osc.xml" );
 	return XmlDocument::parse( xmlFile );
@@ -79,21 +77,19 @@ void ResXmlParser::setAssXml()
 	File presetFileConfig = File( getPrefsFolder().getFullPathName() + "/AdvancedOutput.xml" );
 	if ( presetFileConfig.existsAsFile() )
 	{
-		if ( XmlElement* screenSetupXml = XmlDocument::parse( presetFileConfig ) )
+		if ( assXml = XmlDocument::parse( presetFileConfig ) )
 		{
-			String presetFile = screenSetupXml->getStringAttribute( "presetFile" );
+			String presetFile = assXml->getStringAttribute( "presetFile" );
 			if ( presetFile.isEmpty() ) // no seperate preset file saved, so the data is stored in this xmlelement itself
 			{
-				assXml = screenSetupXml; //assXml is scopedpointer, so we become owner
 				assFile = presetFileConfig;
 			}
 			else
 			{
 				assFile = File( getAppFolder().getFullPathName() + "/Presets/Advanced Output/" + presetFile + ".xml" );
-				if ( ScopedPointer<XmlElement> presetFileXml = XmlDocument::parse( assFile ) )
+				if ( std::unique_ptr<XmlElement> presetFileXml = XmlDocument::parse( assFile ) )
 				{
-					assXml = new XmlElement( *presetFileXml->getChildByName( "ScreenSetup" ) );
-					delete screenSetupXml;
+					assXml = std::unique_ptr<XmlElement>( presetFileXml->getChildByName( "ScreenSetup" ) );
 				}
 			}
 		}
@@ -155,7 +151,7 @@ File ResXmlParser::getPrefsFolder()
 	return File( getAppFolder().getFullPathName() + "/Preferences" );
 }
 
-XmlElement* ResXmlParser::getConfigXml()
+std::unique_ptr<XmlElement> ResXmlParser::getConfigXml()
 {
 	//get the current comp file
 	File prefsFile = File( getPrefsFolder().getFullPathName() + "/config.xml" );

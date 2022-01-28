@@ -28,18 +28,18 @@ public:
 	String getCompName();
 	void getVersionInfo( String& appName, int& majorVersion, int& minorVersion, int& microVersion, int& revision );
 
-	XmlElement* getOscXml();
+	std::unique_ptr<XmlElement> getOscXml();
 
 	XmlElement getCompXml();
 
 protected:
 	/** the resolume comp file as xml
 	can be accessed by other parser implementations */
-	ScopedPointer<XmlElement> compXml;
+	std::unique_ptr<XmlElement> compXml;
 
 	/** the resolume ass file as xml
 	can be accessed by other parsers implementations */
-	ScopedPointer<XmlElement> assXml;
+	std::unique_ptr<XmlElement> assXml;
 
 	/** helper function to get the value of an xmlelement's "name" attribute */
 	String getElementName( XmlElement* element );
@@ -49,7 +49,7 @@ private:
 	/** functions that quickly get the correct file based on Res' folder structure */
 	File getAppFolder();
 	File getPrefsFolder();
-	XmlElement* getConfigXml();
+	std::unique_ptr<XmlElement> getConfigXml();
 
 	void setAssXml();
 	void setCompXml();
