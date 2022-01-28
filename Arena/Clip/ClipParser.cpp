@@ -31,9 +31,9 @@ void ClipParser::parseClips()
 		return;
 
 	clips.clear();
-	forEachXmlChildElementWithTagName( *compXml, deckXml, "Deck" )
+	for ( auto* deckXml : compXml->getChildWithTagNameIterator( "Deck" ) )
 	{
-		forEachXmlChildElementWithTagName( *deckXml, clipXml, "Clip" )
+		for ( auto* clipXml : deckXml->getChildWithTagNameIterator( "Clip" ) )
 		{
 			Clip clip;
 			clip.deck = deckXml->getIntAttribute( "deckIndex" );
@@ -61,7 +61,7 @@ void ClipParser::parseClips()
 					if ( XmlElement* primarySourceXml = videoTrackXml->getChildByName( "PrimarySource" ) )
 						if ( XmlElement* videoSourceXml = primarySourceXml->getChildByName( "VideoSource" ) )
 						{
-							forEachXmlChildElementWithTagName( *videoSourceXml, renderPassXml, "RenderPass" )
+							for ( auto* renderPassXml : videoSourceXml->getChildWithTagNameIterator( "RenderPass" ) )
 							{
 								if ( renderPassXml->getStringAttribute( "baseType" ) == "Generator" )
 									clip.thumbFileData = renderPassXml->getStringAttribute( "uniqueId" );
@@ -69,9 +69,9 @@ void ClipParser::parseClips()
 						}
 			}
 			clip.name = getElementName( clipXml );
-			forEachXmlChildElementWithTagName( *clipXml, paramsXml, "Params" )
+			for ( auto* paramsXml : clipXml->getChildWithTagNameIterator( "Params" ) )
 			{
-				forEachXmlChildElementWithTagName( *paramsXml, paramXml, "Param" )
+				for ( auto* paramXml : paramsXml->getChildWithTagNameIterator( "Param" ) )
 				{
 					if ( paramXml->getStringAttribute( "name" ) == "Name" )
 						clip.defaultName = paramXml->getStringAttribute( "default" );
