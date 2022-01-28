@@ -23,12 +23,13 @@ ResXmlParser::ResXmlParser()
 	* or that the current composition or ass file doesn't actually exist
 	* either way, something is seriously wrong if we come here
 	*/
-	//jassert( compXml && assXml );
+	jassert( compXml && assXml );
 }
 
 ResXmlParser::~ResXmlParser()
 {
-
+	compXml = nullptr;
+	assXml = nullptr;
 }
 
 void ResXmlParser::setCompXml()
@@ -89,7 +90,9 @@ void ResXmlParser::setAssXml()
 				assFile = File( getAppFolder().getFullPathName() + "/Presets/Advanced Output/" + presetFile + ".xml" );
 				if ( std::unique_ptr<XmlElement> presetFileXml = XmlDocument::parse( assFile ) )
 				{
-					assXml = std::unique_ptr<XmlElement>( presetFileXml->getChildByName( "ScreenSetup" ) );
+					//this is ugly af, but I need a copy of the existing screensetup xml
+					//the existing ass xml will be destroyed when its parent goes out of scope
+					assXml = std::unique_ptr<XmlElement>( new XmlElement( *presetFileXml->getChildByName( "ScreenSetup" ) ) );
 				}
 			}
 		}
@@ -109,7 +112,7 @@ Point<int> ResXmlParser::getCompSize()
 			return Point<int>( curCompTexSize->getIntAttribute( "width", 1920 ), curCompTexSize->getIntAttribute( "height", 1080 ) );
 		else if ( XmlElement* sizing = assXml->getChildByName( "sizing" ) ) //method for < 6.0.11
 			for ( auto* inputs : sizing->getChildWithTagNameIterator( "inputs" ) )
-				for ( auto* inputSize : inputs->getChildIterator() ) 
+				for ( auto* inputSize : inputs->getChildIterator() )
 					if ( inputSize->getStringAttribute( "name" ) == "0:1" )
 						return Point<int>( inputSize->getIntAttribute( "width", 1920 ), inputSize->getIntAttribute( "height", 1080 ) );
 	}
